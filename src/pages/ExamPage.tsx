@@ -146,12 +146,17 @@ export function ExamPage({
     return `${minutes}m ${seconds}s`;
   };
   const handleSubmit = () => {
+    if (!currentTrack) {
+      alert('Error: No active exam track.');
+      return;
+    }
+
     const score = storage.calculateScore(answers);
     const submission: ExamSubmission = {
       id: `${studentId}-${Date.now()}`,
       studentId,
       studentName,
-      trackName: EXAM_NAME,
+      trackName: currentTrack.name,
       answers,
       submittedAt: new Date().toISOString(),
       timeSpent: calculateTimeSpent(),
