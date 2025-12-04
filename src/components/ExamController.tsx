@@ -178,6 +178,49 @@ export function ExamController() {
         </div>
       )}
 
+      {/* Time Selection */}
+      {!isExamRunning && (
+        <div className="bg-white rounded-lg border border-gray-300 p-6 mb-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <Clock className="w-5 h-5 text-blue-600" />
+            Set Exam Schedule
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Start Time *
+              </label>
+              <input
+                type="datetime-local"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                data-testid="exam-start-time-input"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                End Time *
+              </label>
+              <input
+                type="datetime-local"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                data-testid="exam-end-time-input"
+              />
+            </div>
+          </div>
+          {startTime && endTime && (
+            <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
+              <p className="text-sm text-blue-900">
+                <span className="font-semibold">Exam Duration:</span> {calculateDuration()}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Controls */}
       <div className="space-y-3">
         {!isExamRunning ? (
@@ -185,6 +228,7 @@ export function ExamController() {
             onClick={startExam}
             disabled={isLoading}
             className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+            data-testid="start-exam-button"
           >
             {isLoading ? (
               <Loader className="w-5 h-5 animate-spin" />
@@ -198,6 +242,7 @@ export function ExamController() {
             onClick={stopExam}
             disabled={isLoading}
             className="w-full bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+            data-testid="stop-exam-button"
           >
             {isLoading ? (
               <Loader className="w-5 h-5 animate-spin" />
