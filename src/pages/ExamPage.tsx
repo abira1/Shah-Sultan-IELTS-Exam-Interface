@@ -117,7 +117,12 @@ export function ExamPage({
     onSubmit();
   };
   return <div className="min-h-screen bg-gray-50 pb-16">
-      <ExamHeader trackName={`${EXAM_NAME} | ${studentName} (${studentId})`} questionType="Listening" timeRemaining={timeRemaining} />
+      <ExamHeader 
+        trackName={`${EXAM_NAME} | ${studentName} (${studentId})`} 
+        questionType="Listening" 
+        timeRemaining={timeRemaining}
+        isTimeWarning={isTimeWarning}
+      />
       <ExamAudioPlayer autoPlay={true} />
 
       <main className="max-w-5xl mx-auto px-6 py-8">
