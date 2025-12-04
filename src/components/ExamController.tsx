@@ -30,7 +30,11 @@ export function ExamController() {
         const data = snapshot.val();
         setIsExamRunning(data.isStarted === true);
         if (data.startTime && data.endTime) {
-          setCurrentExamTimes({ startTime: data.startTime, endTime: data.endTime });
+          setCurrentExamTimes({ 
+            startTime: data.startTime, 
+            endTime: data.endTime,
+            trackName: data.trackName || 'Unknown Exam'
+          });
         }
       }
     } catch (err) {
