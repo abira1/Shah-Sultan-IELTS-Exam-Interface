@@ -75,15 +75,26 @@ export const audioService = {
     try {
       const snapshot = await get(dbRef(database, AUDIO_DB_PATH));
       if (snapshot.exists()) {
-        const audioURL = snapshot.val().url;
+        const data = snapshot.val();
+        const audioURL = data.url;
+        const uploadType = data.uploadType || 'file';
         
-        // Extract file path from URL for deletion
-        const fileNameMatch = audioURL.match(/audio%2F([^?]+)/);
-        if (fileNameMatch) {
-          const fileName = decodeURIComponent(fileNameMatch[1]);
-          const storageRef = ref(storage, `audio/${fileName}`);
-          await deleteObject(storageRef);
+        // Only delete from storage if it was uploaded as a file
+        if (uploadType === 'file') {
+          // Extract file path from URL for deletion
+          const fileNameMatch = audioURL.match(/audio%2F([^?]+)/);
+          if (fileNameMatch) {
+            const fileName = decodeURIComponent(fileNameMatch[1]);
+            const storageRef = ref(storage, `audio/${fileName}`);
+            try {
+              await deleteObject(storageRef);
+            } catch (storageError) {
+              console.warn("Could not delete from storage:", storageError);
+              // Continue with database deletion even if storage deletion fails
+            }
+          }
         }
+        // For URL uploads, just delete from database (no storage cleanup needed)
         
         // Delete from database
         await set(dbRef(database, AUDIO_DB_PATH), null);
