@@ -204,50 +204,83 @@ export function ExamController() {
         </div>
       )}
 
-      {/* Duration Selection (no date) */}
+      {/* Track Selection and Duration */}
       {!isExamRunning && (
-        <div className="bg-white rounded-lg border border-gray-300 p-6 mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Clock className="w-5 h-5 text-blue-600" />
-            Set Exam Duration
-          </h3>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Duration (minutes)</label>
-            <div className="flex gap-2 mb-3">
-              {[30, 40, 45, 60].map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  onClick={() => setDurationMinutes(String(m))}
-                  className={`px-3 py-1 rounded-md text-sm font-medium border ${String(m) === durationMinutes ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}
-                >
-                  {m}m
-                </button>
+        <div className="bg-white rounded-lg border border-gray-300 p-6 mb-6 space-y-6">
+          {/* Track Selection */}
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <List className="w-5 h-5 text-blue-600" />
+              Select Exam Track
+            </h3>
+            
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Choose which exam students will take
+            </label>
+            <select
+              value={selectedTrackId}
+              onChange={(e) => {
+                setSelectedTrackId(e.target.value);
+                const track = availableTracks.find(t => t.id === e.target.value);
+                if (track) {
+                  setDurationMinutes(String(track.duration));
+                }
+              }}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+              data-testid="track-selector"
+            >
+              {availableTracks.map((track) => (
+                <option key={track.id} value={track.id}>
+                  {track.name} ({track.duration} mins, {track.totalQuestions} questions)
+                </option>
               ))}
-            </div>
-
-            <div className="flex gap-3 items-center">
-              <input
-                type="number"
-                min={1}
-                step={1}
-                value={durationMinutes}
-                onChange={(e) => setDurationMinutes(e.target.value)}
-                className="w-36 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                data-testid="exam-duration-input"
-              />
-              <div className="text-sm text-gray-600">minutes</div>
-            </div>
+            </select>
           </div>
 
-          {durationMinutes && (
-            <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
-              <p className="text-sm text-blue-900">
-                <span className="font-semibold">Exam Duration:</span> {calculateDuration()}
-              </p>
+          {/* Duration Selection */}
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-blue-600" />
+              Set Exam Duration
+            </h3>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Duration (minutes)</label>
+              <div className="flex gap-2 mb-3">
+                {[30, 40, 45, 60].map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => setDurationMinutes(String(m))}
+                    className={`px-3 py-1 rounded-md text-sm font-medium border ${String(m) === durationMinutes ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}
+                  >
+                    {m}m
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex gap-3 items-center">
+                <input
+                  type="number"
+                  min={1}
+                  step={1}
+                  value={durationMinutes}
+                  onChange={(e) => setDurationMinutes(e.target.value)}
+                  className="w-36 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  data-testid="exam-duration-input"
+                />
+                <div className="text-sm text-gray-600">minutes</div>
+              </div>
             </div>
-          )}
+
+            {durationMinutes && (
+              <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                <p className="text-sm text-blue-900">
+                  <span className="font-semibold">Exam Duration:</span> {calculateDuration()}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
