@@ -375,7 +375,7 @@ export function AdminDashboard() {
                                 <div className="flex items-center justify-between mb-4">
                                   <div>
                                     <h4 className="font-semibold text-gray-900 mb-1">
-                                      Detailed Answers
+                                      Detailed Answers & Marking
                                     </h4>
                                     <div className="flex items-center gap-4 text-sm">
                                       <span className="text-gray-600">
@@ -403,22 +403,168 @@ export function AdminDashboard() {
                                   </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                  {getFilteredQuestions(submission).map(question => <div key={question.questionNumber} className={`p-3 rounded border transition-colors ${question.answer === null ? 'bg-orange-50 border-orange-200' : 'bg-white border-gray-200'}`}>
-                                        <div className="flex items-center justify-between mb-1">
-                                          <div className="text-xs text-gray-500">
+                                {/* Marking Statistics */}
+                                {submission.marks && (
+                                  <div className="bg-white p-4 rounded-lg border border-gray-200 mb-4">
+                                    <div className="flex items-center justify-between">
+                                      <div className="flex items-center gap-6">
+                                        <div>
+                                          <div className="text-xs text-gray-500 mb-1">Marking Progress</div>
+                                          <div className="flex items-center gap-4">
+                                            <span className="flex items-center gap-1 text-sm">
+                                              <CheckIcon className="w-4 h-4 text-green-600" />
+                                              <span className="font-semibold text-green-600">{getMarkingStats(submission).correct}</span>
+                                              <span className="text-gray-600">Correct</span>
+                                            </span>
+                                            <span className="flex items-center gap-1 text-sm">
+                                              <XIcon className="w-4 h-4 text-red-600" />
+                                              <span className="font-semibold text-red-600">{getMarkingStats(submission).incorrect}</span>
+                                              <span className="text-gray-600">Incorrect</span>
+                                            </span>
+                                            <span className="flex items-center gap-1 text-sm">
+                                              <AlertCircleIcon className="w-4 h-4 text-gray-400" />
+                                              <span className="font-semibold text-gray-600">{getMarkingStats(submission).unmarked}</span>
+                                              <span className="text-gray-600">Unmarked</span>
+                                            </span>
+                                          </div>
+                                        </div>
+                                        {submission.manualScore !== undefined && (
+                                          <div className="border-l pl-6">
+                                            <div className="text-xs text-gray-500 mb-1">Manual Score</div>
+                                            <div className="text-2xl font-bold text-blue-600">
+                                              {submission.manualScore}%
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                      <div>
+                                        {submission.resultPublished ? (
+                                          <div className="text-center">
+                                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-800 rounded-lg">
+                                              <SendIcon className="w-4 h-4" />
+                                              <span className="font-medium">Result Published</span>
+                                            </div>
+                                            {submission.publishedAt && (
+                                              <div className="text-xs text-gray-500 mt-1">
+                                                {new Date(submission.publishedAt).toLocaleString()}
+                                              </div>
+                                            )}
+                                          </div>
+                                        ) : (
+                                          <button
+                                            onClick={() => handlePublishResult(submission.id)}
+                                            disabled={!isAllMarked(submission)}
+                                            className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors ${
+                                              isAllMarked(submission)
+                                                ? 'bg-green-600 text-white hover:bg-green-700'
+                                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                            }`}
+                                            title={!isAllMarked(submission) ? 'Please mark all questions before publishing' : 'Publish result'}
+                                          >
+                                            <SendIcon className="w-4 h-4" />
+                                            Publish Result
+                                          </button>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                                  {getFilteredQuestions(submission).map(question => {
+                                    const mark = submission.marks?.[question.questionNumber];
+                                    return (
+                                      <div 
+                                        key={question.questionNumber} 
+                                        className={`p-3 rounded-lg border transition-all ${
+                                          mark === 'correct' 
+                                            ? 'bg-green-50 border-green-300' 
+                                            : mark === 'incorrect'
+                                            ? 'bg-red-50 border-red-300'
+                                            : question.answer === null 
+                                            ? 'bg-orange-50 border-orange-200' 
+                                            : 'bg-white border-gray-200'
+                                        }`}
+                                      >
+                                        <div className="flex items-center justify-between mb-2">
+                                          <div className="text-xs font-semibold text-gray-700">
                                             Question {question.questionNumber}
                                           </div>
-                                          {question.answer === null ? <AlertCircleIcon className="w-3.5 h-3.5 text-orange-500" /> : <CheckCircleIcon className="w-3.5 h-3.5 text-green-500" />}
+                                          {question.answer === null ? (
+                                            <AlertCircleIcon className="w-4 h-4 text-orange-500" />
+                                          ) : mark === 'correct' ? (
+                                            <CheckIcon className="w-4 h-4 text-green-600" />
+                                          ) : mark === 'incorrect' ? (
+                                            <XIcon className="w-4 h-4 text-red-600" />
+                                          ) : (
+                                            <CheckCircleIcon className="w-4 h-4 text-gray-400" />
+                                          )}
                                         </div>
-                                        <div className="text-sm font-medium">
-                                          {question.answer === null ? <span className="text-orange-600 italic">
+                                        
+                                        <div className="text-sm font-medium mb-3 min-h-[40px]">
+                                          {question.answer === null ? (
+                                            <span className="text-orange-600 italic">
                                               Not Answered
-                                            </span> : <span className="text-gray-900">
+                                            </span>
+                                          ) : (
+                                            <span className="text-gray-900">
                                               {question.answer}
-                                            </span>}
+                                            </span>
+                                          )}
                                         </div>
-                                      </div>)}
+
+                                        {/* Marking Buttons */}
+                                        {!submission.resultPublished && (
+                                          <div className="flex gap-2">
+                                            <button
+                                              onClick={() => handleMarkQuestion(
+                                                submission.id, 
+                                                question.questionNumber, 
+                                                mark === 'correct' ? null : 'correct'
+                                              )}
+                                              className={`flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center justify-center gap-1 ${
+                                                mark === 'correct'
+                                                  ? 'bg-green-600 text-white'
+                                                  : 'bg-white border border-green-300 text-green-700 hover:bg-green-50'
+                                              }`}
+                                              title="Mark as correct"
+                                            >
+                                              <CheckIcon className="w-3 h-3" />
+                                              Correct
+                                            </button>
+                                            <button
+                                              onClick={() => handleMarkQuestion(
+                                                submission.id, 
+                                                question.questionNumber, 
+                                                mark === 'incorrect' ? null : 'incorrect'
+                                              )}
+                                              className={`flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center justify-center gap-1 ${
+                                                mark === 'incorrect'
+                                                  ? 'bg-red-600 text-white'
+                                                  : 'bg-white border border-red-300 text-red-700 hover:bg-red-50'
+                                              }`}
+                                              title="Mark as incorrect"
+                                            >
+                                              <XIcon className="w-3 h-3" />
+                                              Incorrect
+                                            </button>
+                                          </div>
+                                        )}
+
+                                        {submission.resultPublished && (
+                                          <div className="text-center text-xs font-medium">
+                                            {mark === 'correct' ? (
+                                              <span className="text-green-700">✓ Marked Correct</span>
+                                            ) : mark === 'incorrect' ? (
+                                              <span className="text-red-700">✗ Marked Incorrect</span>
+                                            ) : (
+                                              <span className="text-gray-500">Not Marked</span>
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
                                 </div>
                               </div>
                             </td>
