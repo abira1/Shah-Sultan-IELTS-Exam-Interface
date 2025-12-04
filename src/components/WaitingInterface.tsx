@@ -117,7 +117,7 @@ export function WaitingInterface({
                     Ready for Exam?
                   </h1>
                   <p className="text-gray-600 mb-4">
-                    Waiting for the instructor to start...
+                    {waitMessage}
                   </p>
                 </div>
 
