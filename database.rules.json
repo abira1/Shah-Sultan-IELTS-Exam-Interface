@@ -1,0 +1,21 @@
+{
+  "rules": {
+    "exam": {
+      "status": {
+        ".read": true,
+        ".write": true
+      },
+      "audio": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "submissions": {
+      ".read": true,
+      ".write": true,
+      "$uid": {
+        ".validate": "newData.hasChildren(['studentName', 'studentId', 'answers', 'score', 'timestamp'])"
+      }
+    }
+  }
+}
