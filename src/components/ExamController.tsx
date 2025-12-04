@@ -257,7 +257,7 @@ export function ExamController() {
       {/* Info */}
       <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
         <p className="text-sm text-blue-900">
-          <span className="font-semibold">💡 Tip:</span> When you start the exam, all waiting students will see a 3-2-1 countdown and the exam will begin with audio playing automatically.
+          <span className="font-semibold">💡 Tip:</span> Students can only start the exam at or after the scheduled start time. The exam will automatically end at the specified end time. In the last 5 minutes, the countdown timer will turn red.
         </p>
       </div>
     </div>
