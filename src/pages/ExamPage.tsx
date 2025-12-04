@@ -30,11 +30,12 @@ export function ExamPage({
   const [examEndTime, setExamEndTime] = useState<number | null>(null);
   const [isTimeWarning, setIsTimeWarning] = useState(false);
   const [audioURL, setAudioURL] = useState<string | null>(null);
-  // Fetch exam times from Firebase
+  // Fetch exam times and audio from Firebase
   useEffect(() => {
-    const fetchExamTimes = async () => {
+    const fetchExamData = async () => {
       const db = getDatabase(app);
       try {
+        // Fetch exam times
         const snapshot = await get(ref(db, 'exam/status'));
         if (snapshot.exists()) {
           const data = snapshot.val();
@@ -42,12 +43,18 @@ export function ExamPage({
             setExamEndTime(new Date(data.endTime).getTime());
           }
         }
+
+        // Fetch audio URL
+        const audio = await audioService.getAudioURL();
+        if (audio) {
+          setAudioURL(audio);
+        }
       } catch (error) {
-        console.error('Error fetching exam times:', error);
+        console.error('Error fetching exam data:', error);
       }
     };
     
-    fetchExamTimes();
+    fetchExamData();
   }, []);
 
   // Timer that calculates remaining time based on end time
