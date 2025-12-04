@@ -7,7 +7,7 @@ import { MultipleChoiceQuestion } from '../components/MultipleChoiceQuestion';
 import { SentenceCompletionQuestion } from '../components/SentenceCompletionQuestion';
 import { DropdownQuestion } from '../components/DropdownQuestion';
 import { QuestionNavigator } from '../components/QuestionNavigator';
-import { ExamAudioPlayer } from '../components/ExamAudioPlayer';
+import { audioService } from '../services/audioService';
 import { examData } from '../data/examData';
 import { storage, ExamSubmission } from '../utils/storage';
 
@@ -29,6 +29,7 @@ export function ExamPage({
   const [startTime] = useState(Date.now());
   const [examEndTime, setExamEndTime] = useState<number | null>(null);
   const [isTimeWarning, setIsTimeWarning] = useState(false);
+  const [audioURL, setAudioURL] = useState<string | null>(null);
   // Fetch exam times from Firebase
   useEffect(() => {
     const fetchExamTimes = async () => {
