@@ -89,6 +89,7 @@ export function ExamController() {
         name: EXAM_NAME
       });
       setIsExamRunning(false);
+      setCurrentExamTimes({});
       setSuccess('Exam stopped successfully!');
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
@@ -97,6 +98,30 @@ export function ExamController() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const calculateDuration = () => {
+    if (!startTime || !endTime) return '';
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+    const diffMs = end.getTime() - start.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const hours = Math.floor(diffMins / 60);
+    const mins = diffMins % 60;
+    if (hours > 0) {
+      return `${hours}h ${mins}m`;
+    }
+    return `${mins} minutes`;
+  };
+
+  const formatDateTime = (isoString: string) => {
+    return new Date(isoString).toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
   return (
