@@ -146,6 +146,20 @@ export function ExamController() {
               </span>
             </p>
           </div>
+          {isExamRunning && currentExamTimes.startTime && currentExamTimes.endTime && (
+            <div className="mt-4 pt-4 border-t border-blue-200">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="text-gray-600 mb-1">Start Time</p>
+                  <p className="font-semibold text-gray-900">{formatDateTime(currentExamTimes.startTime)}</p>
+                </div>
+                <div>
+                  <p className="text-gray-600 mb-1">End Time</p>
+                  <p className="font-semibold text-gray-900">{formatDateTime(currentExamTimes.endTime)}</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
