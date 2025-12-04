@@ -1,5 +1,5 @@
 import { useEffect, useState, Fragment } from 'react';
-import { ChevronDownIcon, ChevronUpIcon, CheckCircleIcon, ShieldCheckIcon, SearchIcon, RefreshCwIcon, AlertCircleIcon, Music, Play } from 'lucide-react';
+import { ChevronDownIcon, ChevronUpIcon, CheckCircleIcon, ShieldCheckIcon, SearchIcon, RefreshCwIcon, AlertCircleIcon, Music, Play, CheckIcon, XIcon, SendIcon } from 'lucide-react';
 import { storage, ExamSubmission } from '../utils/storage';
 import { AudioManager } from '../components/AudioManager';
 import { ExamController } from '../components/ExamController';
