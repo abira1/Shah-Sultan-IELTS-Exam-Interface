@@ -126,15 +126,10 @@ export function ExamHeader({
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg px-4 py-2 flex items-center gap-4" data-testid="audio-player-bar">
             <audio ref={setAudioRef} src={audioURL} preload="metadata" />
             
-            {/* Play/Pause Button */}
-            <button
-              onClick={togglePlayPause}
-              className="w-8 h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors flex-shrink-0"
-              title={isPlaying ? 'Pause' : 'Play'}
-              data-testid="audio-play-pause-button"
-            >
-              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
-            </button>
+            {/* Audio Icon */}
+            <div className="w-8 h-8 flex items-center justify-center bg-blue-600 text-white rounded-full flex-shrink-0">
+              <Volume2 className="w-4 h-4" />
+            </div>
 
             {/* Time Display */}
             <div className="text-xs font-mono text-gray-700 flex-shrink-0">
@@ -171,17 +166,15 @@ export function ExamHeader({
               </span>
             </div>
 
-            {/* Status Indicator */}
+            {/* Playing Status Indicator */}
             <div className="flex items-center gap-2 flex-shrink-0">
-              {isPlaying && (
-                <div className="flex gap-0.5">
-                  <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
-                  <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-                </div>
-              )}
+              <div className="flex gap-0.5">
+                <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
+                <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+              </div>
               <span className="text-xs font-medium text-blue-700">
-                {isPlaying ? 'Playing' : 'Paused'}
+                Playing
               </span>
             </div>
           </div>
