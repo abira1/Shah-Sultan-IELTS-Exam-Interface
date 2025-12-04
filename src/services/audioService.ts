@@ -106,7 +106,7 @@ export const audioService = {
   },
 
   // Get audio metadata
-  async getAudioMetadata(): Promise<{ fileName: string; uploadedAt: string; size: number } | null> {
+  async getAudioMetadata(): Promise<{ fileName: string; uploadedAt: string; size: number; uploadType?: string } | null> {
     try {
       const snapshot = await get(dbRef(database, AUDIO_DB_PATH));
       if (snapshot.exists()) {
@@ -114,7 +114,8 @@ export const audioService = {
         return {
           fileName: data.fileName || "Unknown",
           uploadedAt: data.uploadedAt || "",
-          size: data.size || 0
+          size: data.size || 0,
+          uploadType: data.uploadType || "file"
         };
       }
       return null;
