@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ClockIcon, UserIcon, Volume2, VolumeX, Play, Pause } from 'lucide-react';
+import { ClockIcon, UserIcon, Volume2, VolumeX } from 'lucide-react';
 
 interface ExamHeaderProps {
   trackName: string;
