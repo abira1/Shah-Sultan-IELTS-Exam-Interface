@@ -1,10 +1,10 @@
 import { useEffect, useState, Fragment } from 'react';
 import { ChevronDownIcon, ChevronUpIcon, CheckCircleIcon, ShieldCheckIcon, SearchIcon, RefreshCwIcon, AlertCircleIcon, Music, Play, CheckIcon, XIcon, SendIcon } from 'lucide-react';
+import { getDatabase, ref, get } from 'firebase/database';
+import { app } from '../firebase';
 import { storage, ExamSubmission } from '../utils/storage';
 import { AudioManager } from '../components/AudioManager';
 import { ExamController } from '../components/ExamController';
-
-const EXAM_NAME = 'P-L-2 Application for membership';
 
 type AnswerFilter = 'all' | 'answered' | 'unanswered';
 type TabType = 'submissions' | 'audio' | 'exam-control';
@@ -18,6 +18,7 @@ export function AdminDashboard() {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('submissions');
+  const [currentExamName, setCurrentExamName] = useState<string>('No exam running');
   useEffect(() => {
     loadSubmissions();
     const interval = setInterval(loadSubmissions, 30000);
