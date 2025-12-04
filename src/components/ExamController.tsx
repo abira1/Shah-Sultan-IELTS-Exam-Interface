@@ -27,7 +27,11 @@ export function ExamController() {
     try {
       const snapshot = await get(ref(db, 'exam/status'));
       if (snapshot.exists()) {
-        setIsExamRunning(snapshot.val().isStarted === true);
+        const data = snapshot.val();
+        setIsExamRunning(data.isStarted === true);
+        if (data.startTime && data.endTime) {
+          setCurrentExamTimes({ startTime: data.startTime, endTime: data.endTime });
+        }
       }
     } catch (err) {
       console.error('Error checking exam status:', err);
