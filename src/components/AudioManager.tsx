@@ -251,11 +251,18 @@ export function AudioManager() {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-blue-200 rounded-lg flex items-center justify-center">
-                    <Music className="w-6 h-6 text-blue-600" />
+                    {audioMetadata.uploadType === 'url' ? (
+                      <Link className="w-6 h-6 text-blue-600" />
+                    ) : (
+                      <Music className="w-6 h-6 text-blue-600" />
+                    )}
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Current Audio</h3>
                     <p className="text-sm text-gray-600 mt-1">{audioMetadata.fileName}</p>
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 mt-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                      {audioMetadata.uploadType === 'url' ? 'URL Upload' : 'File Upload'}
+                    </span>
                   </div>
                 </div>
                 <button
@@ -269,12 +276,22 @@ export function AudioManager() {
               </div>
 
               <div className="space-y-2 text-sm">
-                <p className="text-gray-600">
-                  <span className="font-medium">Size:</span> {formatFileSize(audioMetadata.size)}
-                </p>
+                {audioMetadata.uploadType === 'file' && (
+                  <p className="text-gray-600">
+                    <span className="font-medium">Size:</span> {formatFileSize(audioMetadata.size)}
+                  </p>
+                )}
                 <p className="text-gray-600">
                   <span className="font-medium">Uploaded:</span> {formatDate(audioMetadata.uploadedAt)}
                 </p>
+                {audioMetadata.uploadType === 'url' && (
+                  <p className="text-gray-600 break-all">
+                    <span className="font-medium">URL:</span>{' '}
+                    <a href={audioURL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      {audioURL}
+                    </a>
+                  </p>
+                )}
               </div>
 
               {/* Audio Player */}
