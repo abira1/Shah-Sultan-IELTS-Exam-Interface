@@ -130,8 +130,9 @@ export function ExamPage({
         questionType="Listening" 
         timeRemaining={timeRemaining}
         isTimeWarning={isTimeWarning}
+        audioURL={audioURL}
+        autoPlayAudio={true}
       />
-      <ExamAudioPlayer autoPlay={true} />
 
       <main className="max-w-5xl mx-auto px-6 py-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-6">
