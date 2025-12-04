@@ -30,6 +30,10 @@ export function ExamPage({
   const [examEndTime, setExamEndTime] = useState<number | null>(null);
   const [isTimeWarning, setIsTimeWarning] = useState(false);
   const [audioURL, setAudioURL] = useState<string | null>(null);
+  const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
+  const [examData, setExamData] = useState<Section[] | null>(null);
+  const [isLoadingTrack, setIsLoadingTrack] = useState(true);
+  const [trackError, setTrackError] = useState<string | null>(null);
   // Fetch exam times and audio from Firebase
   useEffect(() => {
     const fetchExamData = async () => {
