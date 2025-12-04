@@ -39,16 +39,33 @@ export function ExamController() {
   };
 
   const startExam = async () => {
+    // Validation
+    if (!startTime || !endTime) {
+      setError('Please select both start time and end time.');
+      return;
+    }
+
+    const startDate = new Date(startTime);
+    const endDate = new Date(endTime);
+
+    if (endDate <= startDate) {
+      setError('End time must be after start time.');
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     try {
       await set(ref(db, 'exam/status'), {
         isStarted: true,
         startedAt: new Date().toISOString(),
+        startTime: startDate.toISOString(),
+        endTime: endDate.toISOString(),
         name: EXAM_NAME
       });
       setIsExamRunning(true);
-      setSuccess('Exam started successfully! Students will see countdown.');
+      setCurrentExamTimes({ startTime: startDate.toISOString(), endTime: endDate.toISOString() });
+      setSuccess('Exam scheduled successfully! Students can start at the specified time.');
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
       setError('Failed to start exam. Please try again.');
