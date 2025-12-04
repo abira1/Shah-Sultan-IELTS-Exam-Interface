@@ -23,7 +23,6 @@ export function ExamHeader({
   autoPlayAudio = false
 }: ExamHeaderProps) {
   const [audioRef, setAudioRef] = useState<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -31,6 +30,7 @@ export function ExamHeader({
 
   useEffect(() => {
     if (audioRef && audioURL && autoPlayAudio) {
+      // Auto-play the audio when exam starts
       audioRef.play().catch(err => console.log("Auto-play failed:", err));
     }
   }, [audioRef, audioURL, autoPlayAudio]);
@@ -38,32 +38,17 @@ export function ExamHeader({
   useEffect(() => {
     if (!audioRef) return;
 
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
     const handleTimeUpdate = () => setCurrentTime(audioRef.currentTime);
     const handleLoadedMetadata = () => setDuration(audioRef.duration);
 
-    audioRef.addEventListener('play', handlePlay);
-    audioRef.addEventListener('pause', handlePause);
     audioRef.addEventListener('timeupdate', handleTimeUpdate);
     audioRef.addEventListener('loadedmetadata', handleLoadedMetadata);
 
     return () => {
-      audioRef.removeEventListener('play', handlePlay);
-      audioRef.removeEventListener('pause', handlePause);
       audioRef.removeEventListener('timeupdate', handleTimeUpdate);
       audioRef.removeEventListener('loadedmetadata', handleLoadedMetadata);
     };
   }, [audioRef]);
-
-  const togglePlayPause = () => {
-    if (!audioRef) return;
-    if (isPlaying) {
-      audioRef.pause();
-    } else {
-      audioRef.play().catch(err => console.log("Play failed:", err));
-    }
-  };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
