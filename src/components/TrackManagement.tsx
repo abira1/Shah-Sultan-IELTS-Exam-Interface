@@ -28,24 +28,46 @@ export function TrackManagement() {
   const loadTracksWithAudio = async () => {
     try {
       setIsLoading(true);
+      setErrorMessage(null);
+      
       // Load hardcoded tracks
       const tracksWithAudio: TrackWithAudio[] = [];
       
       // Load audio URLs from Firebase for each track
       for (const track of allTracks) {
-        const snapshot = await get(ref(db, `tracks/${track.id}/audioURL`));
-        const audioURL = snapshot.exists() ? snapshot.val() : null;
-        
-        tracksWithAudio.push({
-          ...track,
-          loadedAudioURL: audioURL
-        });
+        try {
+          const snapshot = await get(ref(db, `tracks/${track.id}/audioURL`));
+          const audioURL = snapshot.exists() ? snapshot.val() : null;
+          
+          tracksWithAudio.push({
+            ...track,
+            loadedAudioURL: audioURL
+          });
+        } catch (trackError) {
+          console.warn(`Could not load audio for track ${track.id}:`, trackError);
+          // Still add track without audio URL
+          tracksWithAudio.push({
+            ...track,
+            loadedAudioURL: null
+          });
+        }
       }
       
       setTracks(tracksWithAudio);
+      
+      // If we have tracks, clear any error
+      if (tracksWithAudio.length > 0) {
+        setErrorMessage(null);
+      }
     } catch (error) {
       console.error('Error loading tracks with audio:', error);
-      setErrorMessage('Failed to load track audio URLs');
+      // Still try to show tracks even if audio loading fails
+      const tracksWithoutAudio: TrackWithAudio[] = allTracks.map(track => ({
+        ...track,
+        loadedAudioURL: null
+      }));
+      setTracks(tracksWithoutAudio);
+      setErrorMessage('Could not load audio URLs from Firebase. You can still manage tracks.');
     } finally {
       setIsLoading(false);
     }
