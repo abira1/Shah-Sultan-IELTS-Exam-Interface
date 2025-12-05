@@ -21,6 +21,14 @@ export function TrackManagement() {
   const db = getDatabase(app);
 
   useEffect(() => {
+    // Initialize tracks immediately from hardcoded data
+    const initialTracks: TrackWithAudio[] = allTracks.map(track => ({
+      ...track,
+      loadedAudioURL: null
+    }));
+    setTracks(initialTracks);
+    
+    // Then load audio URLs asynchronously
     loadTracksWithAudio();
     checkActiveTrack();
   }, []);
