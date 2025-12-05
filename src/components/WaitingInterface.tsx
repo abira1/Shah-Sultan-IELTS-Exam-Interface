@@ -23,6 +23,7 @@ export function WaitingInterface({
   const [examEndTime, setExamEndTime] = useState<number | null>(null);
   const [remainingSeconds, setRemainingSeconds] = useState<number | null>(null);
   const [examDurationMinutes, setExamDurationMinutes] = useState<number | null>(null);
+  const [currentExamName, setCurrentExamName] = useState<string>(examName);
 
   // Listen for exam start signal from Firebase
   useEffect(() => {
