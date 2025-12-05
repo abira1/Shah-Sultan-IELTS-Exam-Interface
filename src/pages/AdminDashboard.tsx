@@ -1,13 +1,13 @@
 import { useEffect, useState, Fragment } from 'react';
-import { ChevronDownIcon, ChevronUpIcon, CheckCircleIcon, ShieldCheckIcon, SearchIcon, RefreshCwIcon, AlertCircleIcon, Music, Play, CheckIcon, XIcon, SendIcon } from 'lucide-react';
+import { ChevronDownIcon, ChevronUpIcon, CheckCircleIcon, ShieldCheckIcon, SearchIcon, RefreshCwIcon, AlertCircleIcon, Music, Play, CheckIcon, XIcon, SendIcon, List } from 'lucide-react';
 import { getDatabase, ref, get } from 'firebase/database';
 import { app } from '../firebase';
 import { storage, ExamSubmission } from '../utils/storage';
-import { AudioManager } from '../components/AudioManager';
+import { TrackManagement } from '../components/TrackManagement';
 import { ExamController } from '../components/ExamController';
 
 type AnswerFilter = 'all' | 'answered' | 'unanswered';
-type TabType = 'submissions' | 'audio' | 'exam-control';
+type TabType = 'submissions' | 'tracks' | 'exam-control';
 export function AdminDashboard() {
   const [submissions, setSubmissions] = useState<ExamSubmission[]>([]);
   const [filteredSubmissions, setFilteredSubmissions] = useState<ExamSubmission[]>([]);
