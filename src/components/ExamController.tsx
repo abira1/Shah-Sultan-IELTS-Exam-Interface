@@ -92,7 +92,7 @@ export function ExamController() {
       const startDate = new Date();
       const endDate = new Date(startDate.getTime() + minutes * 60000);
 
-      await set(ref(db, 'exam/status'), {
+      const examData = {
         isStarted: true,
         activeTrackId: selectedTrackId,
         trackName: selectedTrack?.name || 'Unknown Exam',
@@ -100,7 +100,12 @@ export function ExamController() {
         startTime: startDate.toISOString(),
         endTime: endDate.toISOString(),
         durationMinutes: minutes
-      });
+      };
+
+      console.log('Starting exam with data:', examData);
+      await set(ref(db, 'exam/status'), examData);
+      console.log('Exam data written to Firebase successfully');
+      
       setIsExamRunning(true);
       setCurrentExamTimes({ 
         startTime: startDate.toISOString(), 
