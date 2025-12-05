@@ -23,9 +23,9 @@ export function ExamController() {
 
   const db = getDatabase(app);
 
-  // Load tracks from Firebase
+  // Load hardcoded tracks
   useEffect(() => {
-    loadTracksFromFirebase();
+    loadHardcodedTracks();
   }, []);
 
   // Check exam status on mount
@@ -35,37 +35,19 @@ export function ExamController() {
     return () => clearInterval(interval);
   }, []);
 
-  const loadTracksFromFirebase = async () => {
+  const loadHardcodedTracks = async () => {
     try {
       setIsLoadingTracks(true);
-      const snapshot = await get(ref(db, 'tracks'));
-      
-      if (snapshot.exists()) {
-        const tracksData = snapshot.val();
-        const tracksList: TrackOption[] = Object.keys(tracksData).map(key => ({
-          id: tracksData[key].id,
-          name: tracksData[key].name,
-          duration: tracksData[key].duration,
-          totalQuestions: tracksData[key].totalQuestions
-        }));
-        setAvailableTracks(tracksList);
-        if (tracksList.length > 0 && !selectedTrackId) {
-          setSelectedTrackId(tracksList[0].id);
-        }
-      } else {
-        // Fallback to hardcoded tracks
-        const { getTrackOptions } = await import('../data/tracks');
-        setAvailableTracks(getTrackOptions());
+      // Load hardcoded tracks directly
+      const { getTrackOptions } = await import('../data/tracks');
+      const tracks = getTrackOptions();
+      setAvailableTracks(tracks);
+      if (tracks.length > 0 && !selectedTrackId) {
+        setSelectedTrackId(tracks[0].id);
       }
     } catch (error) {
       console.error('Error loading tracks:', error);
-      // Fallback to hardcoded tracks
-      try {
-        const { getTrackOptions } = await import('../data/tracks');
-        setAvailableTracks(getTrackOptions());
-      } catch (e) {
-        setError('Failed to load tracks');
-      }
+      setError('Failed to load tracks');
     } finally {
       setIsLoadingTracks(false);
     }
