@@ -55,16 +55,8 @@ export function ExamPage({
             return;
           }
 
-          // Load track data from Firebase first
-          const trackSnapshot = await get(ref(db, `tracks/${activeTrackId}`));
-          let track: Track | null = null;
-          
-          if (trackSnapshot.exists()) {
-            track = trackSnapshot.val();
-          } else {
-            // Fallback to hardcoded tracks
-            track = getTrackById(activeTrackId);
-          }
+          // Load track data from hardcoded tracks
+          const track = getTrackById(activeTrackId);
 
           if (!track) {
             setTrackError('Invalid exam track. Please contact administrator.');
@@ -75,11 +67,12 @@ export function ExamPage({
           setCurrentTrack(track);
           setExamData(track.sections);
 
-          // Set audio URL (prioritize track-specific audio, fallback to uploaded audio)
-          if (track.audioURL) {
-            setAudioURL(track.audioURL);
+          // Load audio URL from Firebase (per-track audio URL)
+          const audioSnapshot = await get(ref(db, `tracks/${activeTrackId}/audioURL`));
+          if (audioSnapshot.exists()) {
+            setAudioURL(audioSnapshot.val());
           } else {
-            // Fallback: Check if admin uploaded audio
+            // Fallback: Check if admin uploaded global audio
             const audio = await audioService.getAudioURL();
             if (audio) {
               setAudioURL(audio);
