@@ -37,6 +37,7 @@ export function WaitingInterface({
         
         if (snapshot.exists()) {
           const data = snapshot.val();
+          console.log('WaitingInterface - Firebase exam status:', data);
           
           // Update exam name if available
           if (data.trackName) {
@@ -44,6 +45,7 @@ export function WaitingInterface({
           }
           
           if (data.isStarted === true) {
+            console.log('WaitingInterface - Exam started detected!');
             const now = Date.now();
 
             // If a startTime is provided, respect it (may be in future)
