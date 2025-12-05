@@ -219,15 +219,16 @@ export function AdminDashboard() {
               Submissions
             </button>
             <button
-              onClick={() => setActiveTab('audio')}
+              onClick={() => setActiveTab('tracks')}
               className={`px-4 py-2 font-medium transition-colors flex items-center gap-2 ${
-                activeTab === 'audio'
+                activeTab === 'tracks'
                   ? 'text-blue-600 border-b-2 border-blue-600'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
+              data-testid="track-management-tab"
             >
-              <Music className="w-4 h-4" />
-              Audio Management
+              <List className="w-4 h-4" />
+              Track Management
             </button>
             <button
               onClick={() => setActiveTab('exam-control')}
