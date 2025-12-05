@@ -246,8 +246,8 @@ export function AdminDashboard() {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {activeTab === 'audio' ? (
-          <AudioManager />
+        {activeTab === 'tracks' ? (
+          <TrackManagement />
         ) : activeTab === 'exam-control' ? (
           <ExamController />
         ) : (
