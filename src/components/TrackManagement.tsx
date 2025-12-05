@@ -1,41 +1,51 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Music, FileText, Clock, List as ListIcon } from 'lucide-react';
-import { getDatabase, ref, get, set, remove } from 'firebase/database';
+import { Music, FileText, Clock, List as ListIcon, Link, Save, CheckCircle, AlertCircle, Loader } from 'lucide-react';
+import { getDatabase, ref, get, set } from 'firebase/database';
 import { app } from '../firebase';
 import { Track } from '../data/track1';
-import { TrackForm } from './TrackForm';
+import { allTracks } from '../data/tracks';
+
+interface TrackWithAudio extends Track {
+  loadedAudioURL?: string | null;
+}
 
 export function TrackManagement() {
-  const [tracks, setTracks] = useState<Track[]>([]);
+  const [tracks, setTracks] = useState<TrackWithAudio[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [editingTrack, setEditingTrack] = useState<Track | null>(null);
   const [activeTrackId, setActiveTrackId] = useState<string | null>(null);
+  const [audioURLInputs, setAudioURLInputs] = useState<Record<string, string>>({});
+  const [savingTrackId, setSavingTrackId] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const db = getDatabase(app);
 
   useEffect(() => {
-    loadTracks();
+    loadTracksWithAudio();
     checkActiveTrack();
   }, []);
 
-  const loadTracks = async () => {
+  const loadTracksWithAudio = async () => {
     try {
       setIsLoading(true);
-      const snapshot = await get(ref(db, 'tracks'));
-      if (snapshot.exists()) {
-        const tracksData = snapshot.val();
-        const tracksList = Object.keys(tracksData).map(key => ({
-          ...tracksData[key],
-          id: key
-        }));
-        setTracks(tracksList);
-      } else {
-        // No tracks in Firebase, initialize with default tracks
-        await initializeDefaultTracks();
+      // Load hardcoded tracks
+      const tracksWithAudio: TrackWithAudio[] = [];
+      
+      // Load audio URLs from Firebase for each track
+      for (const track of allTracks) {
+        const snapshot = await get(ref(db, `tracks/${track.id}/audioURL`));
+        const audioURL = snapshot.exists() ? snapshot.val() : null;
+        
+        tracksWithAudio.push({
+          ...track,
+          loadedAudioURL: audioURL
+        });
       }
+      
+      setTracks(tracksWithAudio);
     } catch (error) {
-      console.error('Error loading tracks:', error);
+      console.error('Error loading tracks with audio:', error);
+      setErrorMessage('Failed to load track audio URLs');
     } finally {
       setIsLoading(false);
     }
@@ -55,78 +65,87 @@ export function TrackManagement() {
     }
   };
 
-  const initializeDefaultTracks = async () => {
-    // Import default tracks and save to Firebase
-    const { track1 } = await import('../data/track1');
-    const { track2 } = await import('../data/track2');
-    const { track3 } = await import('../data/track3');
-    
-    const defaultTracks = [track1, track2, track3];
-    
-    for (const track of defaultTracks) {
-      await set(ref(db, `tracks/${track.id}`), track);
-    }
-    
-    await loadTracks();
+  const handleAudioURLChange = (trackId: string, value: string) => {
+    setAudioURLInputs(prev => ({
+      ...prev,
+      [trackId]: value
+    }));
   };
 
-  const handleCreateTrack = () => {
-    setEditingTrack(null);
-    setShowForm(true);
-  };
-
-  const handleEditTrack = (track: Track) => {
-    setEditingTrack(track);
-    setShowForm(true);
-  };
-
-  const handleDeleteTrack = async (trackId: string) => {
-    if (trackId === activeTrackId) {
-      alert('Cannot delete the currently active exam track. Please stop the exam first.');
+  const handleSaveAudioURL = async (trackId: string) => {
+    const audioURL = audioURLInputs[trackId]?.trim();
+    
+    if (!audioURL) {
+      setErrorMessage('Please enter a valid audio URL');
+      setTimeout(() => setErrorMessage(null), 3000);
       return;
     }
 
-    if (!confirm('Are you sure you want to delete this track? This action cannot be undone.')) {
+    // Basic URL validation
+    try {
+      new URL(audioURL);
+    } catch (e) {
+      setErrorMessage('Please enter a valid URL format');
+      setTimeout(() => setErrorMessage(null), 3000);
       return;
     }
 
+    setSavingTrackId(trackId);
+    setErrorMessage(null);
+
     try {
-      await remove(ref(db, `tracks/${trackId}`));
-      alert('Track deleted successfully!');
-      await loadTracks();
+      // Save audio URL to Firebase
+      await set(ref(db, `tracks/${trackId}/audioURL`), audioURL);
+      
+      // Update local state
+      setTracks(prev => prev.map(track => 
+        track.id === trackId 
+          ? { ...track, loadedAudioURL: audioURL }
+          : track
+      ));
+      
+      // Clear input
+      setAudioURLInputs(prev => ({
+        ...prev,
+        [trackId]: ''
+      }));
+      
+      setSuccessMessage(`Audio URL saved for ${tracks.find(t => t.id === trackId)?.name}`);
+      setTimeout(() => setSuccessMessage(null), 3000);
     } catch (error) {
-      console.error('Error deleting track:', error);
-      alert('Failed to delete track. Please try again.');
+      console.error('Error saving audio URL:', error);
+      setErrorMessage('Failed to save audio URL. Please try again.');
+      setTimeout(() => setErrorMessage(null), 3000);
+    } finally {
+      setSavingTrackId(null);
     }
   };
 
-  const handleSaveTrack = async (track: Track) => {
+  const handleDeleteAudioURL = async (trackId: string) => {
+    if (!confirm('Are you sure you want to remove the audio URL for this track?')) {
+      return;
+    }
+
+    setSavingTrackId(trackId);
     try {
-      await set(ref(db, `tracks/${track.id}`), track);
-      alert('Track saved successfully!');
-      setShowForm(false);
-      setEditingTrack(null);
-      await loadTracks();
+      await set(ref(db, `tracks/${trackId}/audioURL`), null);
+      
+      setTracks(prev => prev.map(track => 
+        track.id === trackId 
+          ? { ...track, loadedAudioURL: null }
+          : track
+      ));
+      
+      setSuccessMessage('Audio URL removed successfully');
+      setTimeout(() => setSuccessMessage(null), 3000);
     } catch (error) {
-      console.error('Error saving track:', error);
-      alert('Failed to save track. Please try again.');
+      console.error('Error deleting audio URL:', error);
+      setErrorMessage('Failed to remove audio URL');
+      setTimeout(() => setErrorMessage(null), 3000);
+    } finally {
+      setSavingTrackId(null);
     }
   };
-
-  const handleCancelForm = () => {
-    setShowForm(false);
-    setEditingTrack(null);
-  };
-
-  if (showForm) {
-    return (
-      <TrackForm
-        track={editingTrack}
-        onSave={handleSaveTrack}
-        onCancel={handleCancelForm}
-      />
-    );
-  }
 
   if (isLoading) {
     return (
