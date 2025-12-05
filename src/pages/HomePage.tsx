@@ -12,9 +12,27 @@ export function HomePage() {
   const [studentName, setStudentName] = useState('');
   const [isCheckingExamStatus, setIsCheckingExamStatus] = useState(false);
   const [hasLoggedIn, setHasLoggedIn] = useState(false);
+  const [currentExamName, setCurrentExamName] = useState('IELTS Listening Exam');
 
-  // Don't auto-check exam status on mount - always show login first
-  // This ensures students always enter their information before accessing exam
+  // Load current exam name from Firebase
+  useEffect(() => {
+    const loadExamName = async () => {
+      try {
+        const db = getDatabase(app);
+        const snapshot = await get(ref(db, 'exam/status'));
+        if (snapshot.exists() && snapshot.val().trackName) {
+          setCurrentExamName(snapshot.val().trackName);
+        }
+      } catch (error) {
+        console.error('Error loading exam name:', error);
+      }
+    };
+    
+    loadExamName();
+    // Check periodically for exam name updates
+    const interval = setInterval(loadExamName, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleStudentLogin = async (e: React.FormEvent) => {
     e.preventDefault();
