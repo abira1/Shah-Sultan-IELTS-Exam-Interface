@@ -10,6 +10,10 @@
         ".write": true
       }
     },
+    "tracks": {
+      ".read": true,
+      ".write": true
+    },
     "submissions": {
       ".read": true,
       ".write": true,
