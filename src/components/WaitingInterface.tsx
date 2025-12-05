@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Loader, Volume2 } from 'lucide-react';
+import { Loader, Volume2, BookOpen, FileText, CheckSquare, Edit3, Clock } from 'lucide-react';
 import { getDatabase, ref, get } from 'firebase/database';
 import { app } from '../firebase';
 
