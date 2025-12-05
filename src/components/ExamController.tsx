@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react';
 import { Play, Square, AlertCircle, CheckCircle, Loader, Clock, List } from 'lucide-react';
 import { getDatabase, ref, set, get } from 'firebase/database';
 import { app } from '../firebase';
-import { getTrackOptions } from '../data/tracks';
+
+interface TrackOption {
+  id: string;
+  name: string;
+  duration: number;
+  totalQuestions: number;
+}
 
 export function ExamController() {
   const [isExamRunning, setIsExamRunning] = useState(false);
@@ -12,9 +18,15 @@ export function ExamController() {
   const [durationMinutes, setDurationMinutes] = useState<string>('60');
   const [currentExamTimes, setCurrentExamTimes] = useState<{startTime?: string, endTime?: string, trackName?: string}>({});
   const [selectedTrackId, setSelectedTrackId] = useState<string>('track-1');
-  const [availableTracks] = useState(getTrackOptions());
+  const [availableTracks, setAvailableTracks] = useState<TrackOption[]>([]);
+  const [isLoadingTracks, setIsLoadingTracks] = useState(true);
 
   const db = getDatabase(app);
+
+  // Load tracks from Firebase
+  useEffect(() => {
+    loadTracksFromFirebase();
+  }, []);
 
   // Check exam status on mount
   useEffect(() => {
@@ -22,6 +34,42 @@ export function ExamController() {
     const interval = setInterval(checkExamStatus, 2000);
     return () => clearInterval(interval);
   }, []);
+
+  const loadTracksFromFirebase = async () => {
+    try {
+      setIsLoadingTracks(true);
+      const snapshot = await get(ref(db, 'tracks'));
+      
+      if (snapshot.exists()) {
+        const tracksData = snapshot.val();
+        const tracksList: TrackOption[] = Object.keys(tracksData).map(key => ({
+          id: tracksData[key].id,
+          name: tracksData[key].name,
+          duration: tracksData[key].duration,
+          totalQuestions: tracksData[key].totalQuestions
+        }));
+        setAvailableTracks(tracksList);
+        if (tracksList.length > 0 && !selectedTrackId) {
+          setSelectedTrackId(tracksList[0].id);
+        }
+      } else {
+        // Fallback to hardcoded tracks
+        const { getTrackOptions } = await import('../data/tracks');
+        setAvailableTracks(getTrackOptions());
+      }
+    } catch (error) {
+      console.error('Error loading tracks:', error);
+      // Fallback to hardcoded tracks
+      try {
+        const { getTrackOptions } = await import('../data/tracks');
+        setAvailableTracks(getTrackOptions());
+      } catch (e) {
+        setError('Failed to load tracks');
+      }
+    } finally {
+      setIsLoadingTracks(false);
+    }
+  };
 
   const checkExamStatus = async () => {
     try {
