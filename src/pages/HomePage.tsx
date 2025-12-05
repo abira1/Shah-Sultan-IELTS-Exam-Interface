@@ -61,11 +61,26 @@ export function HomePage() {
     setStudentName('');
   };
 
-  if (isExamStarted) {
+  // Show checking status after login
+  if (isCheckingExamStatus && hasLoggedIn) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Checking exam status...</p>
+          <p className="text-sm text-gray-500 mt-2">Welcome, {studentName}!</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Only show exam if student has logged in and exam is started
+  if (isExamStarted && hasLoggedIn && studentId && studentName) {
     return <ExamPage studentId={studentId} studentName={studentName} onSubmit={handleExamSubmit} />;
   }
 
-  if (isWaiting) {
+  // Show waiting interface if student logged in but exam hasn't started
+  if (isWaiting && hasLoggedIn && studentId && studentName) {
     return (
       <WaitingInterface
         studentName={studentName}
@@ -73,17 +88,6 @@ export function HomePage() {
         examName={EXAM_NAME}
         onCountdownComplete={handleWaitingComplete}
       />
-    );
-  }
-
-  if (isCheckingExamStatus) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading exam status...</p>
-        </div>
-      </div>
     );
   }
 
