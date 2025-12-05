@@ -35,13 +35,11 @@ export function TrackManagement() {
 
   const loadTracksWithAudio = async () => {
     try {
-      setIsLoading(true);
-      setErrorMessage(null);
-      
-      // Load hardcoded tracks
-      const tracksWithAudio: TrackWithAudio[] = [];
+      // Don't show loading state since tracks are already initialized
       
       // Load audio URLs from Firebase for each track
+      const tracksWithAudio: TrackWithAudio[] = [];
+      
       for (const track of allTracks) {
         try {
           const snapshot = await get(ref(db, `tracks/${track.id}/audioURL`));
@@ -62,20 +60,10 @@ export function TrackManagement() {
       }
       
       setTracks(tracksWithAudio);
-      
-      // If we have tracks, clear any error
-      if (tracksWithAudio.length > 0) {
-        setErrorMessage(null);
-      }
     } catch (error) {
       console.error('Error loading tracks with audio:', error);
-      // Still try to show tracks even if audio loading fails
-      const tracksWithoutAudio: TrackWithAudio[] = allTracks.map(track => ({
-        ...track,
-        loadedAudioURL: null
-      }));
-      setTracks(tracksWithoutAudio);
-      setErrorMessage('Could not load audio URLs from Firebase. You can still manage tracks.');
+      // Tracks are already initialized, so just log the error
+      // Don't show error message to user as tracks are still usable
     } finally {
       setIsLoading(false);
     }
