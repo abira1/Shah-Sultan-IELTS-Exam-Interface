@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
 interface FlowChartStep {
-  questionNumber: number;
+  questionNumber?: number; // Optional, for plain text steps
   text: string;
+  isPlainText?: boolean; // Flag for non-question steps
 }
 
 interface FlowChartQuestionProps {
