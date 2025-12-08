@@ -21,6 +21,12 @@ export function TableGapQuestion({
   answers,
   onAnswerChange
 }: TableGapQuestionProps) {
+  // Helper function to check if a row's label contains "_______"
+  const rowLabelHasGap = (rowIndex: number): boolean => {
+    const row = rows[rowIndex];
+    return typeof row.label === 'string' && row.label.includes('_______');
+  };
+
   // Helper function to find the question number in the value field for a given row
   const findQuestionNumberForRow = (rowIndex: number): number | null => {
     const row = rows[rowIndex];
@@ -32,7 +38,13 @@ export function TableGapQuestion({
 
   const renderCell = (content: string | {
     questionNumber: number;
-  }, isLabel: boolean = false, rowIndex?: number) => {
+  }, isLabel: boolean = false, rowIndex?: number, isValueCell: boolean = false) => {
+    
+    // If this is a value cell and the label has gaps, don't render the separate input
+    if (isValueCell && rowIndex !== undefined && rowLabelHasGap(rowIndex)) {
+      return null;
+    }
+
     if (typeof content === 'object' && 'questionNumber' in content) {
       return <div className="flex items-center gap-2">
           <span className="text-gray-500 font-medium">
