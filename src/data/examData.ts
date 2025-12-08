@@ -3,7 +3,9 @@ export interface TableGapQuestion {
   instruction: string;
   title: string;
   rows: Array<{
-    label: string;
+    label: string | {
+      questionNumber: number;
+    };
     value: string | {
       questionNumber: number;
     };
