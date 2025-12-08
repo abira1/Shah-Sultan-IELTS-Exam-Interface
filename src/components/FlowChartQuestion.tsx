@@ -91,71 +91,87 @@ export function FlowChartQuestion({
           
           {/* Main flowchart container with proper shape */}
           <div className="max-w-3xl mx-auto space-y-3">
-            {steps.map((step, index) => (
-              <div key={step.questionNumber} className="flex flex-col items-center">
-                {/* Arrow down connector */}
-                {index > 0 && (
-                  <div className="flex justify-center py-2">
-                    <div className="text-gray-500 text-3xl font-bold">↓</div>
-                  </div>
-                )}
-                
-                {/* Flow chart box - preserves actual shape */}
-                <div className="w-full border-2 border-gray-700 bg-white shadow-sm" 
-                     style={{ 
-                       borderRadius: index === 0 || index === steps.length - 1 ? '8px' : '2px',
-                       padding: '16px 24px'
-                     }}>
-                  {/* Text with inline placeholder for gaps */}
-                  <div className="text-gray-900 text-base leading-relaxed">
-                    {step.text.split(/(\(\d+\)\.+)/).map((part, idx) => {
-                      // Check if this part matches pattern like (21).....
-                      const match = part.match(/\((\d+)\)(\.+)/);
-                      if (match) {
-                        const questionNumber = parseInt(match[1]);
-                        const dots = match[2];
-                        
-                        return (
-                          <span key={idx} className="inline-block mx-1">
-                            <span 
-                              onDragOver={(e) => handleDragOver(e, questionNumber)}
-                              onDragLeave={handleDragLeave}
-                              onDrop={(e) => handleDrop(e, questionNumber)}
-                              className={`inline-flex items-center border-2 border-dashed rounded px-2 py-1 transition-all ${
-                                hoveredQuestion === questionNumber
-                                  ? 'border-blue-500 bg-blue-50'
-                                  : 'border-gray-400 bg-gray-50'
-                              }`}
-                              data-testid={`flowchart-drop-zone-${questionNumber}`}
-                              style={{ minWidth: `${Math.max(dots.length * 8, 120)}px` }}
-                            >
-                              <span className="text-gray-600 text-sm font-medium">({questionNumber})</span>
-                              {answers[questionNumber] ? (
-                                <>
-                                  <span className="ml-2 text-blue-700 font-semibold text-sm">
-                                    {answers[questionNumber]}. {getOptionLabel(answers[questionNumber])}
-                                  </span>
-                                  <button
-                                    onClick={() => handleRemove(questionNumber)}
-                                    className="ml-2 text-red-600 hover:text-red-800 font-bold"
-                                    data-testid={`flowchart-remove-${questionNumber}`}
-                                  >
-                                    ×
-                                  </button>
-                                </>
-                              ) : (
-                                <span className="ml-2 text-gray-400 text-xs">drop here</span>
-                              )}
-                            </span>
-                          </span>
-                        );
-                      }
-                      return <span key={idx}>{part}</span>;
-                    })}
-                  </div>
+            {steps.map((step, index) => {
+              const isFirstStep = index === 0;
+              const isLastStep = index === steps.length - 1;
+              const isPlainTextStep = step.isPlainText || !step.text.includes('(');
+              
+              return (
+                <div key={step.questionNumber || `plain-${index}`} className="flex flex-col items-center">
+                  {/* Arrow down connector */}
+                  {index > 0 && (
+                    <div className="flex justify-center py-2">
+                      <div className="text-gray-500 text-3xl font-bold">↓</div>
+                    </div>
+                  )}
+                  
+                  {/* Flow chart box - preserves actual shape */}
+                  {isPlainTextStep && !step.text.includes('(') ? (
+                    // Plain text box (like "Rehearse") - smaller, centered
+                    <div className="border-2 border-gray-700 bg-white shadow-sm rounded-lg px-8 py-4">
+                      <div className="text-gray-900 text-base font-medium text-center">
+                        {step.text}
+                      </div>
+                    </div>
+                  ) : (
+                    // Question box - full width with sharp corners
+                    <div className="w-full border-2 border-gray-700 bg-white shadow-sm" 
+                         style={{ 
+                           borderRadius: isFirstStep ? '8px' : '2px',
+                           padding: '14px 20px'
+                         }}>
+                      {/* Text with inline placeholder for gaps */}
+                      <div className="text-gray-900 text-base leading-relaxed">
+                        {step.text.split(/(\(\d+\)\.+)/).map((part, idx) => {
+                          // Check if this part matches pattern like (21).....
+                          const match = part.match(/\((\d+)\)(\.+)/);
+                          if (match) {
+                            const questionNumber = parseInt(match[1]);
+                            const dots = match[2];
+                            
+                            return (
+                              <span key={idx} className="inline-block mx-1">
+                                <span 
+                                  onDragOver={(e) => handleDragOver(e, questionNumber)}
+                                  onDragLeave={handleDragLeave}
+                                  onDrop={(e) => handleDrop(e, questionNumber)}
+                                  className={`inline-flex items-center border-2 border-dashed rounded px-2 py-1 transition-all ${
+                                    hoveredQuestion === questionNumber
+                                      ? 'border-blue-500 bg-blue-50'
+                                      : 'border-gray-400 bg-gray-50'
+                                  }`}
+                                  data-testid={`flowchart-drop-zone-${questionNumber}`}
+                                  style={{ minWidth: `${Math.max(dots.length * 8, 140)}px` }}
+                                >
+                                  <span className="text-gray-600 text-sm font-medium">({questionNumber})</span>
+                                  {answers[questionNumber] ? (
+                                    <>
+                                      <span className="ml-2 text-blue-700 font-semibold text-sm">
+                                        {answers[questionNumber]}. {getOptionLabel(answers[questionNumber])}
+                                      </span>
+                                      <button
+                                        onClick={() => handleRemove(questionNumber)}
+                                        className="ml-2 text-red-600 hover:text-red-800 font-bold"
+                                        data-testid={`flowchart-remove-${questionNumber}`}
+                                      >
+                                        ×
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <span className="ml-2 text-gray-400 text-xs italic">drop here</span>
+                                  )}
+                                </span>
+                              </span>
+                            );
+                          }
+                          return <span key={idx}>{part}</span>;
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
