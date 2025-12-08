@@ -99,10 +99,10 @@ export function TableGapQuestion({
           <tbody>
             {rows.map((row, idx) => <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                 <td className="px-4 py-3 border-b border-gray-200 w-1/2">
-                  {renderCell(row.label, true, idx)}
+                  {renderCell(row.label, true, idx, false)}
                 </td>
                 <td className="px-4 py-3 border-b border-gray-200 w-1/2">
-                  {renderCell(row.value, false, idx)}
+                  {renderCell(row.value, false, idx, true)}
                 </td>
               </tr>)}
           </tbody>
