@@ -254,6 +254,15 @@ export function ExamPage({
             if (question.type === 'dropdown') {
               return <DropdownQuestion key={idx} instruction={question.instruction} items={question.items} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
             }
+            if (question.type === 'drag-and-drop') {
+              return <DragAndDropQuestion key={idx} instruction={question.instruction} items={question.items} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
+            }
+            if (question.type === 'flowchart') {
+              return <FlowChartQuestion key={idx} instruction={question.instruction} title={question.title} steps={question.steps} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
+            }
+            if (question.type === 'map-labeling') {
+              return <MapLabelingQuestion key={idx} instruction={question.instruction} imageUrl={question.imageUrl} labels={question.labels} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
+            }
             return null;
           })}
           </div>
