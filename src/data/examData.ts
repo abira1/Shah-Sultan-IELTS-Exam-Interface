@@ -38,10 +38,48 @@ export interface DropdownQuestion {
     value: string;
   }>;
 }
+export interface DragAndDropQuestion {
+  type: 'drag-and-drop';
+  instruction: string;
+  items: Array<{
+    questionNumber: number;
+    label: string;
+  }>;
+  options: Array<{
+    label: string;
+    value: string;
+  }>;
+}
+export interface FlowChartQuestion {
+  type: 'flowchart';
+  instruction: string;
+  title?: string;
+  steps: Array<{
+    questionNumber: number;
+    text: string;
+  }>;
+  options: Array<{
+    label: string;
+    value: string;
+  }>;
+}
+export interface MapLabelingQuestion {
+  type: 'map-labeling';
+  instruction: string;
+  imageUrl: string;
+  labels: Array<{
+    questionNumber: number;
+    position: { x: number; y: number };
+  }>;
+  options: Array<{
+    label: string;
+    value: string;
+  }>;
+}
 export interface Section {
   sectionNumber: number;
   title: string;
-  questions: Array<TableGapQuestion | MultipleChoiceQuestion | SentenceCompletionQuestion | DropdownQuestion>;
+  questions: Array<TableGapQuestion | MultipleChoiceQuestion | SentenceCompletionQuestion | DropdownQuestion | DragAndDropQuestion | FlowChartQuestion | MapLabelingQuestion>;
 }
 export const examData: Section[] = [{
   sectionNumber: 1,
