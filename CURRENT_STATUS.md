@@ -55,15 +55,15 @@ Overall Progress                   [████████░░░░░░�
 
 ## 🚧 What's Currently Being Worked On
 
-### Phase 2: Tracks View (0%)
-**Current Task**: Replace main content section with Level 1 view
+### Phase 3: Exams View (0%)
+**Current Task**: Implement Level 2 view showing exam sessions for selected track
 
 **What Needs to Be Done**:
-1. Add conditional rendering based on `navigationLevel`
-2. Create Track Folder Cards grid
-3. Implement folder card styling with hover effects
-4. Add track statistics (exam count, submission count)
-5. Wire up click handlers to navigate to Level 2
+1. Replace placeholder in exams view with actual implementation
+2. Create Exam Folder Cards grid
+3. Display exam code, date, submission count
+4. Show graded/published statistics
+5. Wire up click handlers to navigate to Level 3
 
 **Blockers**: None
 **Estimated Time**: 30-45 minutes
