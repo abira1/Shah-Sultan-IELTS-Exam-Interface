@@ -369,117 +369,66 @@ export const track4: Track = {
       title: 'Questions 31-40',
       questions: [
         {
-          type: 'table-gap',
+          type: 'multi-column-table',
           instruction: 'Fill in the blanks.',
-          title: 'Species Introduction Table',
+          title: 'EXOTIC PESTS',
+          headers: ['Origin', 'Name', 'New habitat', 'Notes'],
           rows: [
             {
-              label: 'Origin',
-              value: 'Name | New habitat | Notes'
+              cells: [
+                { content: 'Australia' },
+                { content: 'red-backed spider' },
+                { content: 'New Zealand and Japan' },
+                { content: 'Even so island in middle of (31)............' }
+              ]
             },
             {
-              label: 'Australia',
-              value: 'red-backed spider | New Zealand and Japan | Even so island in middle of'
+              cells: [
+                { content: 'England' },
+                { content: 'rabbit' },
+                { content: 'Australia' },
+                { content: '800 years ago: imported into England to be used for (32)............' }
+              ]
             },
             {
-              label: '',
-              value: {
-                questionNumber: 31
-              }
+              cells: [
+                { content: 'America' },
+                { content: 'fire ants' },
+                { content: '(33).............. in Brisbane' },
+                { content: 'imported by chance' }
+              ]
             },
             {
-              label: 'England',
-              value: 'rabbit | Australia | 800 years ago: imported into England to be used for'
+              cells: [
+                { content: 'Australia' },
+                { content: { questionNumber: 34 } },
+                { content: 'Scotland' },
+                { content: 'Deliberately introduced in order to improve (35).............. (not effective)' }
+              ]
             },
             {
-              label: '',
-              value: {
-                questionNumber: 32
-              }
+              cells: [
+                { content: 'New Zealand' },
+                { content: 'flatworm' },
+                { content: '(36).............. Europe' },
+                { content: 'accidental introduction inside imported (37)..............' }
+              ]
             },
             {
-              label: 'America',
-              value: 'fire ants |'
+              cells: [
+                { content: 'Japan' },
+                { content: { questionNumber: 38 } },
+                { content: 'Australian coastal waters' },
+                { content: 'Some advantages' }
+              ]
             },
             {
-              label: '',
-              value: {
-                questionNumber: 33
-              }
-            },
-            {
-              label: '',
-              value: '| in Brisbane imported by chance'
-            },
-            {
-              label: 'Australia',
-              value: ''
-            },
-            {
-              label: {
-                questionNumber: 34
-              },
-              value: '| Scotland | Deliberately introduced in order to improve'
-            },
-            {
-              label: '',
-              value: {
-                questionNumber: 35
-              }
-            },
-            {
-              label: '',
-              value: '(not effective)'
-            },
-            {
-              label: 'New Zealand',
-              value: 'flatworm |'
-            },
-            {
-              label: '',
-              value: {
-                questionNumber: 36
-              }
-            },
-            {
-              label: '',
-              value: '| accidental introduction inside imported'
-            },
-            {
-              label: '',
-              value: {
-                questionNumber: 37
-              }
-            },
-            {
-              label: 'Japan',
-              value: ''
-            },
-            {
-              label: {
-                questionNumber: 38
-              },
-              value: '| Australian coastal waters | Some advantages'
-            },
-            {
-              label: '',
-              value: ''
-            },
-            {
-              label: {
-                questionNumber: 39
-              },
-              value: '| budgerigar | urban areas of south-east | Smaller flocks because of arrival of'
-            },
-            {
-              label: '',
-              value: {
-                questionNumber: 40
-              }
-            },
-            {
-              label: '',
-              value: 'in recent years'
+              cells: [
+                { content: 'Australia' },
+                { content: 'budgerigar' },
+                { content: 'urban areas of south-east (39)..............' },
+                { content: 'Smaller flocks because of arrival of (40).............. in recent years' }
+              ]
             }
           ]
         }
