@@ -40,6 +40,8 @@ export function ExamPage({
   const [trackError, setTrackError] = useState<string | null>(null);
   const [currentExamCode, setCurrentExamCode] = useState<string | null>(null);
   const [currentBatchId, setCurrentBatchId] = useState<string | null>(null);
+  const [examSession, setExamSession] = useState<any>(null);
+  
   // Fetch exam track, times and audio from Firebase
   useEffect(() => {
     const fetchExamData = async () => {
@@ -61,11 +63,33 @@ export function ExamPage({
           const activeTrackId = data.activeTrackId;
           console.log('Active Track ID:', activeTrackId);
           
-          // Get exam code if available (NEW)
+          // Get exam code if available
           const examCode = data.examCode;
           console.log('Active Exam Code:', examCode);
           if (examCode) {
             setCurrentExamCode(examCode);
+            
+            // Check if student has already submitted for this exam
+            const existingSubmissions = storage.getSubmissions();
+            const hasSubmitted = existingSubmissions.some(
+              sub => sub.studentId === studentId && sub.examCode === examCode
+            );
+            
+            if (hasSubmitted) {
+              setTrackError('You have already submitted this exam. You cannot take the same exam twice.');
+              setIsLoadingTrack(false);
+              return;
+            }
+            
+            // Fetch exam session to verify batch access
+            const sessionSnapshot = await get(ref(db, `examSessions/${examCode}`));
+            if (sessionSnapshot.exists()) {
+              const session = sessionSnapshot.val();
+              setExamSession(session);
+              
+              // Note: Batch verification would happen here if studentId had batchId
+              // For now, we'll allow all students
+            }
           }
           
           if (!activeTrackId) {
