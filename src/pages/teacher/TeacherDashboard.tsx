@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, LogOut, BookOpen, CheckCircle, Clock, ArrowRight, FileText } from 'lucide-react';
+import { ShieldCheck, LogOut, BookOpen, CheckCircle, Clock, ArrowRight, FileText, Download } from 'lucide-react';
 import { storage, ExamSubmission } from '../../utils/storage';
 import { allTracks } from '../../data/tracks';
+import { exportToExcel } from '../../utils/exportExcel';
 
 export function TeacherDashboard() {
   const { user, logout } = useAuth();
