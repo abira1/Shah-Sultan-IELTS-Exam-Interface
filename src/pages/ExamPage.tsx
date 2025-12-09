@@ -20,11 +20,15 @@ import { Loader } from 'lucide-react';
 interface ExamPageProps {
   studentId: string;
   studentName: string;
+  studentBatchId?: string;
+  examCode: string;
   onSubmit: () => void;
 }
 export function ExamPage({
   studentId,
   studentName,
+  studentBatchId,
+  examCode,
   onSubmit
 }: ExamPageProps) {
   const [answers, setAnswers] = useState<Record<number, string>>({});
