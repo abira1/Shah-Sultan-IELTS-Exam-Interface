@@ -118,14 +118,24 @@ export function TeacherDashboard() {
                 <p className="text-sm text-gray-600">{user?.name}</p>
               </div>
             </div>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-              data-testid="logout-button"
-            >
-              <LogOut className="w-4 h-4" />
-              <span className="text-sm font-medium">Logout</span>
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => exportToExcel(submissions, { type: 'all', filename: `ShahSultan_${user?.name}_Submissions` })}
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                data-testid="export-button"
+              >
+                <Download className="w-4 h-4" />
+                <span className="text-sm font-medium">Export My Submissions</span>
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                data-testid="logout-button"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="text-sm font-medium">Logout</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
