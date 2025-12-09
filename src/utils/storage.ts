@@ -400,6 +400,8 @@ export const storage = {
           Object.keys(trackData).forEach(examCode => {
             const examData = trackData[examCode];
             Object.keys(examData).forEach(submissionId => {
+              // Skip metadata entries
+              if (submissionId === '_metadata') return;
               submissions.push(examData[submissionId]);
             });
           });
