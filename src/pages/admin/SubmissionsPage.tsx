@@ -173,6 +173,75 @@ export function SubmissionsPage() {
     return new Date(dateString).toLocaleString();
   };
 
+  // Navigation helpers
+  const handleNavigateToTrack = (trackId: string) => {
+    const track = allTracks.find(t => t.id === trackId);
+    if (!track) return;
+
+    setCurrentTrackId(trackId);
+    setCurrentExamCode(null);
+    setNavigationLevel('exams');
+    setBreadcrumbs([
+      { level: 'tracks', label: 'All Tracks' },
+      { level: 'exams', label: track.name, trackId }
+    ]);
+  };
+
+  const handleNavigateToExamCode = (examCode: string) => {
+    const track = allTracks.find(t => t.id === currentTrackId);
+    
+    setCurrentExamCode(examCode);
+    setNavigationLevel('submissions');
+    setBreadcrumbs([
+      { level: 'tracks', label: 'All Tracks' },
+      { level: 'exams', label: track?.name || 'Track', trackId: currentTrackId || undefined },
+      { level: 'submissions', label: `Exam: ${examCode}`, trackId: currentTrackId || undefined, examCode }
+    ]);
+
+    // Set filters for existing detailed view
+    setSelectedTrackId(currentTrackId || 'all');
+    setSelectedExamCode(examCode);
+  };
+
+  const handleBreadcrumbClick = (item: BreadcrumbItem) => {
+    if (item.level === 'tracks') {
+      setNavigationLevel('tracks');
+      setCurrentTrackId(null);
+      setCurrentExamCode(null);
+      setBreadcrumbs([{ level: 'tracks', label: 'All Tracks' }]);
+      setSelectedTrackId('all');
+      setSelectedExamCode('all');
+    } else if (item.level === 'exams' && item.trackId) {
+      setNavigationLevel('exams');
+      setCurrentTrackId(item.trackId);
+      setCurrentExamCode(null);
+      const track = allTracks.find(t => t.id === item.trackId);
+      setBreadcrumbs([
+        { level: 'tracks', label: 'All Tracks' },
+        { level: 'exams', label: track?.name || 'Track', trackId: item.trackId }
+      ]);
+      setSelectedTrackId(item.trackId);
+      setSelectedExamCode('all');
+    }
+  };
+
+  // Get submissions grouped by track
+  const getTrackSubmissions = (trackId: string) => {
+    return submissions.filter(s => s.trackId === trackId);
+  };
+
+  // Get unique exam codes for a track
+  const getExamCodesForTrack = (trackId: string) => {
+    const trackSubmissions = getTrackSubmissions(trackId);
+    const examCodes = [...new Set(trackSubmissions.map(s => s.examCode).filter(Boolean))] as string[];
+    return examCodes;
+  };
+
+  // Get submissions for a specific exam code
+  const getExamCodeSubmissions = (examCode: string) => {
+    return submissions.filter(s => s.examCode === examCode && s.trackId === currentTrackId);
+  };
+
   const getAllQuestions = (submission: ExamSubmission) => {
     const allQuestions: {
       questionNumber: number;
