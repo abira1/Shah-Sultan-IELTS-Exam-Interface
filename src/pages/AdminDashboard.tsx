@@ -1,6 +1,6 @@
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDownIcon, ChevronUpIcon, CheckCircleIcon, ShieldCheckIcon, SearchIcon, RefreshCwIcon, AlertCircleIcon, Music, Play, CheckIcon, XIcon, SendIcon, List, Users, Download, Shield } from 'lucide-react';
+import { CheckCircleIcon, ShieldCheckIcon, RefreshCwIcon, Play, List, Users, Download, Shield } from 'lucide-react';
 import { getDatabase, ref, get } from 'firebase/database';
 import { app } from '../firebase';
 import { storage, ExamSubmission } from '../utils/storage';
@@ -11,17 +11,10 @@ import { exportToExcel } from '../utils/exportExcel';
 import { useAuth } from '../contexts/AuthContext';
 import { MigrationUtility } from '../components/MigrationUtility';
 
-type AnswerFilter = 'all' | 'answered' | 'unanswered';
 type TabType = 'tracks' | 'exam-control' | 'role-management';
 export function AdminDashboard() {
   const navigate = useNavigate();
   const [submissions, setSubmissions] = useState<ExamSubmission[]>([]);
-  const [filteredSubmissions, setFilteredSubmissions] = useState<ExamSubmission[]>([]);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [answerFilter, setAnswerFilter] = useState<AnswerFilter>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortField, setSortField] = useState<'name' | 'id' | 'time' | 'score'>('time');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('tracks');
   const [currentExamName, setCurrentExamName] = useState<string>('No exam running');
