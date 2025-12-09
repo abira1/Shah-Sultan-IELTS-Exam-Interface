@@ -204,17 +204,20 @@ export function ExamPage({
       studentId,
       studentName,
       trackName: currentTrack.name,
-      trackId: currentTrack.id, // NEW
-      examCode: currentExamCode || undefined, // NEW
-      batchId: currentBatchId || undefined, // NEW
+      trackId: currentTrack.id,
+      examCode: currentExamCode || undefined,
+      batchId: currentBatchId || undefined,
       answers,
       submittedAt: new Date().toISOString(),
       timeSpent: calculateTimeSpent(),
       status: 'completed',
-      score
+      score,
+      resultPublished: false // Set as not published initially
     };
     storage.addSubmission(submission);
-    alert('Exam submitted successfully!');
+    
+    // Show success message
+    alert('✅ Exam submitted successfully!\n\nThank you for completing the exam. Your submission has been recorded.\n\nResults will be published soon. You can check your dashboard for updates.');
     onSubmit();
   };
   // Loading state
