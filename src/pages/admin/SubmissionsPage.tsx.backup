@@ -15,9 +15,7 @@ import {
   X as CloseIcon,
   Download,
   FileSpreadsheet,
-  Printer,
-  ChevronRight,
-  Home
+  Printer
 } from 'lucide-react';
 import { storage, ExamSubmission } from '../../utils/storage';
 import { allTracks } from '../../data/tracks';
@@ -25,18 +23,9 @@ import { examSessionService } from '../../services/examSessionService';
 import { useAuth } from '../../contexts/AuthContext';
 import { exportToExcel, exportSummaryToExcel } from '../../utils/exportExcel';
 import { PrintableResult } from '../../components/PrintableResult';
-import { FolderIcon } from '../../components/FolderIcon';
 
 type AnswerFilter = 'all' | 'answered' | 'unanswered';
 type SortField = 'name' | 'id' | 'time' | 'score';
-type NavigationLevel = 'tracks' | 'exams' | 'submissions';
-
-interface BreadcrumbItem {
-  level: NavigationLevel;
-  label: string;
-  trackId?: string;
-  examCode?: string;
-}
 
 export function SubmissionsPage() {
   const [searchParams] = useSearchParams();
