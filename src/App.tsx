@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-route
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { initializeDatabase } from './utils/initializeDatabase';
+import { initializeAuthorizedUsers } from './utils/initializeAuthorizedUsers';
 
 // Pages
 import { NewHomePage } from './pages/NewHomePage';
