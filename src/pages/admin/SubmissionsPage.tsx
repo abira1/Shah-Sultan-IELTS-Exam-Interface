@@ -12,12 +12,15 @@ import {
   SendIcon,
   ArrowLeft,
   Filter,
-  X as CloseIcon
+  X as CloseIcon,
+  Download,
+  FileSpreadsheet
 } from 'lucide-react';
 import { storage, ExamSubmission } from '../../utils/storage';
 import { allTracks } from '../../data/tracks';
 import { examSessionService } from '../../services/examSessionService';
 import { useAuth } from '../../contexts/AuthContext';
+import { exportToExcel, exportSummaryToExcel } from '../../utils/exportExcel';
 
 type AnswerFilter = 'all' | 'answered' | 'unanswered';
 type SortField = 'name' | 'id' | 'time' | 'score';
