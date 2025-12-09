@@ -83,6 +83,14 @@ export function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/submissions"
+            element={
+              <ProtectedRoute role="admin">
+                <SubmissionsPage />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Teacher Routes (Protected) */}
           <Route
