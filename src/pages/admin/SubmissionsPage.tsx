@@ -77,7 +77,26 @@ export function SubmissionsPage() {
 
   useEffect(() => {
     loadSubmissions();
-  }, [user]);
+    
+    // Set up real-time listener
+    const unsubscribe = storage.subscribeToSubmissions((realTimeSubmissions) => {
+      console.log('Real-time update: Received submissions', realTimeSubmissions.length);
+      
+      // Filter by assigned tracks if user is a teacher
+      let filteredData = realTimeSubmissions;
+      if (role === 'teacher' && user?.assignedTracks && user.assignedTracks.length > 0) {
+        filteredData = realTimeSubmissions.filter(s => user.assignedTracks!.includes(s.trackId));
+      }
+      
+      setSubmissions(filteredData);
+    });
+
+    // Cleanup listener on unmount
+    return () => {
+      console.log('Unsubscribing from real-time updates');
+      unsubscribe();
+    };
+  }, [user, role]);
 
   useEffect(() => {
     filterAndSortSubmissions();
@@ -89,20 +108,24 @@ export function SubmissionsPage() {
     setAvailableExamCodes(codes);
   }, [submissions]);
 
-  const loadSubmissions = () => {
-    let data = storage.getSubmissions();
-    
-    // Filter by assigned tracks if user is a teacher
-    if (role === 'teacher' && user?.assignedTracks && user.assignedTracks.length > 0) {
-      data = data.filter(s => user.assignedTracks!.includes(s.trackId));
+  const loadSubmissions = async () => {
+    try {
+      let data = await storage.getSubmissions();
+      
+      // Filter by assigned tracks if user is a teacher
+      if (role === 'teacher' && user?.assignedTracks && user.assignedTracks.length > 0) {
+        data = data.filter(s => user.assignedTracks!.includes(s.trackId));
+      }
+      
+      setSubmissions(data);
+    } catch (error) {
+      console.error('Error loading submissions:', error);
     }
-    
-    setSubmissions(data);
   };
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     setIsRefreshing(true);
-    loadSubmissions();
+    await loadSubmissions();
     setTimeout(() => setIsRefreshing(false), 500);
   };
 
