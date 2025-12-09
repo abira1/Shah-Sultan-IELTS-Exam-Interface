@@ -130,7 +130,7 @@ export function ExamHeader({
 
           {/* Audio Player Controls */}
           {audioURL && (
-            <div className="flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg px-3 py-2 flex-shrink-0 w-full lg:w-auto lg:min-w-[320px] xl:min-w-[400px]" data-testid="audio-player-bar">
+            <div className="flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg px-3 py-2 flex-shrink-0 w-full lg:flex-1 lg:min-w-[400px] xl:min-w-[500px]" data-testid="audio-player-bar">
               <audio ref={setAudioRef} src={audioURL} preload="metadata" />
               
               {/* Audio Icon */}
