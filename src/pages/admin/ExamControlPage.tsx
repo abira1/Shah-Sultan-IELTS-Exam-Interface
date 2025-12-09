@@ -17,6 +17,8 @@ import { examSessionService, ExamSession } from '../../services/examSessionServi
 import { batchService } from '../../services/batchService';
 import { allTracks } from '../../data/tracks';
 import { format } from 'date-fns';
+import { getDatabase, ref, set } from 'firebase/database';
+import { app } from '../../firebase';
 
 export function ExamControlPage() {
   const [selectedTrackId, setSelectedTrackId] = useState<string>('');
