@@ -180,6 +180,9 @@ export function ExamPage({
       studentId,
       studentName,
       trackName: currentTrack.name,
+      trackId: currentTrack.id, // NEW
+      examCode: currentExamCode || undefined, // NEW
+      batchId: currentBatchId || undefined, // NEW
       answers,
       submittedAt: new Date().toISOString(),
       timeSpent: calculateTimeSpent(),
