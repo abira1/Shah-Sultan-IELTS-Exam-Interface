@@ -106,7 +106,22 @@ export const examSessionService = {
         createdAt: new Date().toISOString()
       };
 
+      // Create exam session
       await set(ref(db, `examSessions/${data.examCode}`), session);
+
+      // Auto-create submission folder in hierarchical structure
+      // submissions/{trackId}/{examCode}/
+      const submissionFolderPath = `submissions/${data.trackId}/${data.examCode}`;
+      await set(ref(db, `${submissionFolderPath}/_metadata`), {
+        trackId: data.trackId,
+        trackName: data.trackName,
+        examCode: data.examCode,
+        createdAt: new Date().toISOString(),
+        createdBy: data.createdBy,
+        totalSubmissions: 0
+      });
+
+      console.log(`Created submission folder at: ${submissionFolderPath}`);
 
       return { success: true, examCode: data.examCode };
     } catch (error) {
