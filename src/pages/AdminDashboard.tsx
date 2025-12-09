@@ -28,17 +28,29 @@ export function AdminDashboard() {
   useEffect(() => {
     loadSubmissions();
     loadExamStatus();
+    
+    // Set up real-time listener for submissions
+    const unsubscribe = storage.subscribeToSubmissions((realTimeSubmissions) => {
+      console.log('Admin Dashboard: Real-time update received', realTimeSubmissions.length);
+      setSubmissions(realTimeSubmissions);
+    });
+    
     const interval = setInterval(() => {
-      loadSubmissions();
       loadExamStatus();
     }, 30000);
-    return () => clearInterval(interval);
+    
+    return () => {
+      clearInterval(interval);
+      unsubscribe();
+    };
   }, []);
+  
   useEffect(() => {
     filterAndSortSubmissions();
   }, [submissions, searchQuery, sortField, sortDirection]);
-  const loadSubmissions = () => {
-    const data = storage.getSubmissions();
+  
+  const loadSubmissions = async () => {
+    const data = await storage.getSubmissions();
     setSubmissions(data);
   };
   const loadExamStatus = async () => {
