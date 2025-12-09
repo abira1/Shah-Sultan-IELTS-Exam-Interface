@@ -4,6 +4,7 @@ import { Section } from './examData';
 export interface Track {
   id: string;
   name: string;
+  shortName: string; // For exam code generation (e.g., '4M', 'PL', 'SS')
   description: string;
   duration: number; // in minutes
   totalQuestions: number;
