@@ -74,6 +74,14 @@ export function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/batches"
+            element={
+              <ProtectedRoute role="admin">
+                <BatchesPage />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Teacher Routes (Protected) */}
           <Route
