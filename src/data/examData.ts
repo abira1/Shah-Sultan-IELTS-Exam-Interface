@@ -78,10 +78,22 @@ export interface MapLabelingQuestion {
     value: string;
   }>;
 }
+export interface MultiColumnTableQuestion {
+  type: 'multi-column-table';
+  instruction: string;
+  title: string;
+  headers: string[];
+  rows: Array<{
+    cells: Array<{
+      content: string | { questionNumber: number };
+      colspan?: number;
+    }>;
+  }>;
+}
 export interface Section {
   sectionNumber: number;
   title: string;
-  questions: Array<TableGapQuestion | MultipleChoiceQuestion | SentenceCompletionQuestion | DropdownQuestion | DragAndDropQuestion | FlowChartQuestion | MapLabelingQuestion>;
+  questions: Array<TableGapQuestion | MultipleChoiceQuestion | SentenceCompletionQuestion | DropdownQuestion | DragAndDropQuestion | FlowChartQuestion | MapLabelingQuestion | MultiColumnTableQuestion>;
 }
 export const examData: Section[] = [{
   sectionNumber: 1,
