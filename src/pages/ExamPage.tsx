@@ -3,6 +3,7 @@ import { getDatabase, ref, get } from 'firebase/database';
 import { app } from '../firebase';
 import { ExamHeader } from '../components/ExamHeader';
 import { TableGapQuestion } from '../components/TableGapQuestion';
+import { MultiColumnTableQuestion } from '../components/MultiColumnTableQuestion';
 import { MultipleChoiceQuestion } from '../components/MultipleChoiceQuestion';
 import { SentenceCompletionQuestion } from '../components/SentenceCompletionQuestion';
 import { DropdownQuestion } from '../components/DropdownQuestion';
