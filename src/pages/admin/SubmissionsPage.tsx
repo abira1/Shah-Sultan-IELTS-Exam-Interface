@@ -47,6 +47,9 @@ export function SubmissionsPage() {
 
   // Available exam codes for filter
   const [availableExamCodes, setAvailableExamCodes] = useState<string[]>([]);
+  
+  // Export dropdown
+  const [showExportMenu, setShowExportMenu] = useState(false);
 
   useEffect(() => {
     loadSubmissions();
