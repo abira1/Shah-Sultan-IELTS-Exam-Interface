@@ -170,28 +170,45 @@ export const storage = {
   // Add submission (to Firebase with localStorage fallback)
   async addSubmission(submission: ExamSubmission): Promise<boolean> {
     try {
+      console.log('=== ADDING SUBMISSION ===');
+      console.log('Submission ID:', submission.id);
+      console.log('Track ID:', submission.trackId);
+      console.log('Exam Code:', submission.examCode);
+      
       // Always save to localStorage first (offline support)
+      console.log('Saving to localStorage...');
       localStorageHelper.add(submission);
+      console.log('✓ Saved to localStorage');
 
       if (!isOnline()) {
-        console.log('Offline: Submission saved to localStorage only');
+        console.log('⚠ Offline: Submission saved to localStorage only');
         return true;
       }
 
       // Validate required fields
       if (!submission.trackId || !submission.examCode) {
-        console.error('Cannot save to Firebase: Missing trackId or examCode');
+        console.error('❌ Cannot save to Firebase: Missing trackId or examCode');
+        console.error('Track ID:', submission.trackId);
+        console.error('Exam Code:', submission.examCode);
         return false;
       }
 
       // Save to Firebase hierarchical structure
       const path = getSubmissionPath(submission.trackId, submission.examCode, submission.id);
+      console.log('Firebase path:', path);
+      console.log('Saving to Firebase...');
+      
       await set(ref(db, path), submission);
       
-      console.log('Submission saved to Firebase:', submission.id);
+      console.log('✓ Submission saved to Firebase:', submission.id);
+      console.log('✓ Full path:', path);
       return true;
     } catch (error) {
-      console.error('Error adding submission to Firebase:', error);
+      console.error('❌ Error adding submission to Firebase:', error);
+      if (error instanceof Error) {
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+      }
       // Already saved to localStorage, so return true
       return true;
     }
