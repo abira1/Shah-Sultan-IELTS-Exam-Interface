@@ -61,6 +61,13 @@ export function ExamPage({
           const activeTrackId = data.activeTrackId;
           console.log('Active Track ID:', activeTrackId);
           
+          // Get exam code if available (NEW)
+          const examCode = data.examCode;
+          console.log('Active Exam Code:', examCode);
+          if (examCode) {
+            setCurrentExamCode(examCode);
+          }
+          
           if (!activeTrackId) {
             setTrackError('No active exam track selected. Please ask admin to start the exam with a track selected.');
             setIsLoadingTrack(false);
