@@ -162,11 +162,11 @@ export function ResultDetailPage() {
             </div>
             <div className="flex gap-2 print:hidden">
               <button
-                onClick={handlePrint}
-                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                onClick={() => setShowPrintPreview(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <Printer className="w-4 h-4" />
-                <span className="text-sm font-medium">Print</span>
+                <span className="text-sm font-medium">Print Result</span>
               </button>
             </div>
           </div>
