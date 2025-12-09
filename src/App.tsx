@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { initializeDatabase } from './utils/initializeDatabase';
 
@@ -12,6 +12,8 @@ import { StudentDashboard } from './pages/student/StudentDashboard';
 import { TeacherDashboard } from './pages/teacher/TeacherDashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { ExamPage } from './pages/ExamPage';
+import { StudentsPage } from './pages/admin/StudentsPage';
+import { StudentProfilePage } from './pages/admin/StudentProfilePage';
 
 export function App() {
   useEffect(() => {
