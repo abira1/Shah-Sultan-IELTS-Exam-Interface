@@ -218,6 +218,14 @@ export function AdminDashboard() {
               Students
             </button>
             <button
+              onClick={() => navigate('/admin/batches')}
+              className="px-4 py-2 font-medium transition-colors flex items-center gap-2 text-gray-600 hover:text-gray-900"
+              data-testid="batches-management-tab"
+            >
+              <Users className="w-4 h-4" />
+              Batches
+            </button>
+            <button
               onClick={() => setActiveTab('submissions')}
               className={`px-4 py-2 font-medium transition-colors flex items-center gap-2 ${
                 activeTab === 'submissions'
