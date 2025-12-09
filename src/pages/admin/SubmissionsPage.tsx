@@ -272,11 +272,21 @@ export function SubmissionsPage() {
     return submissions.filter(s => s.trackId === trackId);
   };
 
-  // Get unique exam codes for a track
+  // Get unique exam codes for a track (from both submissions and exam sessions)
   const getExamCodesForTrack = (trackId: string) => {
+    // Get exam codes from submissions
     const trackSubmissions = getTrackSubmissions(trackId);
-    const examCodes = [...new Set(trackSubmissions.map(s => s.examCode).filter(Boolean))] as string[];
-    return examCodes;
+    const submissionExamCodes = trackSubmissions.map(s => s.examCode).filter(Boolean) as string[];
+    
+    // Get exam codes from exam sessions
+    const trackSessions = examSessions.filter(s => s.trackId === trackId);
+    const sessionExamCodes = trackSessions.map(s => s.examCode);
+    
+    // Merge and deduplicate
+    const allExamCodes = [...new Set([...submissionExamCodes, ...sessionExamCodes])];
+    
+    // Sort by exam code (most recent first based on date in code)
+    return allExamCodes.sort((a, b) => b.localeCompare(a));
   };
 
   // Get submissions for a specific exam code
