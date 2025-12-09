@@ -911,6 +911,14 @@ export function SubmissionsPage() {
           )}
         </div>
       </main>
+
+      {/* Printable Result Modal */}
+      {printSubmission && (
+        <PrintableResult
+          submission={printSubmission}
+          onClose={() => setPrintSubmission(null)}
+        />
+      )}
     </div>
   );
 }
