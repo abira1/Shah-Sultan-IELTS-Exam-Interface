@@ -5,7 +5,7 @@ import { getDatabase, ref, get } from 'firebase/database';
 import { app } from '../firebase';
 import { storage, ExamSubmission } from '../utils/storage';
 import { TrackManagement } from '../components/TrackManagement';
-import { ExamController } from '../components/ExamController';
+import { ExamControlPage } from './admin/ExamControlPage';
 
 type AnswerFilter = 'all' | 'answered' | 'unanswered';
 type TabType = 'submissions' | 'tracks' | 'exam-control';
