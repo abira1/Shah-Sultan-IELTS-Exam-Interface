@@ -580,69 +580,171 @@ export function SubmissionsPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Statistics */}
-        <div className="mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
-              <div className="text-sm text-gray-600 mb-1">Total Submissions</div>
-              <div className="text-3xl font-bold text-gray-900">{filteredSubmissions.length}</div>
+        {/* Level 1: Tracks View */}
+        {navigationLevel === 'tracks' && (
+          <div>
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Select a Track</h2>
+              <p className="text-gray-600">Choose a track to view its exam sessions</p>
             </div>
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
-              <div className="text-sm text-gray-600 mb-1">Average Score</div>
-              <div className="text-3xl font-bold text-blue-600">
-                {filteredSubmissions.length > 0
-                  ? Math.round(
-                      filteredSubmissions.reduce((acc, s) => acc + (s.score || 0), 0) / filteredSubmissions.length
-                    )
-                  : 0}
-                %
+            
+            {displayTracks.length === 0 ? (
+              <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <FolderIcon size={32} />
+                </div>
+                <p className="text-gray-500 font-medium mb-2">No tracks available</p>
+                <p className="text-sm text-gray-400">
+                  {role === 'teacher' ? 'No tracks have been assigned to you yet' : 'No tracks found'}
+                </p>
               </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {displayTracks.map((track) => {
+                  const trackSubmissions = getTrackSubmissions(track.id);
+                  const examCodes = getExamCodesForTrack(track.id);
+                  const gradedCount = trackSubmissions.filter((s) => s.marks && Object.keys(s.marks).length > 0).length;
+                  const publishedCount = trackSubmissions.filter((s) => s.resultPublished).length;
+                  
+                  return (
+                    <button
+                      key={track.id}
+                      onClick={() => handleNavigateToTrack(track.id)}
+                      className="bg-white rounded-lg border-2 border-gray-200 p-6 text-left transition-all hover:border-blue-400 hover:shadow-lg hover:scale-105 group"
+                      data-testid={`track-folder-${track.id}`}
+                    >
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="flex-shrink-0">
+                          <FolderIcon size={48} className="text-blue-500 group-hover:text-blue-600 transition-colors" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-mono text-sm font-bold text-gray-500 mb-1">
+                            {track.shortName}
+                          </div>
+                          <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
+                            {track.name}
+                          </h3>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Exam Sessions</span>
+                          <span className="font-semibold text-blue-600">{examCodes.length}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Total Submissions</span>
+                          <span className="font-semibold text-gray-900">{trackSubmissions.length}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Average Score</span>
+                          <span className="font-semibold text-purple-600">
+                            {trackStats[track.id]?.avgScore || 0}%
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <div className="flex items-center gap-3 text-xs">
+                          <span className="text-green-600 font-medium">✓ {gradedCount} Graded</span>
+                          <span className="text-purple-600 font-medium">⬆ {publishedCount} Published</span>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Level 2: Exams View */}
+        {navigationLevel === 'exams' && currentTrackId && (
+          <div>
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Select an Exam Session</h2>
+              <p className="text-gray-600">Choose an exam session to view submissions</p>
             </div>
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
-              <div className="text-sm text-gray-600 mb-1">Graded</div>
-              <div className="text-3xl font-bold text-green-600">
-                {filteredSubmissions.filter((s) => s.marks && Object.keys(s.marks).length > 0).length}
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
-              <div className="text-sm text-gray-600 mb-1">Published</div>
-              <div className="text-3xl font-bold text-purple-600">
-                {filteredSubmissions.filter((s) => s.resultPublished).length}
-              </div>
+            
+            {/* Placeholder for Phase 3 */}
+            <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+              <p className="text-gray-500 font-medium mb-2">Exam sessions view - Coming in Phase 3</p>
+              <p className="text-sm text-gray-400">This will show all exam codes for the selected track</p>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Track Cards Overview */}
-        <div className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {displayTracks.map((track) => {
-            const trackSubmissions = submissions.filter((s) => s.trackId === track.id);
-            const isSelected = selectedTrackId === track.id;
-            return (
-              <button
-                key={track.id}
-                onClick={() => setSelectedTrackId(isSelected ? 'all' : track.id)}
-                className={`p-4 rounded-lg border-2 transition-all text-left ${
-                  isSelected
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 bg-white hover:border-gray-300'
-                }`}
-                data-testid={`track-card-${track.id}`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono font-bold text-gray-900">{track.shortName}</span>
-                  <span className="text-2xl font-bold text-blue-600">{trackSubmissions.length}</span>
+        {/* Level 3: Submissions Detail View */}
+        {navigationLevel === 'submissions' && (
+          <>
+            {/* Statistics */}
+            <div className="mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="bg-white p-6 rounded-lg border border-gray-200">
+                  <div className="text-sm text-gray-600 mb-1">Total Submissions</div>
+                  <div className="text-3xl font-bold text-gray-900">{filteredSubmissions.length}</div>
                 </div>
-                <p className="text-sm text-gray-700 font-medium mb-1">{track.name}</p>
-                <p className="text-xs text-gray-500">
-                  Avg: {trackStats[track.id]?.avgScore || 0}% • {track.duration} mins
-                </p>
-              </button>
-            );
-          })}
-        </div>
+                <div className="bg-white p-6 rounded-lg border border-gray-200">
+                  <div className="text-sm text-gray-600 mb-1">Average Score</div>
+                  <div className="text-3xl font-bold text-blue-600">
+                    {filteredSubmissions.length > 0
+                      ? Math.round(
+                          filteredSubmissions.reduce((acc, s) => acc + (s.score || 0), 0) / filteredSubmissions.length
+                        )
+                      : 0}
+                    %
+                  </div>
+                </div>
+                <div className="bg-white p-6 rounded-lg border border-gray-200">
+                  <div className="text-sm text-gray-600 mb-1">Graded</div>
+                  <div className="text-3xl font-bold text-green-600">
+                    {filteredSubmissions.filter((s) => s.marks && Object.keys(s.marks).length > 0).length}
+                  </div>
+                </div>
+                <div className="bg-white p-6 rounded-lg border border-gray-200">
+                  <div className="text-sm text-gray-600 mb-1">Published</div>
+                  <div className="text-3xl font-bold text-purple-600">
+                    {filteredSubmissions.filter((s) => s.resultPublished).length}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        {/* Submissions Table */}
+            {/* Track Cards Overview */}
+            <div className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {displayTracks.map((track) => {
+                const trackSubmissions = submissions.filter((s) => s.trackId === track.id);
+                const isSelected = selectedTrackId === track.id;
+                return (
+                  <button
+                    key={track.id}
+                    onClick={() => setSelectedTrackId(isSelected ? 'all' : track.id)}
+                    className={`p-4 rounded-lg border-2 transition-all text-left ${
+                      isSelected
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200 bg-white hover:border-gray-300'
+                    }`}
+                    data-testid={`track-card-${track.id}`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-mono font-bold text-gray-900">{track.shortName}</span>
+                      <span className="text-2xl font-bold text-blue-600">{trackSubmissions.length}</span>
+                    </div>
+                    <p className="text-sm text-gray-700 font-medium mb-1">{track.name}</p>
+                    <p className="text-xs text-gray-500">
+                      Avg: {trackStats[track.id]?.avgScore || 0}% • {track.duration} mins
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Submissions Table */}
+          </>
+        )}
+
+        {/* Submissions Table - Only for Level 3 */}
+        {navigationLevel === 'submissions' && (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           {filteredSubmissions.length === 0 ? (
             <div className="p-12 text-center">
