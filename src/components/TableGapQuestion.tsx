@@ -40,6 +40,24 @@ export function TableGapQuestion({
     questionNumber: number;
   }, isLabel: boolean = false, rowIndex?: number, isValueCell: boolean = false) => {
     
+    // Handle case where content itself is an object with questionNumber
+    if (typeof content === 'object' && 'questionNumber' in content) {
+      const questionNumber = content.questionNumber;
+      return (
+        <div className="inline-flex items-center gap-2">
+          <span className="text-gray-500 font-medium">({questionNumber})</span>
+          <input
+            type="text"
+            value={answers[questionNumber] || ''}
+            onChange={e => onAnswerChange(questionNumber, e.target.value)}
+            className="px-2 py-1 border-b-2 border-gray-400 bg-transparent focus:outline-none focus:border-blue-500 focus:bg-blue-50 transition-colors min-w-[120px] max-w-[200px]"
+            placeholder=""
+            data-testid={`table-gap-input-${questionNumber}`}
+          />
+        </div>
+      );
+    }
+    
     // If this is a value cell and the row has a question number, don't render separate input
     if (isValueCell && rowIndex !== undefined) {
       const questionNumber = findQuestionNumberForRow(rowIndex);
@@ -105,7 +123,7 @@ export function TableGapQuestion({
       }
     }
     
-    return <span className={isLabel ? 'font-medium' : ''}>{content}</span>;
+    return <span className={isLabel ? 'font-medium' : ''}>{typeof content === 'string' ? content : ''}</span>;
   };
   return <div className="space-y-4">
       <div className="bg-gray-50 border border-gray-200 rounded p-4">
