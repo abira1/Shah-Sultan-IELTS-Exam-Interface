@@ -44,6 +44,14 @@ export function SubmissionsPage() {
   const { user, role } = useAuth();
   const examCodeFilter = searchParams.get('examCode');
 
+  // Navigation state
+  const [navigationLevel, setNavigationLevel] = useState<NavigationLevel>('tracks');
+  const [currentTrackId, setCurrentTrackId] = useState<string | null>(null);
+  const [currentExamCode, setCurrentExamCode] = useState<string | null>(null);
+  const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([
+    { level: 'tracks', label: 'All Tracks' }
+  ]);
+
   const [submissions, setSubmissions] = useState<ExamSubmission[]>([]);
   const [filteredSubmissions, setFilteredSubmissions] = useState<ExamSubmission[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
