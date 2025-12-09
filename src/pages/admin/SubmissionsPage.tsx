@@ -17,6 +17,7 @@ import {
 import { storage, ExamSubmission } from '../../utils/storage';
 import { allTracks } from '../../data/tracks';
 import { examSessionService } from '../../services/examSessionService';
+import { useAuth } from '../../contexts/AuthContext';
 
 type AnswerFilter = 'all' | 'answered' | 'unanswered';
 type SortField = 'name' | 'id' | 'time' | 'score';
@@ -24,6 +25,7 @@ type SortField = 'name' | 'id' | 'time' | 'score';
 export function SubmissionsPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { user, role } = useAuth();
   const examCodeFilter = searchParams.get('examCode');
 
   const [submissions, setSubmissions] = useState<ExamSubmission[]>([]);
