@@ -161,6 +161,21 @@ export function ExamControlPage() {
       });
 
       if (result.success) {
+        // If starting immediately, update global exam status
+        if (startImmediately && result.examCode) {
+          const db = getDatabase(app);
+          await set(ref(db, 'exam/status'), {
+            isStarted: true,
+            activeTrackId: selectedTrackId,
+            trackName: track.name,
+            examCode: result.examCode, // NEW: Include exam code
+            startTime: new Date().toISOString(),
+            endTime: endDate.toISOString(),
+            duration: duration,
+            startedBy: 'admin'
+          });
+        }
+
         setSuccess(
           startImmediately
             ? `Exam ${result.examCode} started successfully!`
