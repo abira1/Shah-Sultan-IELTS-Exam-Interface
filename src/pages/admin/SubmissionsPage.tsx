@@ -755,7 +755,17 @@ export function SubmissionsPage() {
                                           </div>
                                         )}
                                       </div>
-                                      <div>
+                                      <div className="flex items-center gap-2">
+                                        {submission.marks && Object.keys(submission.marks).length > 0 && (
+                                          <button
+                                            onClick={() => setPrintSubmission(submission)}
+                                            className="px-4 py-2 rounded-lg font-medium flex items-center gap-2 bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                                            title="Print Result"
+                                          >
+                                            <Printer className="w-4 h-4" />
+                                            Print
+                                          </button>
+                                        )}
                                         {submission.resultPublished ? (
                                           <div className="text-center">
                                             <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-800 rounded-lg">
