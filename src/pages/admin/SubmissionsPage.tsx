@@ -744,16 +744,28 @@ export function SubmissionsPage() {
                     const publishedCount = examSubmissions.filter((s) => s.resultPublished).length;
                     const pendingCount = examSubmissions.length - gradedCount;
                     
-                    // Get the first submission date as the exam session date
-                    const firstSubmission = examSubmissions.reduce((earliest, current) => {
-                      const currentTime = current.submittedAt ? new Date(current.submittedAt).getTime() : 0;
-                      const earliestTime = earliest.submittedAt ? new Date(earliest.submittedAt).getTime() : 0;
-                      return currentTime < earliestTime ? current : earliest;
-                    }, examSubmissions[0]);
+                    // Get exam session info
+                    const examSession = examSessions.find(s => s.examCode === examCode);
                     
-                    const sessionDate = firstSubmission?.submittedAt 
-                      ? new Date(firstSubmission.submittedAt)
-                      : null;
+                    // Determine session date (prefer exam session created date, fallback to first submission)
+                    let sessionDate: Date | null = null;
+                    
+                    if (examSession) {
+                      // Use exam session date/time
+                      const dateTimeStr = `${examSession.date}T${examSession.startTime}`;
+                      sessionDate = new Date(dateTimeStr);
+                    } else if (examSubmissions.length > 0) {
+                      // Fallback to first submission date
+                      const firstSubmission = examSubmissions.reduce((earliest, current) => {
+                        const currentTime = current.submittedAt ? new Date(current.submittedAt).getTime() : 0;
+                        const earliestTime = earliest.submittedAt ? new Date(earliest.submittedAt).getTime() : 0;
+                        return currentTime < earliestTime ? current : earliest;
+                      }, examSubmissions[0]);
+                      
+                      sessionDate = firstSubmission?.submittedAt 
+                        ? new Date(firstSubmission.submittedAt)
+                        : null;
+                    }
                     
                     const formatDate = (date: Date | null) => {
                       if (!date) return 'Date not available';
