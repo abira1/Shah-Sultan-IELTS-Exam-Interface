@@ -13,6 +13,7 @@ export function ResultDetailPage() {
   const navigate = useNavigate();
   const [submission, setSubmission] = useState<ExamSubmission | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showPrintPreview, setShowPrintPreview] = useState(false);
 
   useEffect(() => {
     loadSubmission();
