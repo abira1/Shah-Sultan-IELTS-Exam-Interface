@@ -53,6 +53,7 @@ export function SubmissionsPage() {
   ]);
 
   const [submissions, setSubmissions] = useState<ExamSubmission[]>([]);
+  const [examSessions, setExamSessions] = useState<ExamSession[]>([]);
   const [filteredSubmissions, setFilteredSubmissions] = useState<ExamSubmission[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [answerFilter, setAnswerFilter] = useState<AnswerFilter>('all');
