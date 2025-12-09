@@ -7,7 +7,8 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: { username?: string; studentId?: string; password: string }, type: 'staff' | 'student') => Promise<{ success: boolean; error?: string }>;
-  logout: () => void;
+  loginWithGoogle: () => Promise<{ success: boolean; error?: string }>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,8 +35,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (type === 'student' && credentials.studentId) {
         response = await authService.loginStudent(credentials.studentId, credentials.password);
-      } else if (type === 'staff' && credentials.username) {
-        response = await authService.loginStaff(credentials.username, credentials.password);
       } else {
         return { success: false, error: 'Invalid credentials' };
       }
@@ -53,9 +52,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const logout = () => {
+  const loginWithGoogle = async (): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const response = await authService.loginWithGoogle();
+
+      if (response.success && response.user) {
+        setUser(response.user);
+        authService.saveUserSession(response.user);
+        return { success: true };
+      }
+
+      return { success: false, error: response.error };
+    } catch (error) {
+      console.error('Google login error:', error);
+      return { success: false, error: 'Login failed. Please try again.' };
+    }
+  };
+
+  const logout = async () => {
     setUser(null);
-    authService.logout();
+    await authService.logout();
   };
 
   const value: AuthContextType = {
@@ -64,6 +80,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isAuthenticated: !!user,
     isLoading,
     login,
+    loginWithGoogle,
     logout
   };
 
