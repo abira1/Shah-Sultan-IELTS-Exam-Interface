@@ -9,6 +9,7 @@ import { ExamControlPage } from './admin/ExamControlPage';
 import { RoleManagement } from '../components/RoleManagement';
 import { exportToExcel } from '../utils/exportExcel';
 import { useAuth } from '../contexts/AuthContext';
+import { MigrationUtility } from '../components/MigrationUtility';
 
 type AnswerFilter = 'all' | 'answered' | 'unanswered';
 type TabType = 'submissions' | 'tracks' | 'exam-control' | 'role-management';
