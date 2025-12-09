@@ -78,6 +78,7 @@ export function SubmissionsPage() {
 
   useEffect(() => {
     loadSubmissions();
+    loadExamSessions();
     
     // Set up real-time listener
     const unsubscribe = storage.subscribeToSubmissions((realTimeSubmissions) => {
