@@ -125,9 +125,26 @@ export function SubmissionsPage() {
     }
   };
 
+  const loadExamSessions = async () => {
+    try {
+      const sessions = await examSessionService.getAllExamSessions();
+      
+      // Filter by assigned tracks if user is a teacher
+      let filteredSessions = sessions;
+      if (role === 'teacher' && user?.assignedTracks && user.assignedTracks.length > 0) {
+        filteredSessions = sessions.filter(s => user.assignedTracks!.includes(s.trackId));
+      }
+      
+      setExamSessions(filteredSessions);
+    } catch (error) {
+      console.error('Error loading exam sessions:', error);
+    }
+  };
+
   const handleRefresh = async () => {
     setIsRefreshing(true);
     await loadSubmissions();
+    await loadExamSessions();
     setTimeout(() => setIsRefreshing(false), 500);
   };
 
