@@ -20,6 +20,26 @@
       "$uid": {
         ".validate": "newData.hasChildren(['studentName', 'studentId', 'answers', 'score', 'timestamp'])"
       }
+    },
+    "users": {
+      ".read": true,
+      ".write": true
+    },
+    "students": {
+      ".read": true,
+      ".write": true
+    },
+    "batches": {
+      ".read": true,
+      ".write": true
+    },
+    "authorizedUsers": {
+      ".read": true,
+      ".write": true
+    },
+    "examSessions": {
+      ".read": true,
+      ".write": true
     }
   }
 }
