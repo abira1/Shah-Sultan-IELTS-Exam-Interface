@@ -246,6 +246,9 @@ export function ExamPage({
             if (question.type === 'table-gap') {
               return <TableGapQuestion key={idx} instruction={question.instruction} title={question.title} rows={question.rows} answers={answers} onAnswerChange={handleAnswerChange} />;
             }
+            if (question.type === 'multi-column-table') {
+              return <MultiColumnTableQuestion key={idx} instruction={question.instruction} title={question.title} headers={question.headers} rows={question.rows} answers={answers} onAnswerChange={handleAnswerChange} />;
+            }
             if (question.type === 'multiple-choice') {
               return <MultipleChoiceQuestion key={idx} questionNumber={question.questionNumber} question={question.question} options={question.options} selectedAnswer={answers[question.questionNumber] || ''} onAnswerChange={handleAnswerChange} />;
             }
