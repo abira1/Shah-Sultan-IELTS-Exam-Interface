@@ -4,6 +4,7 @@ import { Track } from './track1';
 export const track2: Track = {
   id: 'track-2',
   name: 'IELTS Listening Test 2 - Academic Discussion',
+  shortName: 'AL',
   description: 'IELTS Listening Practice Test - University lecture and campus life',
   duration: 45,
   totalQuestions: 40,
