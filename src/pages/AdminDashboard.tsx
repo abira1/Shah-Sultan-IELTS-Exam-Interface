@@ -14,6 +14,7 @@ import { MigrationUtility } from '../components/MigrationUtility';
 type TabType = 'tracks' | 'exam-control' | 'role-management';
 export function AdminDashboard() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [submissions, setSubmissions] = useState<ExamSubmission[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('tracks');
