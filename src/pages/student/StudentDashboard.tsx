@@ -109,9 +109,11 @@ export function StudentDashboard() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <GraduationCap className="w-6 h-6 text-blue-600" />
-              </div>
+              <img 
+                src="/main-logo.png" 
+                alt="Logo" 
+                className="h-10 w-auto object-contain"
+              />
               <div>
                 <h1 className="text-xl font-bold text-gray-900">Student Dashboard</h1>
                 <p className="text-sm text-gray-600">{user?.name}</p>
