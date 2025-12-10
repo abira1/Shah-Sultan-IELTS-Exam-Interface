@@ -299,10 +299,24 @@ export function SubmissionsPage() {
       questionNumber: number;
       answer: string | null;
     }[] = [];
+    
+    // Ensure answers object exists
+    if (!submission.answers || typeof submission.answers !== 'object') {
+      // Return empty questions if no answers
+      for (let i = 1; i <= 40; i++) {
+        allQuestions.push({
+          questionNumber: i,
+          answer: null
+        });
+      }
+      return allQuestions;
+    }
+    
     for (let i = 1; i <= 40; i++) {
+      const answer = submission.answers[i];
       allQuestions.push({
         questionNumber: i,
-        answer: submission.answers[i] && submission.answers[i].trim() !== '' ? submission.answers[i] : null
+        answer: answer && typeof answer === 'string' && answer.trim() !== '' ? answer : null
       });
     }
     return allQuestions;
