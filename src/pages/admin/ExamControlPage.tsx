@@ -166,13 +166,17 @@ export function ExamControlPage() {
         // If starting immediately, update global exam status
         if (startImmediately && result.examCode) {
           const db = getDatabase(app);
+          // Calculate end time from NOW when starting immediately
+          const now = new Date();
+          const immediateEndDate = new Date(now.getTime() + duration * 60000);
+          
           await set(ref(db, 'exam/status'), {
             isStarted: true,
             activeTrackId: selectedTrackId,
             trackName: track.name,
             examCode: result.examCode, // NEW: Include exam code
-            startTime: new Date().toISOString(),
-            endTime: endDate.toISOString(),
+            startTime: now.toISOString(),
+            endTime: immediateEndDate.toISOString(),
             duration: duration,
             startedBy: 'admin'
           });
