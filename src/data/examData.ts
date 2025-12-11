@@ -90,10 +90,21 @@ export interface MultiColumnTableQuestion {
     }>;
   }>;
 }
+export interface MultipleChoiceMultiSelectQuestion {
+  type: 'multiple-choice-multi-select';
+  instruction: string;
+  question: string;
+  questionNumbers: number[];
+  maxSelections: number;
+  options: Array<{
+    label: string;
+    value: string;
+  }>;
+}
 export interface Section {
   sectionNumber: number;
   title: string;
-  questions: Array<TableGapQuestion | MultipleChoiceQuestion | SentenceCompletionQuestion | DropdownQuestion | DragAndDropQuestion | FlowChartQuestion | MapLabelingQuestion | MultiColumnTableQuestion>;
+  questions: Array<TableGapQuestion | MultipleChoiceQuestion | SentenceCompletionQuestion | DropdownQuestion | DragAndDropQuestion | FlowChartQuestion | MapLabelingQuestion | MultiColumnTableQuestion | MultipleChoiceMultiSelectQuestion>;
 }
 export const examData: Section[] = [{
   sectionNumber: 1,
