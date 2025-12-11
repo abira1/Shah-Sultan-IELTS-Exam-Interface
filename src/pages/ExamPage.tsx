@@ -5,6 +5,7 @@ import { ExamHeader } from '../components/ExamHeader';
 import { TableGapQuestion } from '../components/TableGapQuestion';
 import { MultiColumnTableQuestion } from '../components/MultiColumnTableQuestion';
 import { MultipleChoiceQuestion } from '../components/MultipleChoiceQuestion';
+import { MultipleChoiceMultiSelectQuestion } from '../components/MultipleChoiceMultiSelectQuestion';
 import { SentenceCompletionQuestion } from '../components/SentenceCompletionQuestion';
 import { DropdownQuestion } from '../components/DropdownQuestion';
 import { DragAndDropQuestion } from '../components/DragAndDropQuestion';
