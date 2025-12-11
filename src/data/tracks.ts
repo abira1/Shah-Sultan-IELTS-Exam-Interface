@@ -3,9 +3,10 @@ import { track1, Track } from './track1';
 import { track2 } from './track2';
 import { track3 } from './track3';
 import { track4 } from './track4';
+import { track5 } from './track5';
 
 // Export all tracks as an array
-export const allTracks: Track[] = [track1, track2, track3, track4];
+export const allTracks: Track[] = [track1, track2, track3, track4, track5];
 
 // Helper function to get track by ID
 export const getTrackById = (trackId: string): Track | undefined => {
