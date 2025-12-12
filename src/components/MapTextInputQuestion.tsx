@@ -49,19 +49,28 @@ export function MapTextInputQuestion({
                 top: `${label.position.y}%`,
                 transform: 'translate(-50%, -50%)'
               }}
-              className="min-w-[120px]"
+              className="min-w-[200px] max-w-[350px]"
               data-testid={`map-text-input-container-${label.questionNumber}`}
             >
-              <div className="bg-white bg-opacity-95 border-2 border-gray-800 rounded-lg p-2 shadow-md">
-                <div className="text-center mb-1">
-                  <span className="text-xs font-bold text-gray-900">({label.questionNumber})</span>
-                </div>
+              <div className="bg-white bg-opacity-95 border-2 border-gray-800 rounded-lg p-3 shadow-md">
+                {label.text && (
+                  <div className="mb-2">
+                    <p className="text-xs font-medium text-gray-900 leading-relaxed">
+                      {label.text}
+                    </p>
+                  </div>
+                )}
+                {!label.text && (
+                  <div className="text-center mb-1">
+                    <span className="text-xs font-bold text-gray-900">({label.questionNumber})</span>
+                  </div>
+                )}
                 <input
                   type="text"
                   value={answers[label.questionNumber] || ''}
                   onChange={(e) => handleInputChange(label.questionNumber, e.target.value)}
                   className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Type here"
+                  placeholder="Type answer here"
                   data-testid={`map-text-input-${label.questionNumber}`}
                 />
               </div>
