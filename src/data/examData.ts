@@ -127,6 +127,7 @@ export interface MapTextInputQuestion {
   labels: Array<{
     questionNumber: number;
     position: { x: number; y: number };
+    text?: string;
   }>;
 }
 export interface ParagraphGapQuestion {
