@@ -238,11 +238,11 @@ export const track6: Track = {
           instruction: 'Write NO MORE THAN TWO WORDS AND/OR NUMBERS for each answer.',
           imageUrl: 'https://customer-assets.emergentagent.com/job_0893d324-92cc-4e72-93ec-cbdce390970a/artifacts/8wqhgx2j_image%202.png',
           labels: [
-            { questionNumber: 36, position: { x: 15, y: 30 } },  // sphere, containing (36)
-            { questionNumber: 37, position: { x: 15, y: 50 } },  // sensitive (37) detector
-            { questionNumber: 38, position: { x: 15, y: 75 } },  // weight of water (38)
-            { questionNumber: 39, position: { x: 75, y: 45 } },  // Molecule splits, producing (39)
-            { questionNumber: 40, position: { x: 75, y: 70 } }   // (40) neutrinos, useful for further investigation
+            { questionNumber: 36, position: { x: 15, y: 30 }, text: 'sphere, containing (36)' },
+            { questionNumber: 37, position: { x: 15, y: 50 }, text: 'sensitive (37) detector' },
+            { questionNumber: 38, position: { x: 15, y: 75 }, text: 'weight of water (38)' },
+            { questionNumber: 39, position: { x: 75, y: 45 }, text: 'Molecule splits, producing (39) for analysis.' },
+            { questionNumber: 40, position: { x: 75, y: 70 }, text: 'Such knowledge can allow us to (40) neutrinos, useful for further investigation.' }
           ]
         }
       ]
