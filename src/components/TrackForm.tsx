@@ -13,6 +13,7 @@ export function TrackForm({ track, onSave, onCancel }: TrackFormProps) {
   const [formData, setFormData] = useState<Track>({
     id: track?.id || `track-${Date.now()}`,
     name: track?.name || '',
+    shortName: track?.shortName || '',
     description: track?.description || '',
     duration: track?.duration || 60,
     totalQuestions: track?.totalQuestions || 40,
