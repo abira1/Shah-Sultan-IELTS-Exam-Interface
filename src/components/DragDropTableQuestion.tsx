@@ -138,33 +138,8 @@ export function DragDropTableQuestion({
 
       {/* Drag and Drop Section */}
       <div className="space-y-4">
-        <h3 className="text-base font-semibold text-gray-900">Complete the questions below:</h3>
+        <h3 className="text-base font-semibold text-gray-900">Drag the letters from the table above to complete the questions below:</h3>
         
-        {/* Available Options */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-sm font-semibold text-gray-900 mb-3">Available Options (drag to answer):</p>
-          <div className="flex flex-wrap gap-2">
-            {options.map((option) => (
-              <div
-                key={option.value}
-                draggable={!isOptionUsed(option.value)}
-                onDragStart={(e) => handleDragStart(e, option.value)}
-                className={`px-3 py-2 rounded border-2 transition-all text-sm ${
-                  isOptionUsed(option.value)
-                    ? 'bg-gray-100 border-gray-300 opacity-50 cursor-not-allowed'
-                    : 'bg-white border-gray-300 cursor-move hover:border-blue-500 hover:bg-blue-50 hover:shadow-md'
-                } ${
-                  draggedOption === option.value ? 'opacity-50' : ''
-                }`}
-                data-testid={`drag-drop-table-option-${option.value}`}
-              >
-                <span className="font-bold text-gray-900">{option.value}.</span>{' '}
-                <span className="text-gray-700">{option.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Question Placeholders */}
         <div className="space-y-3">
           {items.map((item) => (
