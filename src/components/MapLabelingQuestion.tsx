@@ -140,36 +140,22 @@ export function MapLabelingQuestion({
         {/* Right side - Options (1 column width - smaller and responsive) */}
         <div className="lg:col-span-1 space-y-3">
           <h3 className="text-base font-semibold text-gray-900 mb-3">Options</h3>
-          <div className="bg-blue-50 border border-blue-200 rounded p-2 mb-3">
-            <p className="text-xs text-gray-700 leading-relaxed">
-              {options.map((opt, idx) => (
-                <span key={opt.value} className="block mb-1">
-                  <span className="font-semibold">{opt.value}.</span> {opt.label}
-                </span>
-              ))}
-            </p>
-          </div>
           <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
             {options.map((option) => (
               <div
                 key={option.value}
                 draggable={!isOptionUsed(option.value)}
                 onDragStart={(e) => handleDragStart(e, option.value)}
-                className={`p-2 rounded border-2 transition-all text-xs ${
+                className={`p-3 rounded border-2 transition-all text-sm ${
                   isOptionUsed(option.value)
                     ? 'bg-gray-100 border-gray-300 opacity-50 cursor-not-allowed'
-                    : 'bg-white border-gray-300 cursor-move hover:border-blue-500 hover:bg-blue-50 hover:shadow-sm'
+                    : 'bg-white border-gray-300 cursor-move hover:border-blue-500 hover:bg-blue-50 hover:shadow-md'
                 } ${
                   draggedOption === option.value ? 'opacity-50' : ''
                 }`}
                 data-testid={`map-draggable-${option.value}`}
               >
-                <div className="flex items-start gap-1">
-                  <span className="text-gray-900 font-bold flex-shrink-0">
-                    {option.value}.
-                  </span>
-                  <span className="text-gray-700">{option.label}</span>
-                </div>
+                <span className="text-gray-700">{option.label}</span>
               </div>
             ))}
           </div>
