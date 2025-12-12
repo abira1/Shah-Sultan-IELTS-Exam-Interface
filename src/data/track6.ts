@@ -128,14 +128,8 @@ export const track6: Track = {
           rows: [
             {
               cells: [
-                { content: { questionNumber: 25 } },
-                { content: 'flowchart, showing courtroom processes' }
-              ]
-            },
-            {
-              cells: [
-                { content: 'Studies' },
-                { content: 'and (26)..........' }
+                { content: '(25).......... Studies' },
+                { content: 'flowchart, showing courtroom processes and (26)..........' }
               ]
             },
             {
