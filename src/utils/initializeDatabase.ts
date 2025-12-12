@@ -72,7 +72,7 @@ export const initializeDatabase = async () => {
         endDate: '2025-06-30',
         schedule: 'Mon-Fri 9AM-12PM',
         totalStudents: 0,
-        assignedTracks: ['track-1', 'track-2', 'track-4'],
+        assignedTracks: ['track-1', 'track-4'],
         status: 'active',
         createdAt: new Date().toISOString(),
         createdBy: 'admin-default'
