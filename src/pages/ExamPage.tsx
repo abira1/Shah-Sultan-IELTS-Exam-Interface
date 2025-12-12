@@ -13,6 +13,7 @@ import { FlowChartQuestion } from '../components/FlowChartQuestion';
 import { MapLabelingQuestion } from '../components/MapLabelingQuestion';
 import { DragDropTableQuestion } from '../components/DragDropTableQuestion';
 import { MapTextInputQuestion } from '../components/MapTextInputQuestion';
+import { ParagraphGapQuestion } from '../components/ParagraphGapQuestion';
 import { QuestionNavigator } from '../components/QuestionNavigator';
 import { audioService } from '../services/audioService';
 import { getTrackById, Track } from '../data/tracks';
