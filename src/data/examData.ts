@@ -101,10 +101,38 @@ export interface MultipleChoiceMultiSelectQuestion {
     value: string;
   }>;
 }
+export interface DragDropTableQuestion {
+  type: 'drag-drop-table';
+  instruction: string;
+  title: string;
+  tableData: {
+    headers: string[];
+    rows: Array<{
+      cells: Array<string | { value: string }>;
+    }>;
+  };
+  items: Array<{
+    questionNumber: number;
+    label: string;
+  }>;
+  options: Array<{
+    label: string;
+    value: string;
+  }>;
+}
+export interface MapTextInputQuestion {
+  type: 'map-text-input';
+  instruction: string;
+  imageUrl: string;
+  labels: Array<{
+    questionNumber: number;
+    position: { x: number; y: number };
+  }>;
+}
 export interface Section {
   sectionNumber: number;
   title: string;
-  questions: Array<TableGapQuestion | MultipleChoiceQuestion | SentenceCompletionQuestion | DropdownQuestion | DragAndDropQuestion | FlowChartQuestion | MapLabelingQuestion | MultiColumnTableQuestion | MultipleChoiceMultiSelectQuestion>;
+  questions: Array<TableGapQuestion | MultipleChoiceQuestion | SentenceCompletionQuestion | DropdownQuestion | DragAndDropQuestion | FlowChartQuestion | MapLabelingQuestion | MultiColumnTableQuestion | MultipleChoiceMultiSelectQuestion | DragDropTableQuestion | MapTextInputQuestion>;
 }
 export const examData: Section[] = [{
   sectionNumber: 1,
