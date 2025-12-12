@@ -417,6 +417,12 @@ export function ExamPage({
             if (question.type === 'map-labeling') {
               return <MapLabelingQuestion key={idx} instruction={question.instruction} imageUrl={question.imageUrl} labels={question.labels} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
             }
+            if (question.type === 'drag-drop-table') {
+              return <DragDropTableQuestion key={idx} instruction={question.instruction} title={question.title} tableData={question.tableData} items={question.items} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
+            }
+            if (question.type === 'map-text-input') {
+              return <MapTextInputQuestion key={idx} instruction={question.instruction} imageUrl={question.imageUrl} labels={question.labels} answers={answers} onAnswerChange={handleAnswerChange} />;
+            }
             return null;
           })}
           </div>
