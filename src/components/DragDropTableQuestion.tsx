@@ -156,7 +156,7 @@ export function DragDropTableQuestion({
                   onDragOver={(e) => handleDragOver(e, item.questionNumber)}
                   onDragLeave={handleDragLeave}
                   onDrop={(e) => handleDrop(e, item.questionNumber)}
-                  className={`flex-shrink-0 min-w-[200px] border-2 border-dashed rounded px-4 py-2 transition-all ${
+                  className={`flex-shrink-0 min-w-[120px] border-2 border-dashed rounded px-4 py-2 transition-all ${
                     hoveredQuestion === item.questionNumber
                       ? 'border-blue-500 bg-blue-50'
                       : 'border-gray-400 bg-gray-50'
@@ -165,8 +165,8 @@ export function DragDropTableQuestion({
                 >
                   {answers[item.questionNumber] ? (
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-semibold text-blue-700">
-                        {answers[item.questionNumber]}. {getOptionLabel(answers[item.questionNumber])}
+                      <span className="text-lg font-bold text-blue-700">
+                        {answers[item.questionNumber]}
                       </span>
                       <button
                         onClick={() => handleRemove(item.questionNumber)}
