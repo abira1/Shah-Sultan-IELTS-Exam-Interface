@@ -168,6 +168,21 @@ export function TrackManagement() {
     }
   };
 
+  // Filter tracks by active tab
+  const filteredTracks = tracks.filter(track => track.trackType === activeTab);
+  
+  // Get tab info
+  const getTabInfo = (type: TrackTypeTab) => {
+    switch (type) {
+      case 'listening':
+        return { icon: Headphones, color: 'blue', label: 'Listening' };
+      case 'reading':
+        return { icon: BookOpen, color: 'green', label: 'Reading' };
+      case 'writing':
+        return { icon: PenTool, color: 'orange', label: 'Writing' };
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -185,8 +200,54 @@ export function TrackManagement() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Track Management</h2>
-          <p className="text-gray-600 mt-1">Manage audio for hardcoded exam tracks</p>
+          <p className="text-gray-600 mt-1">Manage tracks across three exam types</p>
         </div>
+      </div>
+
+      {/* Tab Navigation */}
+      <div className="border-b border-gray-200">
+        <nav className="flex gap-8" aria-label="Track types">
+          {(['listening', 'reading', 'writing'] as TrackTypeTab[]).map((type) => {
+            const tabInfo = getTabInfo(type);
+            const Icon = tabInfo.icon;
+            const isActive = activeTab === type;
+            const colorClasses = {
+              listening: {
+                active: 'border-blue-600 text-blue-600',
+                inactive: 'border-transparent text-gray-500 hover:text-blue-600 hover:border-blue-300'
+              },
+              reading: {
+                active: 'border-green-600 text-green-600',
+                inactive: 'border-transparent text-gray-500 hover:text-green-600 hover:border-green-300'
+              },
+              writing: {
+                active: 'border-orange-600 text-orange-600',
+                inactive: 'border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-300'
+              }
+            };
+            
+            return (
+              <button
+                key={type}
+                onClick={() => setActiveTab(type)}
+                className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  isActive ? colorClasses[type].active : colorClasses[type].inactive
+                }`}
+                data-testid={`tab-${type}`}
+              >
+                <Icon className="w-5 h-5" />
+                {tabInfo.label}
+                <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
+                  isActive 
+                    ? `bg-${tabInfo.color}-100 text-${tabInfo.color}-700` 
+                    : 'bg-gray-100 text-gray-600'
+                }`}>
+                  {tracks.filter(t => t.trackType === type).length}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
       </div>
 
       {/* Messages */}
