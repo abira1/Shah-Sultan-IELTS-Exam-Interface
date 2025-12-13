@@ -327,20 +327,30 @@ export function SubmissionsPage() {
     }
   };
 
-  // Get submissions grouped by track
+  // Get submissions grouped by track (filtered by test type)
   const getTrackSubmissions = (trackId: string) => {
-    return submissions.filter(s => s.trackId === trackId);
+    return submissions.filter(s => {
+      if (s.trackId !== trackId) return false;
+      
+      // Filter by test type
+      const session = examSessions.find(es => es.examCode === s.examCode);
+      const testType = session?.testType || 'partial'; // Default to partial if not specified
+      return testType === currentTestType;
+    });
   };
 
-  // Get unique exam codes for a track (from both submissions and exam sessions)
+  // Get unique exam codes for a track (from both submissions and exam sessions) filtered by test type
   const getExamCodesForTrack = (trackId: string) => {
+    // Filter exam sessions by track and test type
+    const trackSessions = examSessions.filter(s => {
+      const testType = s.testType || 'partial';
+      return s.trackId === trackId && testType === currentTestType;
+    });
+    const sessionExamCodes = trackSessions.map(s => s.examCode);
+    
     // Get exam codes from submissions
     const trackSubmissions = getTrackSubmissions(trackId);
     const submissionExamCodes = trackSubmissions.map(s => s.examCode).filter(Boolean) as string[];
-    
-    // Get exam codes from exam sessions
-    const trackSessions = examSessions.filter(s => s.trackId === trackId);
-    const sessionExamCodes = trackSessions.map(s => s.examCode);
     
     // Merge and deduplicate
     const allExamCodes = [...new Set([...submissionExamCodes, ...sessionExamCodes])];
@@ -349,8 +359,19 @@ export function SubmissionsPage() {
     return allExamCodes.sort((a, b) => b.localeCompare(a));
   };
 
+  // Get mock exam sessions (test type = 'mock')
+  const getMockExamSessions = () => {
+    return examSessions.filter(s => {
+      const testType = s.testType || 'partial';
+      return testType === 'mock';
+    }).sort((a, b) => b.examCode.localeCompare(a.examCode));
+  };
+
   // Get submissions for a specific exam code
   const getExamCodeSubmissions = (examCode: string) => {
+    if (currentTestType === 'mock') {
+      return submissions.filter(s => s.examCode === examCode);
+    }
     return submissions.filter(s => s.examCode === examCode && s.trackId === currentTrackId);
   };
 
