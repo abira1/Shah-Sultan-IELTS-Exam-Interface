@@ -136,10 +136,79 @@ export interface ParagraphGapQuestion {
   paragraph: string;
   questionNumbers: number[];
 }
+
+// NEW: Reading-specific question types
+export interface TrueFalseNotGivenQuestion {
+  type: 'true-false-not-given';
+  instruction: string;
+  statements: Array<{
+    questionNumber: number;
+    statement: string;
+  }>;
+}
+
+export interface YesNoNotGivenQuestion {
+  type: 'yes-no-not-given';
+  instruction: string;
+  statements: Array<{
+    questionNumber: number;
+    statement: string;
+  }>;
+}
+
+export interface MatchingHeadingsQuestion {
+  type: 'matching-headings';
+  instruction: string;
+  paragraphs: Array<{
+    questionNumber: number;
+    paragraphLabel: string;
+    content: string;
+  }>;
+  headings: Array<{
+    label: string;
+    value: string;
+  }>;
+}
+
+export interface ReadingPassage {
+  title: string;
+  content: string;
+}
+
+// NEW: Writing-specific question types
+export interface WritingTaskQuestion {
+  type: 'writing-task';
+  taskNumber: 1 | 2;
+  title: string;
+  prompt: string;
+  minWords: number;
+  maxWords?: number;
+  timeRecommended: number; // in minutes
+  instruction: string;
+}
+
 export interface Section {
   sectionNumber: number;
   title: string;
-  questions: Array<TableGapQuestion | MultipleChoiceQuestion | SentenceCompletionQuestion | DropdownQuestion | DragAndDropQuestion | FlowChartQuestion | MapLabelingQuestion | MultiColumnTableQuestion | MultipleChoiceMultiSelectQuestion | DragDropTableQuestion | MapTextInputQuestion | ParagraphGapQuestion>;
+  passage?: ReadingPassage; // For reading tracks
+  questions: Array<
+    | TableGapQuestion
+    | MultipleChoiceQuestion
+    | SentenceCompletionQuestion
+    | DropdownQuestion
+    | DragAndDropQuestion
+    | FlowChartQuestion
+    | MapLabelingQuestion
+    | MultiColumnTableQuestion
+    | MultipleChoiceMultiSelectQuestion
+    | DragDropTableQuestion
+    | MapTextInputQuestion
+    | ParagraphGapQuestion
+    | TrueFalseNotGivenQuestion
+    | YesNoNotGivenQuestion
+    | MatchingHeadingsQuestion
+    | WritingTaskQuestion
+  >;
 }
 export const examData: Section[] = [{
   sectionNumber: 1,
