@@ -53,6 +53,11 @@ export function ExamPage({
   const [startTime] = useState(Date.now());
   const [examEndTime, setExamEndTime] = useState<number | null>(null);
   const [isTimeWarning, setIsTimeWarning] = useState(false);
+  const [isTimeCritical, setIsTimeCritical] = useState(false);
+  
+  // Mock test: Individual track timers
+  const [trackEndTimes, setTrackEndTimes] = useState<number[]>([]);
+  const [currentTrackTimeRemaining, setCurrentTrackTimeRemaining] = useState('--:--');
   
   // Multi-track support
   const [testType, setTestType] = useState<'partial' | 'mock'>('partial');
