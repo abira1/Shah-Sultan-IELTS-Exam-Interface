@@ -73,10 +73,13 @@ export function ExamControlPage() {
   }, []);
 
   useEffect(() => {
-    if (selectedTrackId) {
+    // Generate exam code when relevant fields change
+    if (testType === 'partial' && partialSelectedTrack) {
+      generateExamCode();
+    } else if (testType === 'mock' && mockTracks.listening && mockTracks.reading && mockTracks.writing) {
       generateExamCode();
     }
-  }, [selectedTrackId, examDate]);
+  }, [testType, partialSelectedTrack, mockTracks, examDate]);
 
   const loadBatches = async () => {
     const allBatches = await batchService.getAllBatches();
