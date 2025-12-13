@@ -241,7 +241,6 @@ export function SubmissionsPage() {
     if (!track) return;
 
     setCurrentTrackId(trackId);
-    setCurrentExamCode(null);
     setNavigationLevel('exams');
     setBreadcrumbs([
       { level: 'categories', label: 'Exam Submissions' },
