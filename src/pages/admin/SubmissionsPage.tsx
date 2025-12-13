@@ -728,8 +728,92 @@ export function SubmissionsPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Level 1: Tracks View */}
-        {navigationLevel === 'tracks' && (
+        {/* Level 0: Categories View - Initial Folders */}
+        {navigationLevel === 'categories' && (
+          <div>
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Exam Submissions</h2>
+              <p className="text-gray-600">Select test type to view submissions</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {/* Partial Tests Folder */}
+              <button
+                onClick={handleNavigateToPartial}
+                className="bg-white rounded-xl border-2 border-gray-200 p-8 text-left transition-all hover:border-blue-400 hover:shadow-xl hover:scale-105 group"
+                data-testid="partial-tests-folder"
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="mb-6">
+                    <FolderIcon size={80} className="text-blue-500 group-hover:text-blue-600 transition-colors" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                    Partial Tests
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    Single track tests - View by track, then exam sessions
+                  </p>
+                  <div className="w-full space-y-3">
+                    <div className="flex items-center justify-between text-sm bg-gray-50 px-4 py-2 rounded-lg">
+                      <span className="text-gray-600">Total Sessions</span>
+                      <span className="font-semibold text-blue-600">
+                        {examSessions.filter(s => !s.testType || s.testType === 'partial').length}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm bg-gray-50 px-4 py-2 rounded-lg">
+                      <span className="text-gray-600">Total Submissions</span>
+                      <span className="font-semibold text-gray-900">
+                        {submissions.filter(sub => {
+                          const session = examSessions.find(s => s.examCode === sub.examCode);
+                          return !session?.testType || session.testType === 'partial';
+                        }).length}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </button>
+
+              {/* Mock Tests Folder */}
+              <button
+                onClick={handleNavigateToMock}
+                className="bg-white rounded-xl border-2 border-gray-200 p-8 text-left transition-all hover:border-purple-400 hover:shadow-xl hover:scale-105 group"
+                data-testid="mock-tests-folder"
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="mb-6">
+                    <FolderIcon size={80} className="text-purple-500 group-hover:text-purple-600 transition-colors" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                    Mock Tests
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    Full mock exams - Multiple tracks combined
+                  </p>
+                  <div className="w-full space-y-3">
+                    <div className="flex items-center justify-between text-sm bg-gray-50 px-4 py-2 rounded-lg">
+                      <span className="text-gray-600">Total Sessions</span>
+                      <span className="font-semibold text-purple-600">
+                        {examSessions.filter(s => s.testType === 'mock').length}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm bg-gray-50 px-4 py-2 rounded-lg">
+                      <span className="text-gray-600">Total Submissions</span>
+                      <span className="font-semibold text-gray-900">
+                        {submissions.filter(sub => {
+                          const session = examSessions.find(s => s.examCode === sub.examCode);
+                          return session?.testType === 'mock';
+                        }).length}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Level 1: Tracks View (Partial Tests) */}
+        {navigationLevel === 'tracks' && currentTestType === 'partial' && (
           <div>
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Select a Track</h2>
