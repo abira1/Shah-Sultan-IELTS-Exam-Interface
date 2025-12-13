@@ -300,7 +300,6 @@ export function SubmissionsPage() {
         setNavigationLevel('exams');
         setCurrentTestType('mock');
         setCurrentTrackId(null);
-        setCurrentExamCode(null);
         setBreadcrumbs([
           { level: 'categories', label: 'Exam Submissions' },
           { level: 'exams', label: 'Mock Tests', testType: 'mock' }
