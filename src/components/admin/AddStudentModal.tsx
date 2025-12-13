@@ -166,30 +166,49 @@ export function AddStudentModal({ onClose, batches, createdBy }: AddStudentModal
               </p>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3">
+                <button
+                  onClick={handleCopyCredentials}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  data-testid="copy-credentials-btn"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      Copy Credentials
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={handlePrint}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                >
+                  <Printer className="w-4 h-4" />
+                  Print
+                </button>
+              </div>
               <button
-                onClick={handleCopyCredentials}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                data-testid="copy-credentials-btn"
+                onClick={handleCopyHTMLEmail}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                data-testid="copy-html-email-btn"
               >
-                {copied ? (
+                {copiedEmail ? (
                   <>
                     <Check className="w-4 h-4" />
-                    Copied!
+                    HTML Email Copied!
                   </>
                 ) : (
                   <>
-                    <Copy className="w-4 h-4" />
-                    Copy Credentials
+                    <Mail className="w-4 h-4" />
+                    Copy HTML Email
                   </>
                 )}
-              </button>
-              <button
-                onClick={handlePrint}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-              >
-                <Printer className="w-4 h-4" />
-                Print
               </button>
             </div>
 
