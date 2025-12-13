@@ -3,13 +3,39 @@ import { track1, Track } from './track1';
 import { track4 } from './track4';
 import { track5 } from './track5';
 import { track6 } from './track6';
+import { trackReading1 } from './track-reading-1';
+import { trackWriting1 } from './track-writing-1';
 
 // Export all tracks as an array
-export const allTracks: Track[] = [track1, track4, track5, track6];
+export const allTracks: Track[] = [
+  // Listening Tracks
+  track1, 
+  track4, 
+  track5, 
+  track6,
+  // Reading Tracks
+  trackReading1,
+  // Writing Tracks
+  trackWriting1
+];
 
 // Helper function to get track by ID
 export const getTrackById = (trackId: string): Track | undefined => {
   return allTracks.find(track => track.id === trackId);
+};
+
+// Helper function to get tracks by type
+export const getTracksByType = (type: 'listening' | 'reading' | 'writing'): Track[] => {
+  return allTracks.filter(track => track.trackType === type);
+};
+
+// Helper function to get all tracks grouped by type
+export const getAllTracksByType = () => {
+  return {
+    listening: getTracksByType('listening'),
+    reading: getTracksByType('reading'),
+    writing: getTracksByType('writing')
+  };
 };
 
 // Helper function to get track names for dropdown
@@ -18,8 +44,34 @@ export const getTrackOptions = () => {
     id: track.id,
     name: track.name,
     duration: track.duration,
-    totalQuestions: track.totalQuestions
+    totalQuestions: track.totalQuestions,
+    trackType: track.trackType
   }));
+};
+
+// Helper function to get track options grouped by type
+export const getTrackOptionsGrouped = () => {
+  const grouped = getAllTracksByType();
+  return {
+    listening: grouped.listening.map(track => ({
+      id: track.id,
+      name: track.name,
+      duration: track.duration,
+      totalQuestions: track.totalQuestions
+    })),
+    reading: grouped.reading.map(track => ({
+      id: track.id,
+      name: track.name,
+      duration: track.duration,
+      totalQuestions: track.totalQuestions
+    })),
+    writing: grouped.writing.map(track => ({
+      id: track.id,
+      name: track.name,
+      duration: track.duration,
+      totalQuestions: track.totalQuestions
+    }))
+  };
 };
 
 // Export Track type for use in other files
