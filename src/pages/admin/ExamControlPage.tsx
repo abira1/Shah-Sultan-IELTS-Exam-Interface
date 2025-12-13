@@ -647,29 +647,40 @@ export function ExamControlPage() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Duration (minutes) <span className="text-red-500">*</span>
             </label>
-            <div className="flex gap-2 mb-3">
-              {[30, 45, 60, 90].map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  onClick={() => setDuration(m)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium border ${
-                    duration === m
-                      ? 'bg-blue-600 text-white border-blue-600'
-                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  {m}m
-                </button>
-              ))}
-            </div>
-            <input
-              type="number"
-              min={1}
-              value={duration}
-              onChange={(e) => setDuration(Number(e.target.value))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            {testType === 'mock' ? (
+              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <p className="text-sm text-gray-600 mb-1">
+                  Duration is automatically calculated based on selected tracks
+                </p>
+                <p className="text-2xl font-bold text-gray-900">{duration} minutes</p>
+              </div>
+            ) : (
+              <>
+                <div className="flex gap-2 mb-3">
+                  {[30, 45, 60, 90].map((m) => (
+                    <button
+                      key={m}
+                      type="button"
+                      onClick={() => setDuration(m)}
+                      className={`px-4 py-2 rounded-md text-sm font-medium border ${
+                        duration === m
+                          ? 'bg-blue-600 text-white border-blue-600'
+                          : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      {m}m
+                    </button>
+                  ))}
+                </div>
+                <input
+                  type="number"
+                  min={1}
+                  value={duration}
+                  onChange={(e) => setDuration(Number(e.target.value))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </>
+            )}
           </div>
 
           {/* Allowed Batches */}
