@@ -251,7 +251,6 @@ export function SubmissionsPage() {
   };
 
   const handleNavigateToExamCode = (examCode: string) => {
-    setCurrentExamCode(examCode);
     setNavigationLevel('submissions');
     
     if (currentTestType === 'mock') {
