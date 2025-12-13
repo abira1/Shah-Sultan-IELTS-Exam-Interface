@@ -943,7 +943,18 @@ export function ExamControlPage() {
                 {completedExams.map((exam) => (
                   <tr key={exam.examCode} className="hover:bg-gray-50">
                     <td className="px-4 py-3">
-                      <span className="font-mono font-semibold text-gray-900">{exam.examCode}</span>
+                      <div className="flex flex-col gap-1">
+                        <span className="font-mono font-semibold text-gray-900">{exam.examCode}</span>
+                        {exam.testType && (
+                          <span className={`inline-block px-2 py-0.5 text-xs font-medium rounded w-fit ${
+                            exam.testType === 'mock' 
+                              ? 'bg-purple-100 text-purple-700' 
+                              : 'bg-blue-100 text-blue-700'
+                          }`}>
+                            {exam.testType === 'mock' ? 'Mock' : 'Partial'}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-4 py-3 text-sm text-gray-700">{exam.trackName}</td>
                     <td className="px-4 py-3 text-sm text-gray-600">
