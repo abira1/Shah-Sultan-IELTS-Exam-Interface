@@ -269,6 +269,7 @@ export function ExamControlPage() {
             trackName: trackName,
             testType: testType,
             selectedTracks: selectedTracks,
+            trackDurations: testType === 'mock' ? mockDurations : undefined,
             examCode: result.examCode,
             startTime: now.toISOString(),
             endTime: immediateEndDate.toISOString(),
