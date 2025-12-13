@@ -10,6 +10,7 @@ interface ExamHeaderProps {
   isTimeWarning?: boolean;
   audioURL?: string | null;
   autoPlayAudio?: boolean;
+  trackType?: 'listening' | 'reading' | 'writing';
 }
 
 export function ExamHeader({
