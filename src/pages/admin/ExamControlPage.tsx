@@ -800,6 +800,15 @@ export function ExamControlPage() {
                   <div className="flex items-center gap-3 mb-2">
                     <span className="font-mono font-bold text-green-700">{exam.examCode}</span>
                     <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">ACTIVE</span>
+                    {exam.testType && (
+                      <span className={`px-2 py-1 text-xs font-medium rounded ${
+                        exam.testType === 'mock' 
+                          ? 'bg-purple-100 text-purple-700' 
+                          : 'bg-blue-100 text-blue-700'
+                      }`}>
+                        {exam.testType === 'mock' ? 'MOCK TEST' : 'PARTIAL TEST'}
+                      </span>
+                    )}
                   </div>
                   <p className="text-sm text-gray-700 mb-1">
                     <FileText className="w-4 h-4 inline mr-1" />
