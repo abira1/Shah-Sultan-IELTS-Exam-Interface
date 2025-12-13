@@ -50,7 +50,6 @@ export function SubmissionsPage() {
   const [navigationLevel, setNavigationLevel] = useState<NavigationLevel>('categories');
   const [currentTestType, setCurrentTestType] = useState<TestType | null>(null);
   const [currentTrackId, setCurrentTrackId] = useState<string | null>(null);
-  const [currentExamCode, setCurrentExamCode] = useState<string | null>(null);
   const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([
     { level: 'categories', label: 'Exam Submissions' }
   ]);
