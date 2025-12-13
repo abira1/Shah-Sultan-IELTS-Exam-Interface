@@ -8,6 +8,7 @@ export interface Track {
   description: string;
   duration: number; // in minutes
   totalQuestions: number;
+  trackType: 'listening' | 'reading' | 'writing'; // NEW FIELD
   audioURL: string | null;
   sections: Section[];
 }
@@ -19,6 +20,7 @@ export const track1: Track = {
   description: 'IELTS Listening Practice Test - Application form completion',
   duration: 60,
   totalQuestions: 40,
+  trackType: 'listening',
   audioURL: null, // Will use audio from Firebase if uploaded
   sections: [{
     sectionNumber: 1,
