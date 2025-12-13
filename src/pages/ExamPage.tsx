@@ -654,8 +654,9 @@ export function ExamPage({
       <ExamHeader 
         trackName={`${currentTrack.name} | ${studentName} (${studentId})`} 
         questionType={trackInfo.label} 
-        timeRemaining={timeRemaining}
+        timeRemaining={testType === 'mock' ? currentTrackTimeRemaining : timeRemaining}
         isTimeWarning={isTimeWarning}
+        isTimeCritical={isTimeCritical}
         audioURL={currentAudioURL}
         autoPlayAudio={true}
         trackType={currentTrack.trackType}
