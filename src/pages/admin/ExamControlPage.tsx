@@ -11,18 +11,40 @@ import {
   Loader,
   Edit,
   Trash2,
-  Eye
+  Eye,
+  Headphones,
+  BookOpen,
+  PenTool
 } from 'lucide-react';
 import { examSessionService, ExamSession } from '../../services/examSessionService';
 import { batchService } from '../../services/batchService';
-import { allTracks } from '../../data/tracks';
+import { allTracks, getTracksByType } from '../../data/tracks';
 import { format } from 'date-fns';
 import { getDatabase, ref, set } from 'firebase/database';
 import { app } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 
+type TestType = 'partial' | 'mock';
+type TrackType = 'listening' | 'reading' | 'writing';
+
 export function ExamControlPage() {
   const navigate = useNavigate();
+  
+  // NEW: Test type and track selection states
+  const [testType, setTestType] = useState<TestType>('partial');
+  const [partialTrackType, setPartialTrackType] = useState<TrackType>('listening');
+  const [partialSelectedTrack, setPartialSelectedTrack] = useState<string>('');
+  const [mockTracks, setMockTracks] = useState<{
+    listening: string;
+    reading: string;
+    writing: string;
+  }>({
+    listening: '',
+    reading: '',
+    writing: ''
+  });
+  
+  // Legacy state for backward compatibility
   const [selectedTrackId, setSelectedTrackId] = useState<string>('');
   const [examDate, setExamDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
   const [startTime, setStartTime] = useState<string>('10:00');
