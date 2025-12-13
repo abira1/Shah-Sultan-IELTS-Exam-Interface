@@ -38,7 +38,7 @@ export function generateStudentCredentialEmail(data: {
             .container { width: 100% !important; border-radius: 0; }
             .content { padding: 0 20px 30px; }
             .portal-link { padding: 12px 24px; font-size: 16px; }
-            .logo-medium { max-width: 150px; margin: 25px auto; }
+            .logo { max-width: 150px; margin: 25px auto; }
         }
     </style>
 </head>
