@@ -8,6 +8,7 @@ interface ExamHeaderProps {
   studentName?: string;
   studentId?: string;
   isTimeWarning?: boolean;
+  isTimeCritical?: boolean;
   audioURL?: string | null;
   autoPlayAudio?: boolean;
   trackType?: 'listening' | 'reading' | 'writing';
