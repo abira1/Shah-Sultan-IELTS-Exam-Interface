@@ -634,7 +634,10 @@ export function SubmissionsPage() {
                   </div>
                 )}
               </div>
+              )}
               
+              {/* Filters - Only show at submissions level */}
+              {navigationLevel === 'submissions' && (
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
@@ -643,6 +646,7 @@ export function SubmissionsPage() {
                 <Filter className="w-4 h-4" />
                 <span className="text-sm font-medium">Filters</span>
               </button>
+              )}
               <button
                 onClick={handleRefresh}
                 className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
