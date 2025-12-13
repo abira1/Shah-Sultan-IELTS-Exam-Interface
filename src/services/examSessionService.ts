@@ -4,8 +4,16 @@ import { format } from 'date-fns';
 
 export interface ExamSession {
   examCode: string;
+  // For backward compatibility and partial tests
   trackId: string;
   trackName: string;
+  // NEW: Multi-track support
+  testType?: 'partial' | 'mock';
+  selectedTracks?: {
+    listening?: string;
+    reading?: string;
+    writing?: string;
+  };
   date: string;
   startTime: string;
   endTime: string;
@@ -35,10 +43,24 @@ const formatDateForCode = (date: Date): string => {
 
 export const examSessionService = {
   // Generate exam code
-  async generateExamCode(trackId: string, trackShortName: string, date: Date): Promise<string> {
+  async generateExamCode(
+    trackId: string | null,
+    trackShortName: string | null,
+    date: Date,
+    testType?: 'partial' | 'mock',
+    selectedTracks?: { listening?: string; reading?: string; writing?: string }
+  ): Promise<string> {
     try {
       const dateStr = formatDateForCode(date);
-      const prefix = `${trackShortName}-${dateStr}`;
+      let prefix = '';
+
+      if (testType === 'mock') {
+        // Mock test: Use "MOCK" prefix
+        prefix = `MOCK-${dateStr}`;
+      } else {
+        // Partial test: Use track short name
+        prefix = `${trackShortName}-${dateStr}`;
+      }
       
       const snapshot = await get(ref(db, 'examSessions'));
       
@@ -77,6 +99,12 @@ export const examSessionService = {
     examCode: string;
     trackId: string;
     trackName: string;
+    testType?: 'partial' | 'mock';
+    selectedTracks?: {
+      listening?: string;
+      reading?: string;
+      writing?: string;
+    };
     date: string;
     startTime: string;
     endTime: string;
@@ -93,6 +121,8 @@ export const examSessionService = {
         examCode: data.examCode,
         trackId: data.trackId,
         trackName: data.trackName,
+        testType: data.testType || 'partial',
+        selectedTracks: data.selectedTracks,
         date: data.date,
         startTime: data.startTime,
         endTime: data.endTime,
@@ -114,14 +144,17 @@ export const examSessionService = {
       console.log('✓ Exam session saved successfully');
 
       // Auto-create submission folder in hierarchical structure
-      // submissions/{trackId}/{examCode}/_metadata
-      const submissionFolderPath = `submissions/${data.trackId}/${data.examCode}`;
+      // For mock tests, use 'mock' as trackId, for partial use actual trackId
+      const submissionTrackId = data.testType === 'mock' ? 'mock' : data.trackId;
+      const submissionFolderPath = `submissions/${submissionTrackId}/${data.examCode}`;
       console.log(`Creating submission folder at: ${submissionFolderPath}`);
       
       const metadata = {
-        trackId: data.trackId,
+        trackId: submissionTrackId,
         trackName: data.trackName,
         examCode: data.examCode,
+        testType: data.testType || 'partial',
+        selectedTracks: data.selectedTracks,
         createdAt: new Date().toISOString(),
         createdBy: data.createdBy,
         totalSubmissions: 0
@@ -206,16 +239,19 @@ export const examSessionService = {
       console.log('Found exam session:', session);
 
       // Ensure submission folder exists (in case it wasn't created during scheduling)
-      const submissionFolderPath = `submissions/${session.trackId}/${examCode}`;
+      const submissionTrackId = session.testType === 'mock' ? 'mock' : session.trackId;
+      const submissionFolderPath = `submissions/${submissionTrackId}/${examCode}`;
       const metadataRef = ref(db, `${submissionFolderPath}/_metadata`);
       const metadataSnapshot = await get(metadataRef);
       
       if (!metadataSnapshot.exists()) {
         console.log('Submission folder does not exist. Creating now...');
         await set(metadataRef, {
-          trackId: session.trackId,
+          trackId: submissionTrackId,
           trackName: session.trackName,
           examCode: examCode,
+          testType: session.testType || 'partial',
+          selectedTracks: session.selectedTracks,
           createdAt: new Date().toISOString(),
           createdBy: session.createdBy,
           totalSubmissions: 0
@@ -237,6 +273,8 @@ export const examSessionService = {
         isStarted: true,
         activeTrackId: session.trackId,
         trackName: session.trackName,
+        testType: session.testType || 'partial',
+        selectedTracks: session.selectedTracks,
         examCode: examCode,
         startTime: new Date().toISOString(),
         endTime: new Date(Date.now() + session.duration * 60000).toISOString(),
@@ -267,7 +305,9 @@ export const examSessionService = {
         isStarted: false,
         activeTrackId: null,
         trackName: null,
-        examCode: null
+        examCode: null,
+        testType: null,
+        selectedTracks: null
       });
 
       return true;
