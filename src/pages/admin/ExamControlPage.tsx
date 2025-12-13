@@ -112,19 +112,45 @@ export function ExamControlPage() {
   };
 
   const generateExamCode = async () => {
-    if (!selectedTrackId) return;
-
     setIsGenerating(true);
     try {
-      const track = allTracks.find(t => t.id === selectedTrackId);
-      if (!track) return;
+      if (testType === 'partial') {
+        if (!partialSelectedTrack) return;
+        
+        const track = allTracks.find(t => t.id === partialSelectedTrack);
+        if (!track) return;
 
-      const code = await examSessionService.generateExamCode(
-        selectedTrackId,
-        track.shortName,
-        new Date(examDate)
-      );
-      setGeneratedExamCode(code);
+        const code = await examSessionService.generateExamCode(
+          partialSelectedTrack,
+          track.shortName,
+          new Date(examDate),
+          'partial'
+        );
+        setGeneratedExamCode(code);
+        setDuration(track.duration); // Set duration from track
+      } else {
+        // Mock test
+        if (!mockTracks.listening || !mockTracks.reading || !mockTracks.writing) return;
+
+        const code = await examSessionService.generateExamCode(
+          null,
+          null,
+          new Date(examDate),
+          'mock',
+          mockTracks
+        );
+        setGeneratedExamCode(code);
+        
+        // Calculate total duration for mock test
+        const listeningTrack = allTracks.find(t => t.id === mockTracks.listening);
+        const readingTrack = allTracks.find(t => t.id === mockTracks.reading);
+        const writingTrack = allTracks.find(t => t.id === mockTracks.writing);
+        
+        const totalDuration = (listeningTrack?.duration || 0) + 
+                             (readingTrack?.duration || 0) + 
+                             (writingTrack?.duration || 0);
+        setDuration(totalDuration);
+      }
     } catch (err) {
       console.error('Error generating exam code:', err);
       setError('Failed to generate exam code');
