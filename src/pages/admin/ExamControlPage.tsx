@@ -390,31 +390,209 @@ export function ExamControlPage() {
         <h2 className="text-xl font-bold text-gray-900 mb-6">📝 Create New Exam Session</h2>
 
         <div className="space-y-6">
-          {/* Track Selection */}
+          {/* Test Type Selection */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Select Track <span className="text-red-500">*</span>
+            <label className="block text-sm font-medium text-gray-700 mb-3">
+              Test Type <span className="text-red-500">*</span>
             </label>
-            <select
-              value={selectedTrackId}
-              onChange={(e) => {
-                setSelectedTrackId(e.target.value);
-                const track = allTracks.find(t => t.id === e.target.value);
-                if (track) {
-                  setDuration(track.duration);
-                }
-              }}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              data-testid="track-selector"
-            >
-              <option value="">-- Select a track --</option>
-              {allTracks.map((track) => (
-                <option key={track.id} value={track.id}>
-                  {track.name} ({track.duration} mins, {track.totalQuestions} questions)
-                </option>
-              ))}
-            </select>
+            <div className="flex gap-4">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="testType"
+                  value="partial"
+                  checked={testType === 'partial'}
+                  onChange={(e) => {
+                    setTestType('partial');
+                    setGeneratedExamCode('');
+                  }}
+                  className="w-4 h-4 text-blue-600 focus:ring-2 focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">Partial Test (Single Track)</span>
+              </label>
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="testType"
+                  value="mock"
+                  checked={testType === 'mock'}
+                  onChange={(e) => {
+                    setTestType('mock');
+                    setGeneratedExamCode('');
+                  }}
+                  className="w-4 h-4 text-blue-600 focus:ring-2 focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">Mock Test (Full Test)</span>
+              </label>
+            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              {testType === 'partial' 
+                ? 'Select one track from any type (Listening, Reading, or Writing)'
+                : 'Select one track from each type (Listening + Reading + Writing)'}
+            </p>
           </div>
+
+          {/* Partial Test: Track Type Selection + Track Dropdown */}
+          {testType === 'partial' && (
+            <div className="space-y-4">
+              {/* Track Type Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Track Type <span className="text-red-500">*</span>
+                </label>
+                <div className="grid grid-cols-3 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPartialTrackType('listening');
+                      setPartialSelectedTrack('');
+                      setGeneratedExamCode('');
+                    }}
+                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                      partialTrackType === 'listening'
+                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-blue-300'
+                    }`}
+                  >
+                    <Headphones className="w-5 h-5" />
+                    <span className="font-medium">Listening</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPartialTrackType('reading');
+                      setPartialSelectedTrack('');
+                      setGeneratedExamCode('');
+                    }}
+                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                      partialTrackType === 'reading'
+                        ? 'border-green-500 bg-green-50 text-green-700'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-green-300'
+                    }`}
+                  >
+                    <BookOpen className="w-5 h-5" />
+                    <span className="font-medium">Reading</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPartialTrackType('writing');
+                      setPartialSelectedTrack('');
+                      setGeneratedExamCode('');
+                    }}
+                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                      partialTrackType === 'writing'
+                        ? 'border-orange-500 bg-orange-50 text-orange-700'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-orange-300'
+                    }`}
+                  >
+                    <PenTool className="w-5 h-5" />
+                    <span className="font-medium">Writing</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Track Selection Dropdown */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select {partialTrackType.charAt(0).toUpperCase() + partialTrackType.slice(1)} Track <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={partialSelectedTrack}
+                  onChange={(e) => setPartialSelectedTrack(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  data-testid="partial-track-selector"
+                >
+                  <option value="">-- Select a track --</option>
+                  {getTracksByType(partialTrackType).map((track) => (
+                    <option key={track.id} value={track.id}>
+                      {track.name} ({track.duration} mins, {track.totalQuestions} {track.trackType === 'writing' ? 'tasks' : 'questions'})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
+
+          {/* Mock Test: Three Separate Dropdowns */}
+          {testType === 'mock' && (
+            <div className="space-y-4">
+              {/* Listening Track */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <Headphones className="w-4 h-4 text-blue-600" />
+                  Listening Track <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={mockTracks.listening}
+                  onChange={(e) => setMockTracks(prev => ({ ...prev, listening: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  data-testid="mock-listening-selector"
+                >
+                  <option value="">-- Select listening track --</option>
+                  {getTracksByType('listening').map((track) => (
+                    <option key={track.id} value={track.id}>
+                      {track.name} ({track.duration} mins, {track.totalQuestions} questions)
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Reading Track */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-green-600" />
+                  Reading Track <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={mockTracks.reading}
+                  onChange={(e) => setMockTracks(prev => ({ ...prev, reading: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  data-testid="mock-reading-selector"
+                >
+                  <option value="">-- Select reading track --</option>
+                  {getTracksByType('reading').map((track) => (
+                    <option key={track.id} value={track.id}>
+                      {track.name} ({track.duration} mins, {track.totalQuestions} questions)
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Writing Track */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <PenTool className="w-4 h-4 text-orange-600" />
+                  Writing Track <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={mockTracks.writing}
+                  onChange={(e) => setMockTracks(prev => ({ ...prev, writing: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  data-testid="mock-writing-selector"
+                >
+                  <option value="">-- Select writing track --</option>
+                  {getTracksByType('writing').map((track) => (
+                    <option key={track.id} value={track.id}>
+                      {track.name} ({track.duration} mins, {track.totalQuestions} tasks)
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Duration Info for Mock Test */}
+              {mockTracks.listening && mockTracks.reading && mockTracks.writing && (
+                <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                  <p className="text-sm text-blue-800">
+                    <strong>Total Duration:</strong> {duration} minutes
+                    <span className="text-xs text-blue-600 ml-2">
+                      (Listening + Reading + Writing combined)
+                    </span>
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Exam Code Display */}
           {generatedExamCode && (
