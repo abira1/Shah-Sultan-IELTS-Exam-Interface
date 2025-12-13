@@ -9,6 +9,8 @@ interface TrackWithAudio extends Track {
   loadedAudioURL?: string | null;
 }
 
+type TrackTypeTab = 'listening' | 'reading' | 'writing';
+
 export function TrackManagement() {
   const [tracks, setTracks] = useState<TrackWithAudio[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,6 +19,7 @@ export function TrackManagement() {
   const [savingTrackId, setSavingTrackId] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<TrackTypeTab>('listening');
 
   const db = getDatabase(app);
 
