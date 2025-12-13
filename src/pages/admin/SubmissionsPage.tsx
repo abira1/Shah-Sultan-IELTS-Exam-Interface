@@ -279,24 +279,51 @@ export function SubmissionsPage() {
   };
 
   const handleBreadcrumbClick = (item: BreadcrumbItem) => {
-    if (item.level === 'tracks') {
-      setNavigationLevel('tracks');
+    if (item.level === 'categories') {
+      setNavigationLevel('categories');
+      setCurrentTestType(null);
       setCurrentTrackId(null);
       setCurrentExamCode(null);
-      setBreadcrumbs([{ level: 'tracks', label: 'All Tracks' }]);
+      setBreadcrumbs([{ level: 'categories', label: 'Exam Submissions' }]);
       setSelectedTrackId('all');
       setSelectedExamCode('all');
-    } else if (item.level === 'exams' && item.trackId) {
-      setNavigationLevel('exams');
-      setCurrentTrackId(item.trackId);
+    } else if (item.level === 'tracks') {
+      setNavigationLevel('tracks');
+      setCurrentTestType(item.testType || null);
+      setCurrentTrackId(null);
       setCurrentExamCode(null);
-      const track = allTracks.find(t => t.id === item.trackId);
       setBreadcrumbs([
-        { level: 'tracks', label: 'All Tracks' },
-        { level: 'exams', label: track?.name || 'Track', trackId: item.trackId }
+        { level: 'categories', label: 'Exam Submissions' },
+        { level: 'tracks', label: 'Partial Tests', testType: 'partial' }
       ]);
-      setSelectedTrackId(item.trackId);
+      setSelectedTrackId('all');
       setSelectedExamCode('all');
+    } else if (item.level === 'exams') {
+      if (item.testType === 'mock') {
+        // Mock tests - go to mock sessions view
+        setNavigationLevel('exams');
+        setCurrentTestType('mock');
+        setCurrentTrackId(null);
+        setCurrentExamCode(null);
+        setBreadcrumbs([
+          { level: 'categories', label: 'Exam Submissions' },
+          { level: 'exams', label: 'Mock Tests', testType: 'mock' }
+        ]);
+        setSelectedExamCode('all');
+      } else if (item.trackId) {
+        // Partial tests - go to track's exam sessions
+        setNavigationLevel('exams');
+        setCurrentTrackId(item.trackId);
+        setCurrentExamCode(null);
+        const track = allTracks.find(t => t.id === item.trackId);
+        setBreadcrumbs([
+          { level: 'categories', label: 'Exam Submissions' },
+          { level: 'tracks', label: 'Partial Tests', testType: 'partial' },
+          { level: 'exams', label: track?.name || 'Track', trackId: item.trackId, testType: 'partial' }
+        ]);
+        setSelectedTrackId(item.trackId);
+        setSelectedExamCode('all');
+      }
     }
   };
 
