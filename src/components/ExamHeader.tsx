@@ -21,7 +21,8 @@ export function ExamHeader({
   studentId,
   isTimeWarning = false,
   audioURL = null,
-  autoPlayAudio = false
+  autoPlayAudio = false,
+  trackType
 }: ExamHeaderProps) {
   const [audioRef, setAudioRef] = useState<HTMLAudioElement | null>(null);
   const [volume, setVolume] = useState(1);
