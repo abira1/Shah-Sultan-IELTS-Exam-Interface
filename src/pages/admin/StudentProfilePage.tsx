@@ -339,6 +339,62 @@ export function StudentProfilePage() {
             </div>
           </div>
 
+          {/* New Password Actions - Show when password is reset */}
+          {newPassword && (
+            <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="font-semibold text-green-900 mb-1">Password Reset Successful!</h3>
+                  <p className="text-sm text-green-700 mb-3">
+                    Share these credentials with the student using one of the options below:
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleCopyPassword}
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      Copy Password
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={handleCopyHTMLEmail}
+                  className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  data-testid="copy-html-email-profile-btn"
+                >
+                  {copiedEmail ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      HTML Email Copied!
+                    </>
+                  ) : (
+                    <>
+                      <MailIcon className="w-4 h-4" />
+                      Copy HTML Email
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={() => window.print()}
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                >
+                  <Key className="w-4 h-4" />
+                  Print
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Action Buttons */}
           <div className="flex gap-3 mt-6 pt-6 border-t border-gray-200">
             <button
