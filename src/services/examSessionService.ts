@@ -134,6 +134,7 @@ export const examSessionService = {
         trackName: data.trackName,
         testType: data.testType || 'partial',
         selectedTracks: data.selectedTracks,
+        trackDurations: data.trackDurations,
         date: data.date,
         startTime: data.startTime,
         endTime: data.endTime,
