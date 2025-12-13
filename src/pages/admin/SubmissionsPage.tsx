@@ -585,7 +585,8 @@ export function SubmissionsPage() {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              {/* Export Dropdown */}
+              {/* Export Dropdown - Only show at submissions level */}
+              {navigationLevel === 'submissions' && (
               <div className="relative">
                 <button
                   onClick={() => setShowExportMenu(!showExportMenu)}
