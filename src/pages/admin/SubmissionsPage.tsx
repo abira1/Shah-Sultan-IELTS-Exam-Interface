@@ -308,7 +308,6 @@ export function SubmissionsPage() {
         // Partial tests - go to track's exam sessions
         setNavigationLevel('exams');
         setCurrentTrackId(item.trackId);
-        setCurrentExamCode(null);
         const track = allTracks.find(t => t.id === item.trackId);
         setBreadcrumbs([
           { level: 'categories', label: 'Exam Submissions' },
