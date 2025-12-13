@@ -219,6 +219,24 @@ export function SubmissionsPage() {
   };
 
   // Navigation helpers
+  const handleNavigateToPartial = () => {
+    setCurrentTestType('partial');
+    setNavigationLevel('tracks');
+    setBreadcrumbs([
+      { level: 'categories', label: 'Exam Submissions' },
+      { level: 'tracks', label: 'Partial Tests', testType: 'partial' }
+    ]);
+  };
+
+  const handleNavigateToMock = () => {
+    setCurrentTestType('mock');
+    setNavigationLevel('exams');
+    setBreadcrumbs([
+      { level: 'categories', label: 'Exam Submissions' },
+      { level: 'exams', label: 'Mock Tests', testType: 'mock' }
+    ]);
+  };
+
   const handleNavigateToTrack = (trackId: string) => {
     const track = allTracks.find(t => t.id === trackId);
     if (!track) return;
@@ -227,8 +245,9 @@ export function SubmissionsPage() {
     setCurrentExamCode(null);
     setNavigationLevel('exams');
     setBreadcrumbs([
-      { level: 'tracks', label: 'All Tracks' },
-      { level: 'exams', label: track.name, trackId }
+      { level: 'categories', label: 'Exam Submissions' },
+      { level: 'tracks', label: 'Partial Tests', testType: 'partial' },
+      { level: 'exams', label: track.name, trackId, testType: 'partial' }
     ]);
   };
 
