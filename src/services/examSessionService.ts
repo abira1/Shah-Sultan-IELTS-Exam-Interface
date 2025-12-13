@@ -287,6 +287,7 @@ export const examSessionService = {
         trackName: session.trackName,
         testType: session.testType || 'partial',
         selectedTracks: session.selectedTracks,
+        trackDurations: session.trackDurations,
         examCode: examCode,
         startTime: new Date().toISOString(),
         endTime: new Date(Date.now() + session.duration * 60000).toISOString(),
