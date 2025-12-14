@@ -10,7 +10,11 @@ export function NewHomePage() {
       <div className="max-w-4xl w-full">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-6">
-            <BookOpen className="w-16 h-16 text-blue-600" />
+            <img 
+              src="/homepage-logo.png" 
+              alt="Shah Sultan IELTS Academy" 
+              className="h-32 w-auto object-contain"
+            />
           </div>
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
             Shah Sultan IELTS Academy
