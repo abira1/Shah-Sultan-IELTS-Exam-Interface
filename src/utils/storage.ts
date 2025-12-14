@@ -362,9 +362,12 @@ export const storage = {
   },
 
   // Calculate score
-  calculateScore(answers: Record<number, string>): number {
-    const answeredCount = Object.keys(answers).filter(key => answers[Number(key)].trim() !== '').length;
-    return Math.round(answeredCount / 40 * 100);
+  calculateScore(answers: Record<number | string, string>, totalQuestions: number = 40): number {
+    const answeredCount = Object.keys(answers).filter(key => {
+      const answer = answers[key];
+      return answer && answer.trim() !== '';
+    }).length;
+    return Math.round(answeredCount / totalQuestions * 100);
   },
 
   // Get submissions by exam code
