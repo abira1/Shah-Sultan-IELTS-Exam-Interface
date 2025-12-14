@@ -814,7 +814,7 @@ export function ExamPage({
 
             {/* Right Panel: Questions */}
             <div 
-              className="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-full overflow-hidden"
+              className="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-full overflow-hidden min-h-0"
             >
               <div className="flex-1 overflow-y-auto px-6">
                 <div className="space-y-6 pt-4 pb-24">
