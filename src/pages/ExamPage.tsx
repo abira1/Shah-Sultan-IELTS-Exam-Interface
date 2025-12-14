@@ -448,15 +448,13 @@ export function ExamPage({
     const trackNames = trackDataList.map(td => td.track.name).join(' + ');
     const trackIds = trackDataList.map(td => td.track.id);
 
-    // Base submission object
+    // Base submission object (avoid undefined values for Firebase)
     const submission: ExamSubmission = {
       id: `${studentId}-${Date.now()}`,
       studentId,
       studentName,
       trackName: trackNames,
       trackId: testType === 'mock' ? 'mock' : trackDataList[0].track.id,
-      examCode: currentExamCode || undefined,
-      batchId: currentBatchId || undefined,
       answers: {
         ...answers,
         ...Object.fromEntries(
@@ -471,7 +469,13 @@ export function ExamPage({
       testType
     };
 
-    // Add trackIds only for mock tests (avoid undefined in Firebase)
+    // Add optional properties only if they have values (Firebase doesn't accept undefined)
+    if (currentExamCode) {
+      submission.examCode = currentExamCode;
+    }
+    if (currentBatchId) {
+      submission.batchId = currentBatchId;
+    }
     if (testType === 'mock') {
       submission.trackIds = trackIds;
     }
