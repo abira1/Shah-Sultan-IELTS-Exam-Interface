@@ -771,51 +771,53 @@ export function ExamPage({
 
         {/* Two-Column Layout for Reading Tracks */}
         {currentTrack.trackType === 'reading' && examData && examData[currentSection]?.passage ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+          <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 mx-4 overflow-hidden">
             {/* Left Panel: Reading Passage with Text Highlighting */}
             <div 
-              className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 overflow-y-auto"
-              style={{ maxHeight: '75vh' }}
+              className="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-full overflow-hidden"
             >
-              <h3 className="text-xl font-bold text-gray-900 mb-4 sticky top-0 bg-white pb-2 border-b border-gray-200">
+              <h3 className="text-xl font-bold text-gray-900 px-6 pt-6 pb-4 border-b border-gray-200 flex-shrink-0">
                 {examData[currentSection].passage.title}
               </h3>
               <div 
-                className="prose prose-sm max-w-none text-gray-700 leading-relaxed select-text"
-                onMouseUp={(e) => {
-                  const selection = window.getSelection();
-                  if (selection && selection.toString().trim().length > 0) {
-                    e.preventDefault();
-                    const range = selection.getRangeAt(0);
-                    const span = document.createElement('span');
-                    span.className = 'bg-yellow-200';
-                    span.style.backgroundColor = '#fef08a';
-                    try {
-                      range.surroundContents(span);
-                      selection.removeAllRanges();
-                    } catch (err) {
-                      // If surroundContents fails, do nothing
-                    }
-                  }
-                }}
-                onCopy={(e) => e.preventDefault()}
-                onCut={(e) => e.preventDefault()}
-                onPaste={(e) => e.preventDefault()}
-                style={{ userSelect: 'text', WebkitUserSelect: 'text' }}
+                className="flex-1 overflow-y-auto px-6 pb-6"
               >
-                {examData[currentSection].passage.content.split('\n\n').map((para, idx) => (
-                  <p key={idx} className="mb-4 whitespace-pre-line">{para}</p>
-                ))}
+                <div 
+                  className="prose prose-sm max-w-none text-gray-700 leading-relaxed select-text pt-4"
+                  onMouseUp={(e) => {
+                    const selection = window.getSelection();
+                    if (selection && selection.toString().trim().length > 0) {
+                      e.preventDefault();
+                      const range = selection.getRangeAt(0);
+                      const span = document.createElement('span');
+                      span.className = 'bg-yellow-200';
+                      span.style.backgroundColor = '#fef08a';
+                      try {
+                        range.surroundContents(span);
+                        selection.removeAllRanges();
+                      } catch (err) {
+                        // If surroundContents fails, do nothing
+                      }
+                    }
+                  }}
+                  onCopy={(e) => e.preventDefault()}
+                  onCut={(e) => e.preventDefault()}
+                  onPaste={(e) => e.preventDefault()}
+                  style={{ userSelect: 'text', WebkitUserSelect: 'text' }}
+                >
+                  {examData[currentSection].passage.content.split('\n\n').map((para, idx) => (
+                    <p key={idx} className="mb-4 whitespace-pre-line">{para}</p>
+                  ))}
+                </div>
               </div>
             </div>
 
             {/* Right Panel: Questions */}
             <div 
-              className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 overflow-y-auto"
-              style={{ maxHeight: '75vh' }}
+              className="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-full overflow-hidden"
             >
               {examData && examData.length > 1 && (
-                <div className="flex gap-2 mb-4 pb-2 border-b border-gray-200 sticky top-0 bg-white z-10">
+                <div className="flex gap-2 px-6 pt-6 pb-4 border-b border-gray-200 flex-shrink-0">
                   {examData.map((section, idx) => (
                     <button
                       key={section.sectionNumber}
@@ -832,16 +834,18 @@ export function ExamPage({
                 </div>
               )}
 
-              <div className="space-y-6">
-                {examData && examData[currentSection] && (
-                  <>
-                    <h2 className="text-lg font-bold text-gray-900 mb-4">
-                      {examData[currentSection].title}
-                    </h2>
+              <div className="flex-1 overflow-y-auto px-6 pb-6">
+                <div className="space-y-6 pt-4">
+                  {examData && examData[currentSection] && (
+                    <>
+                      <h2 className="text-lg font-bold text-gray-900 mb-4">
+                        {examData[currentSection].title}
+                      </h2>
 
-                    {examData[currentSection].questions.map((question, idx) => renderQuestion(question, idx))}
-                  </>
-                )}
+                      {examData[currentSection].questions.map((question, idx) => renderQuestion(question, idx))}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
