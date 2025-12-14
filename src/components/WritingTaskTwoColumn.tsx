@@ -63,28 +63,28 @@ export function WritingTaskTwoColumn({
       {/* Two-column layout: Left side (Task) + Right side (Writing area) */}
       <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-4">
         {/* LEFT SIDE: Task Prompt */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {/* Topic Introduction */}
           {topicIntro && (
-            <div className="bg-white rounded-lg p-4">
+            <div className="bg-white rounded-lg p-3">
               <p className="text-gray-800 font-medium text-sm">{topicIntro}</p>
             </div>
           )}
 
           {/* Main Prompt (Boxed) */}
-          <div className="bg-white border-2 border-gray-300 rounded-lg p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <FileText className="w-5 h-5 text-blue-600" />
-              <h4 className="font-semibold text-gray-900">Question</h4>
+          <div className="bg-white border-2 border-gray-300 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <FileText className="w-4 h-4 text-blue-600" />
+              <h4 className="font-semibold text-gray-900 text-sm">Question</h4>
             </div>
             <div className="prose prose-sm max-w-none">
-              <p className="text-gray-800 whitespace-pre-wrap leading-relaxed">{prompt}</p>
+              <p className="text-gray-800 whitespace-pre-wrap leading-relaxed text-sm">{prompt}</p>
             </div>
           </div>
 
           {/* Closing Instructions */}
           {closingInstruction && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
               <div className="prose prose-sm max-w-none">
                 <p className="text-gray-800 whitespace-pre-wrap leading-relaxed text-sm">{closingInstruction}</p>
               </div>
