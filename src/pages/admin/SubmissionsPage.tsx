@@ -515,9 +515,20 @@ export function SubmissionsPage() {
   };
 
   const isAllMarked = (submission: ExamSubmission): boolean => {
-    if (!submission.marks) return false;
+    if (!submission.marks) {
+      console.log('isAllMarked: No marks object found', submission.id);
+      return false;
+    }
     const stats = getMarkingStats(submission);
-    return stats.unmarked === 0;
+    const allMarked = stats.unmarked === 0;
+    console.log('isAllMarked:', { 
+      submissionId: submission.id, 
+      trackType: submission.trackType,
+      totalQuestions: submission.totalQuestions,
+      stats, 
+      allMarked 
+    });
+    return allMarked;
   };
 
   const SortIcon = ({ field }: { field: SortField }) => {
