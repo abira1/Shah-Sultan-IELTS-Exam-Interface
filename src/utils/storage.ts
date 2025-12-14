@@ -14,7 +14,7 @@ export interface ExamSubmission {
   timeSpent: string;
   status: 'completed';
   score?: number;
-  marks?: Record<number, 'correct' | 'incorrect' | null>;
+  marks?: Record<number | string, 'correct' | 'incorrect' | null>;  // Support string keys for writing tasks
   manualScore?: number;
   resultPublished?: boolean;
   publishedAt?: string;
@@ -22,6 +22,9 @@ export interface ExamSubmission {
   // Multi-track support
   testType?: 'partial' | 'mock';
   trackIds?: string[];  // Array of track IDs for mock tests
+  // Track metadata for proper scoring
+  totalQuestions?: number;  // Total questions/tasks in the track(s)
+  trackType?: 'listening' | 'reading' | 'writing' | 'mock';  // Track type for scoring logic
 }
 
 const db = getDatabase(app);
