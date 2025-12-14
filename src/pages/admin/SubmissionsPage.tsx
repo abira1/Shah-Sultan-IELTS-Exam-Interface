@@ -488,7 +488,7 @@ export function SubmissionsPage() {
     return { correct, incorrect, unmarked, total: totalQs };
   };
 
-  const handleMarkQuestion = async (submissionId: string, questionNumber: number, mark: 'correct' | 'incorrect' | null) => {
+  const handleMarkQuestion = async (submissionId: string, questionNumber: number | string, mark: 'correct' | 'incorrect' | null) => {
     await storage.updateMark(submissionId, questionNumber, mark);
     // Real-time listener will auto-update, but we can also manually refresh
     await loadSubmissions();
