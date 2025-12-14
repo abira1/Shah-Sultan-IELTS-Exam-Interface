@@ -57,10 +57,60 @@ export function QuestionNavigator({
           });
         } else if (question.rows && Array.isArray(question.rows)) {
           question.rows.forEach((row: any) => {
+            // Check row.questionNumber (direct property)
             if (row.questionNumber !== undefined) {
               questions.push(row.questionNumber);
             }
+            // Check row.value.questionNumber (nested in value object)
+            if (row.value && typeof row.value === 'object' && row.value.questionNumber !== undefined) {
+              questions.push(row.value.questionNumber);
+            }
+            // Check row.label.questionNumber (nested in label object)
+            if (row.label && typeof row.label === 'object' && row.label.questionNumber !== undefined) {
+              questions.push(row.label.questionNumber);
+            }
           });
+        } else if (question.paragraphs && Array.isArray(question.paragraphs)) {
+          // For matching-headings questions
+          question.paragraphs.forEach((para: any) => {
+            if (para.questionNumber !== undefined) {
+              questions.push(para.questionNumber);
+            }
+          });
+        } else if (question.labels && Array.isArray(question.labels)) {
+          // For map-labeling questions
+          question.labels.forEach((label: any) => {
+            if (label.questionNumber !== undefined) {
+              questions.push(label.questionNumber);
+            }
+          });
+        } else if (question.steps && Array.isArray(question.steps)) {
+          // For flowchart questions
+          question.steps.forEach((step: any) => {
+            if (step.questionNumber !== undefined) {
+              questions.push(step.questionNumber);
+            }
+          });
+        } else if (question.tableData && Array.isArray(question.tableData)) {
+          // For drag-drop-table questions
+          question.tableData.forEach((row: any) => {
+            if (row.cells && Array.isArray(row.cells)) {
+              row.cells.forEach((cell: any) => {
+                if (cell.questionNumber !== undefined) {
+                  questions.push(cell.questionNumber);
+                }
+              });
+            }
+          });
+        } else if (question.headers && Array.isArray(question.headers)) {
+          // For table-selection questions
+          if (question.rows && Array.isArray(question.rows)) {
+            question.rows.forEach((row: any) => {
+              if (row.questionNumber !== undefined) {
+                questions.push(row.questionNumber);
+              }
+            });
+          }
         }
       });
 
