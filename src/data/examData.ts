@@ -209,6 +209,20 @@ export interface WritingTaskQuestion {
   maxWords?: number;
   timeRecommended: number; // in minutes
   instruction: string;
+  topicIntro?: string;
+  closingInstruction?: string;
+}
+
+export interface WritingTaskWithImageQuestion {
+  type: 'writing-task-with-image';
+  taskNumber: 1 | 2;
+  title: string;
+  instruction: string;
+  chartDescription: string;
+  chartImageURL: string;
+  prompt: string;
+  minWords: number;
+  timeRecommended: number;
 }
 
 export interface Section {
