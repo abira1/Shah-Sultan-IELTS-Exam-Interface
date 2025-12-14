@@ -37,6 +37,12 @@ export function TrueFalseNotGivenCollapsible({
     setExpandedQuestions(newExpanded);
   };
 
+  const handleAnswerSelection = (questionNumber: number, value: string) => {
+    onAnswerChange(questionNumber, value);
+    // Keep the question expanded after selection for easy review
+    // No scroll or layout changes
+  };
+
   return (
     <div className="space-y-4">
       <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r">
