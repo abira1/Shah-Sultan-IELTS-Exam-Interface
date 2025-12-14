@@ -1520,7 +1520,137 @@ export function SubmissionsPage() {
                         {expandedId === submission.id && (
                           <tr>
                             <td colSpan={7} className="px-6 py-4 bg-gray-50">
-                              <div className="space-y-4">
+                              {/* Phase 3: Mock Test Marking Interface */}
+                              {submission.testType === 'mock' && submission.sectionSubmissions ? (
+                                <div className="space-y-6">
+                                  {/* Section Navigation Tabs */}
+                                  <div className="flex items-center gap-4 border-b border-gray-300 pb-2">
+                                    <button
+                                      onClick={() => setCurrentSectionSlide('listening')}
+                                      className={`px-6 py-3 font-medium transition-colors rounded-t-lg ${
+                                        currentSectionSlide === 'listening'
+                                          ? 'bg-blue-500 text-white'
+                                          : 'bg-white text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                                      }`}
+                                      data-testid="listening-tab"
+                                    >
+                                      🎧 Listening
+                                    </button>
+                                    <button
+                                      onClick={() => setCurrentSectionSlide('reading')}
+                                      className={`px-6 py-3 font-medium transition-colors rounded-t-lg ${
+                                        currentSectionSlide === 'reading'
+                                          ? 'bg-green-500 text-white'
+                                          : 'bg-white text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                                      }`}
+                                      data-testid="reading-tab"
+                                    >
+                                      📖 Reading
+                                    </button>
+                                    <button
+                                      onClick={() => setCurrentSectionSlide('writing')}
+                                      className={`px-6 py-3 font-medium transition-colors rounded-t-lg ${
+                                        currentSectionSlide === 'writing'
+                                          ? 'bg-orange-500 text-white'
+                                          : 'bg-white text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                                      }`}
+                                      data-testid="writing-tab"
+                                    >
+                                      ✍️ Writing
+                                    </button>
+                                  </div>
+
+                                  {/* Current Section Card */}
+                                  {submission.sectionSubmissions[currentSectionSlide] && (
+                                    <div className="mb-6">
+                                      <SectionSubmissionCard
+                                        section={currentSectionSlide}
+                                        sectionData={submission.sectionSubmissions[currentSectionSlide]!}
+                                        onMarkQuestion={(qNum, mark) => 
+                                          handleMarkSectionQuestion(submission.id, currentSectionSlide, qNum, mark)
+                                        }
+                                        onSaveBandScore={(band) => 
+                                          handleSaveSectionBandScore(submission.id, currentSectionSlide, band)
+                                        }
+                                        currentBandScore={submission.sectionScores?.[currentSectionSlide]}
+                                        isReadOnly={submission.resultPublished}
+                                      />
+                                    </div>
+                                  )}
+
+                                  {/* Speaking Marks Input */}
+                                  <div className="mb-6">
+                                    <SpeakingMarksInput
+                                      currentScore={submission.sectionScores?.speaking}
+                                      onSave={(score) => handleSaveSectionBandScore(submission.id, 'speaking', score)}
+                                      isReadOnly={submission.resultPublished}
+                                      isMandatory={!submission.resultPublished}
+                                    />
+                                  </div>
+
+                                  {/* Overall Band Score Display */}
+                                  {submission.overallBand !== undefined && (
+                                    <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg p-6 mb-6">
+                                      <div className="flex items-center justify-between">
+                                        <div>
+                                          <div className="text-sm opacity-90 mb-1">Overall IELTS Band Score</div>
+                                          <div className="text-6xl font-bold">{submission.overallBand.toFixed(1)}</div>
+                                        </div>
+                                        <div className="text-right">
+                                          <div className="text-sm opacity-90 mb-2">Section Scores</div>
+                                          <div className="text-lg font-medium space-y-1">
+                                            <div>L: {submission.sectionScores?.listening?.toFixed(1) || '--'}</div>
+                                            <div>R: {submission.sectionScores?.reading?.toFixed(1) || '--'}</div>
+                                            <div>W: {submission.sectionScores?.writing?.toFixed(1) || '--'}</div>
+                                            <div>S: {submission.sectionScores?.speaking?.toFixed(1) || '--'}</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* Publish Button */}
+                                  <div className="flex items-center justify-between border-t pt-4">
+                                    <div className="text-sm text-gray-600">
+                                      {!submission.sectionScores?.speaking && (
+                                        <span className="flex items-center gap-2 text-red-600">
+                                          <AlertCircleIcon className="w-4 h-4" />
+                                          Speaking score required before publishing
+                                        </span>
+                                      )}
+                                    </div>
+                                    {submission.resultPublished ? (
+                                      <div className="text-center">
+                                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-800 rounded-lg">
+                                          <SendIcon className="w-4 h-4" />
+                                          <span className="font-medium">Result Published</span>
+                                        </div>
+                                        {submission.publishedAt && (
+                                          <div className="text-xs text-gray-500 mt-1">
+                                            {new Date(submission.publishedAt).toLocaleString()}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <button
+                                        onClick={() => handlePublishResult(submission.id)}
+                                        disabled={
+                                          !submission.sectionScores?.listening ||
+                                          !submission.sectionScores?.reading ||
+                                          !submission.sectionScores?.writing ||
+                                          !submission.sectionScores?.speaking
+                                        }
+                                        className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                                        data-testid="publish-result-button"
+                                      >
+                                        Publish Result
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+                              ) : (
+                                /* Partial Test Marking Interface (existing code) */
+                                <div className="space-y-4">
                                 <div className="flex items-center justify-between mb-4">
                                   <div>
                                     <h4 className="font-semibold text-gray-900 mb-1">Detailed Answers & Marking</h4>
