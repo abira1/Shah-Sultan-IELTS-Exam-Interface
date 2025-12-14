@@ -457,21 +457,35 @@ export function SubmissionsPage() {
   };
 
   const getMarkingStats = (submission: ExamSubmission) => {
+    const totalQs = submission.totalQuestions || 40;
+    const isWriting = submission.trackType === 'writing' && totalQs === 2;
+    
     if (!submission.marks) {
-      return { correct: 0, incorrect: 0, unmarked: 40, total: 40 };
+      return { correct: 0, incorrect: 0, unmarked: totalQs, total: totalQs };
     }
     let correct = 0;
     let incorrect = 0;
     let unmarked = 0;
 
-    for (let i = 1; i <= 40; i++) {
-      const mark = submission.marks[i];
-      if (mark === 'correct') correct++;
-      else if (mark === 'incorrect') incorrect++;
-      else unmarked++;
+    if (isWriting) {
+      // For writing tracks, check task-based keys
+      ['task1', 'task2'].forEach(taskKey => {
+        const mark = submission.marks[taskKey];
+        if (mark === 'correct') correct++;
+        else if (mark === 'incorrect') incorrect++;
+        else unmarked++;
+      });
+    } else {
+      // For reading/listening tracks with numbered questions
+      for (let i = 1; i <= totalQs; i++) {
+        const mark = submission.marks[i];
+        if (mark === 'correct') correct++;
+        else if (mark === 'incorrect') incorrect++;
+        else unmarked++;
+      }
     }
 
-    return { correct, incorrect, unmarked, total: 40 };
+    return { correct, incorrect, unmarked, total: totalQs };
   };
 
   const handleMarkQuestion = async (submissionId: string, questionNumber: number, mark: 'correct' | 'incorrect' | null) => {
