@@ -147,9 +147,9 @@ export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, on
               <div className="flex items-center justify-center gap-8">
                 <div>
                   <div className="text-6xl font-bold text-blue-600 mb-2">
-                    {stats.correct}<span className="text-3xl text-gray-500">/40</span>
+                    {stats.correct}<span className="text-3xl text-gray-500">/{totalQs}</span>
                   </div>
-                  <p className="text-sm text-gray-600">Questions Correct</p>
+                  <p className="text-sm text-gray-600">{submission.trackType === 'writing' && totalQs === 2 ? 'Tasks Correct' : 'Questions Correct'}</p>
                 </div>
                 <div className="h-20 w-px bg-gray-300"></div>
                 <div>
