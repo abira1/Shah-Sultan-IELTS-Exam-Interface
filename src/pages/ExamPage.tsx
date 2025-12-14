@@ -547,6 +547,13 @@ export function ExamPage({
       return;
     }
 
+    // Phase 2: For mock tests, use section-based submission
+    if (testType === 'mock') {
+      console.log('Mock test - redirecting to handleFinalSubmit');
+      await handleFinalSubmit();
+      return;
+    }
+
     console.log('=== SUBMITTING EXAM ===');
     console.log('Test Type:', testType);
     console.log('Number of tracks:', trackDataList.length);
