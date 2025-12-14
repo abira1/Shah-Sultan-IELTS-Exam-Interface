@@ -425,16 +425,22 @@ export function ExamPage({
   }, [examEndTime, testType, trackEndTimes, currentTrackIndex, trackDataList.length]);
 
   const handleAnswerChange = (questionNumber: number, value: string) => {
-    setAnswers(prev => ({
+    setTrackAnswers(prev => ({
       ...prev,
-      [questionNumber]: value
+      [currentTrackIndex]: {
+        ...(prev[currentTrackIndex] || {}),
+        [questionNumber]: value
+      }
     }));
   };
 
   const handleWritingAnswerChange = (taskKey: string, value: string) => {
-    setWritingAnswers(prev => ({
+    setTrackWritingAnswers(prev => ({
       ...prev,
-      [taskKey]: value
+      [currentTrackIndex]: {
+        ...(prev[currentTrackIndex] || {}),
+        [taskKey]: value
+      }
     }));
   };
 
