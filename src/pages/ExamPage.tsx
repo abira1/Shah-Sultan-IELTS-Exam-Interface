@@ -901,6 +901,37 @@ export function ExamPage({
         trackType={currentTrack.trackType}
       />
 
+      {/* Phase 2: Time Expired Warning Banner for Mock Tests */}
+      {testType === 'mock' && 
+       timeExpiredWarningShown[currentTrackIndex] && 
+       currentTrackTimeRemaining === '00:00' && 
+       !sectionSubmissions[trackOrder[currentTrackIndex]]?.locked && (
+        <div className="bg-red-100 border-l-4 border-red-500 p-4 mx-4 mt-4" data-testid="time-expired-warning">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
+            <div>
+              <h3 className="text-lg font-bold text-red-900">⏰ Time Expired for {trackInfo.label} Section</h3>
+              <p className="text-red-800">
+                The allocated time for this section has ended. You can still submit your answers, 
+                but please do so now. Click the Submit button at the bottom of the page.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Phase 2: Section Submitted - View Only Indicator */}
+      {testType === 'mock' && sectionSubmissions[trackOrder[currentTrackIndex]]?.locked && (
+        <div className="fixed top-20 right-4 bg-green-100 border-2 border-green-400 rounded-lg px-4 py-2 shadow-lg z-50" data-testid="section-locked-indicator">
+          <div className="flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-green-600" />
+            <span className="text-sm font-medium text-green-900">
+              ✓ Section Submitted - View Only
+            </span>
+          </div>
+        </div>
+      )}
+
       <main className={`${currentTrack.trackType === 'reading' ? 'flex-1 flex flex-col overflow-hidden min-h-0' : currentTrack.trackType === 'writing' ? 'w-full px-4 py-4' : 'max-w-5xl mx-auto px-6 py-8'}`}>
         {/* Mock Test Track Progress Indicator (No manual navigation) */}
         {testType === 'mock' && trackDataList.length > 1 && (
