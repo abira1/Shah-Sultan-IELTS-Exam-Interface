@@ -595,21 +595,25 @@ export function ExamPage({
     // Prepare answers based on track type
     let allAnswers: Record<number | string, string> = {};
     
+    // Get answers for the current track (track 0 for partial tests)
+    const currentAnswers = trackAnswers[0] || {};
+    const currentWritingAnswers = trackWritingAnswers[0] || {};
+    
     if (testType === 'partial' && trackType === 'writing') {
       // For writing tracks: ONLY use task-based answers from writingAnswers
       // Do NOT include numbered answers to avoid showing 40 "Not Answered" questions
       allAnswers = {
         ...Object.fromEntries(
-          Object.entries(writingAnswers).map(([key, value]) => [key, value])
+          Object.entries(currentWritingAnswers).map(([key, value]) => [key, value])
         )
       };
       console.log('✓ Writing track: Using only task-based answers');
     } else {
       // For reading/listening tracks or mock tests: Combine all answers
       allAnswers = {
-        ...answers,
+        ...currentAnswers,
         ...Object.fromEntries(
-          Object.entries(writingAnswers).map(([key, value]) => [key, value])
+          Object.entries(currentWritingAnswers).map(([key, value]) => [key, value])
         )
       };
       console.log('✓ Reading/Listening/Mock: Using combined answers');
