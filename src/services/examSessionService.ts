@@ -128,13 +128,12 @@ export const examSessionService = {
     try {
       console.log('Creating exam session:', data.examCode);
       
-      const session: ExamSession = {
+      const session: any = {
         examCode: data.examCode,
         trackId: data.trackId,
         trackName: data.trackName,
         testType: data.testType || 'partial',
         selectedTracks: data.selectedTracks,
-        trackDurations: data.trackDurations,
         date: data.date,
         startTime: data.startTime,
         endTime: data.endTime,
@@ -149,6 +148,11 @@ export const examSessionService = {
         createdBy: data.createdBy,
         createdAt: new Date().toISOString()
       };
+
+      // Only include trackDurations if it's provided (for mock tests)
+      if (data.trackDurations) {
+        session.trackDurations = data.trackDurations;
+      }
 
       // Create exam session
       console.log('Saving exam session to Firebase...');
