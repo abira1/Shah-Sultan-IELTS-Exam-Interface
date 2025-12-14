@@ -780,7 +780,7 @@ export function ExamPage({
                 {examData[currentSection].passage.title}
               </h3>
               <div 
-                className="flex-1 overflow-y-auto px-6 pb-6"
+                className="flex-1 overflow-y-auto px-6 pb-6 min-h-0"
               >
                 <div 
                   className="prose prose-sm max-w-none text-gray-700 leading-relaxed select-text pt-4"
