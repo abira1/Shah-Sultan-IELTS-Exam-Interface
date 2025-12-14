@@ -7,6 +7,16 @@ import { format } from 'date-fns';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { PrintableResult } from '../../components/PrintableResult';
 
+// Helper function for band score interpretation
+function getBandInterpretation(band: number): string {
+  if (band >= 8.5) return "Excellent! You have a very good command of English and can handle complex language effectively.";
+  if (band >= 7.5) return "Very Good! You show a high level of operational command with occasional errors.";
+  if (band >= 6.5) return "Good! You have generally effective command of the language despite some inaccuracies.";
+  if (band >= 5.5) return "Competent! You have partial command of the language and can handle overall meaning in most situations.";
+  if (band >= 4.5) return "Basic! You have limited ability and may face communication breakdowns.";
+  return "Keep practicing! There's room for improvement in your English language skills.";
+}
+
 export function ResultDetailPage() {
   const { submissionId } = useParams<{ submissionId: string }>();
   const { user } = useAuth();
