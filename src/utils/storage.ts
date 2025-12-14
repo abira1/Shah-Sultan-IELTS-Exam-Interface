@@ -1,6 +1,27 @@
 import { getDatabase, ref, get, set, update, remove, onValue, Unsubscribe } from 'firebase/database';
 import { app } from '../firebase';
+import { calculateOverallBand } from './bandScoreConversion';
 
+/**
+ * Section-wise submission data for mock tests
+ * Each section (Listening, Reading, Writing) has its own submission data
+ */
+export interface SectionSubmission {
+  trackId: string;
+  trackName: string;
+  answers: Record<number | string, string>;
+  marks?: Record<number | string, 'correct' | 'incorrect' | null>;
+  submittedAt: string;
+  timeSpent: string;
+  locked: boolean;           // View-only after submission
+  correctAnswers?: number;   // Count of correct answers (for L & R)
+  bandScore?: number;        // Calculated or manually input band score
+}
+
+/**
+ * Main exam submission interface
+ * Supports both partial tests (single track) and mock tests (multiple sections)
+ */
 export interface ExamSubmission {
   id: string;
   studentId: string;
@@ -9,22 +30,44 @@ export interface ExamSubmission {
   trackId: string;
   examCode?: string;
   batchId?: string;
-  answers: Record<number | string, string>;  // Updated to support both number and string keys for writing tasks
+  
+  // Legacy fields for partial tests
+  answers: Record<number | string, string>;
   submittedAt: string;
   timeSpent: string;
   status: 'completed';
   score?: number;
-  marks?: Record<number | string, 'correct' | 'incorrect' | null>;  // Support string keys for writing tasks
+  marks?: Record<number | string, 'correct' | 'incorrect' | null>;
   manualScore?: number;
-  resultPublished?: boolean;
-  publishedAt?: string;
-  markedBy?: string;
+  
   // Multi-track support
   testType?: 'partial' | 'mock';
   trackIds?: string[];  // Array of track IDs for mock tests
-  // Track metadata for proper scoring
-  totalQuestions?: number;  // Total questions/tasks in the track(s)
-  trackType?: 'listening' | 'reading' | 'writing' | 'mock';  // Track type for scoring logic
+  totalQuestions?: number;
+  trackType?: 'listening' | 'reading' | 'writing' | 'mock';
+  
+  // NEW: Mock test section-wise data
+  sectionSubmissions?: {
+    listening?: SectionSubmission;
+    reading?: SectionSubmission;
+    writing?: SectionSubmission;
+  };
+  
+  // NEW: IELTS band scores for mock tests
+  sectionScores?: {
+    listening?: number;      // Band score 0-9
+    reading?: number;        // Band score 0-9
+    writing?: number;        // Band score 0-9
+    speaking?: number;       // Band score 0-9 (mandatory)
+  };
+  
+  // NEW: Overall IELTS band score (average of 4 sections, rounded to 0.5)
+  overallBand?: number;
+  
+  // Publishing
+  resultPublished?: boolean;
+  publishedAt?: string;
+  markedBy?: string;
 }
 
 const db = getDatabase(app);
