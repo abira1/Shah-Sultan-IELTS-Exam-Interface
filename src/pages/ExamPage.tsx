@@ -16,6 +16,8 @@ import { MapTextInputQuestion } from '../components/MapTextInputQuestion';
 import { ParagraphGapQuestion } from '../components/ParagraphGapQuestion';
 import { WritingTaskInput } from '../components/WritingTaskInput';
 import { TrueFalseNotGiven } from '../components/questions/TrueFalseNotGiven';
+import { TrueFalseNotGivenCollapsible } from '../components/questions/TrueFalseNotGivenCollapsible';
+import { TableSelectionQuestion } from '../components/questions/TableSelectionQuestion';
 import { YesNoNotGiven } from '../components/questions/YesNoNotGiven';
 import { MatchingHeadings } from '../components/questions/MatchingHeadings';
 import { QuestionNavigator } from '../components/QuestionNavigator';
