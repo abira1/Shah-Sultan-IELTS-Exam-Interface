@@ -675,6 +675,9 @@ export function ExamPage({
   };
 
   const renderQuestion = (question: any, idx: number) => {
+    // Phase 2: Check if current section is locked (view-only mode)
+    const isLocked = testType === 'mock' && sectionSubmissions[trackOrder[currentTrackIndex]]?.locked;
+    
     // Writing Task with Image (for Task 1 with chart)
     if (question.type === 'writing-task-with-image') {
       const taskKey = `${currentTrack.id}-task${question.taskNumber}`;
@@ -690,7 +693,8 @@ export function ExamPage({
           minWords={question.minWords}
           timeRecommended={question.timeRecommended}
           value={writingAnswers[taskKey] || ''}
-          onChange={(value) => handleWritingAnswerChange(taskKey, value)}
+          onChange={(value) => !isLocked && handleWritingAnswerChange(taskKey, value)}
+          disabled={isLocked}
         />
       );
     }
