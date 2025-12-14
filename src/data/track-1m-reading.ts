@@ -205,6 +205,16 @@ Even though TV does seem to meet the criteria for substance dependence, not all 
               questionNumber: 23,
               label: 'Charles Winick'
             }
+          ],
+          optionsLegend: [
+            { value: 'A', label: 'Audiences would get hypnotized from viewing too much television.' },
+            { value: 'B', label: 'People have been sensitive to the TV signals since a younger age.' },
+            { value: 'C', label: 'People are less likely to accomplish their work with television.' },
+            { value: 'D', label: 'A handful of studies have attempted to study other types of media addiction.' },
+            { value: 'E', label: 'The addictive power of television could probably minimize the problems.' },
+            { value: 'F', label: 'Various media formal characters stimulate people\'s reaction on the screen.' },
+            { value: 'G', label: 'People who believe themselves to be TV addicts are less likely to join in the group activities.' },
+            { value: 'H', label: 'It is hard for people to accept life without a TV at the beginning.' }
           ]
         },
         {
