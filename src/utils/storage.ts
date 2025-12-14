@@ -297,6 +297,7 @@ export const storage = {
       const submission = submissions.find(s => s.id === submissionId);
       
       if (!submission || !submission.marks) {
+        console.log('Cannot publish: submission or marks not found', { submissionId, hasSubmission: !!submission, hasMarks: !!submission?.marks });
         return false;
       }
 
@@ -309,8 +310,23 @@ export const storage = {
       let correctCount = 0;
       
       if (isWriting) {
-        // For writing tracks, specifically check task1 and task2
-        const taskKeys = ['task1', 'task2'];
+        // For writing tracks, dynamically get task keys from answers
+        let taskKeys = submission.answers 
+          ? Object.keys(submission.answers).filter(key => key.includes('task'))
+          : [];
+        
+        // Fallback to default task keys if none found
+        if (taskKeys.length === 0) {
+          taskKeys = ['task1', 'task2'];
+        }
+        
+        console.log('Writing track publish check:', { 
+          submissionId, 
+          taskKeys,
+          marks: submission.marks,
+          answers: submission.answers ? Object.keys(submission.answers) : []
+        });
+        
         taskKeys.forEach(taskKey => {
           const mark = submission.marks![taskKey];
           if (mark !== null && mark !== undefined) {
@@ -345,6 +361,7 @@ export const storage = {
       };
 
       await this.updateSubmission(submissionId, updates);
+      console.log('Result published successfully:', { submissionId, manualScore: updates.manualScore });
       return true;
     } catch (error) {
       console.error('Error publishing result:', error);
