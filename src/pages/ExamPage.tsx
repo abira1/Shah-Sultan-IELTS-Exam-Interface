@@ -748,7 +748,8 @@ export function ExamPage({
           instruction={question.instruction}
           statements={question.statements}
           answers={answers}
-          onAnswerChange={handleAnswerChange}
+          onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)}
+          disabled={isLocked}
         />
       );
     }
@@ -761,7 +762,8 @@ export function ExamPage({
           boxInstruction={question.boxInstruction}
           statements={question.statements}
           answers={answers}
-          onAnswerChange={handleAnswerChange}
+          onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)}
+          disabled={isLocked}
         />
       );
     }
@@ -775,7 +777,8 @@ export function ExamPage({
           rows={question.rows}
           optionsLegend={question.optionsLegend}
           answers={answers}
-          onAnswerChange={handleAnswerChange}
+          onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)}
+          disabled={isLocked}
         />
       );
     }
@@ -787,7 +790,8 @@ export function ExamPage({
           instruction={question.instruction}
           statements={question.statements}
           answers={answers}
-          onAnswerChange={handleAnswerChange}
+          onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)}
+          disabled={isLocked}
         />
       );
     }
@@ -800,7 +804,8 @@ export function ExamPage({
           paragraphs={question.paragraphs}
           headings={question.headings}
           answers={answers}
-          onAnswerChange={handleAnswerChange}
+          onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)}
+          disabled={isLocked}
         />
       );
     }
