@@ -774,7 +774,7 @@ export function ExamPage({
           <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 mx-4 overflow-hidden mb-16 min-h-0">
             {/* Left Panel: Reading Passage with Text Highlighting */}
             <div 
-              className="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-full overflow-hidden"
+              className="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-full overflow-hidden min-h-0"
             >
               <h3 className="text-xl font-bold text-gray-900 px-6 pt-6 pb-4 border-b border-gray-200 flex-shrink-0">
                 {examData[currentSection].passage.title}
