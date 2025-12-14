@@ -495,12 +495,15 @@ export function SubmissionsPage() {
   };
 
   const handlePublishResult = async (submissionId: string) => {
+    const submission = submissions.find(s => s.id === submissionId);
+    const totalQs = submission?.totalQuestions || 40;
     const success = await storage.publishResult(submissionId);
     if (success) {
       await loadSubmissions();
       alert('Result published successfully!');
     } else {
-      alert('Please mark all 40 questions before publishing the result.');
+      const questionType = submission?.trackType === 'writing' && totalQs === 2 ? 'tasks' : 'questions';
+      alert(`Please mark all ${totalQs} ${questionType} before publishing the result.`);
     }
   };
 
