@@ -465,11 +465,15 @@ export function ExamPage({
     
     console.log(`=== SUBMITTING ${sectionType.toUpperCase()} SECTION ===`);
     
+    // Get the current track's answers
+    const currentTrackAnswers = trackAnswers[currentTrackIndex] || {};
+    const currentTrackWritingAnswers = trackWritingAnswers[currentTrackIndex] || {};
+    
     // Prepare section submission data
     const sectionSubmission: SectionSubmission = {
       trackId: currentTrackData.track.id,
       trackName: currentTrackData.track.name,
-      answers: sectionType === 'writing' ? writingAnswers : answers,
+      answers: sectionType === 'writing' ? currentTrackWritingAnswers : currentTrackAnswers,
       submittedAt: new Date().toISOString(),
       timeSpent: calculateTimeSpent(),
       locked: true
