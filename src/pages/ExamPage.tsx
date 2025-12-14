@@ -442,14 +442,6 @@ export function ExamPage({
     console.log('Test Type:', testType);
     console.log('Number of tracks:', trackDataList.length);
 
-    // Combine all answers (reading/listening questions + writing tasks)
-    const allAnswers = {
-      ...answers,
-      ...Object.fromEntries(
-        Object.entries(writingAnswers).map(([key, value]) => [key, value])
-      )
-    };
-
     // Calculate total questions across all tracks
     let totalQuestions = 0;
     let trackType: 'listening' | 'reading' | 'writing' | 'mock' = 'listening';
@@ -466,6 +458,33 @@ export function ExamPage({
 
     console.log('Total questions/tasks:', totalQuestions);
     console.log('Track type:', trackType);
+    console.log('Writing answers:', writingAnswers);
+    console.log('Regular answers:', answers);
+
+    // Prepare answers based on track type
+    let allAnswers: Record<number | string, string> = {};
+    
+    if (testType === 'partial' && trackType === 'writing') {
+      // For writing tracks: ONLY use task-based answers from writingAnswers
+      // Do NOT include numbered answers to avoid showing 40 "Not Answered" questions
+      allAnswers = {
+        ...Object.fromEntries(
+          Object.entries(writingAnswers).map(([key, value]) => [key, value])
+        )
+      };
+      console.log('✓ Writing track: Using only task-based answers');
+    } else {
+      // For reading/listening tracks or mock tests: Combine all answers
+      allAnswers = {
+        ...answers,
+        ...Object.fromEntries(
+          Object.entries(writingAnswers).map(([key, value]) => [key, value])
+        )
+      };
+      console.log('✓ Reading/Listening/Mock: Using combined answers');
+    }
+
+    console.log('Final answers object:', allAnswers);
 
     const score = storage.calculateScore(allAnswers, totalQuestions);
     
@@ -487,8 +506,8 @@ export function ExamPage({
       score,
       resultPublished: false,
       testType,
-      totalQuestions,  // Add total questions for proper scoring
-      trackType  // Add track type for proper handling
+      totalQuestions,  // Explicitly set total questions (2 for writing, 40 for others)
+      trackType  // Explicitly set track type ('writing', 'reading', 'listening', or 'mock')
     };
 
     // Add optional properties only if they have values (Firebase doesn't accept undefined)
