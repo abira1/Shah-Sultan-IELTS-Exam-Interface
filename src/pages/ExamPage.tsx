@@ -448,6 +448,99 @@ export function ExamPage({
     return `${minutes}m ${seconds}s`;
   };
 
+  // Phase 2: Handle section submission for mock tests
+  const handleSectionSubmit = async (sectionType: 'listening' | 'reading' | 'writing') => {
+    const currentTrackData = trackDataList[currentTrackIndex];
+    
+    console.log(`=== SUBMITTING ${sectionType.toUpperCase()} SECTION ===`);
+    
+    // Prepare section submission data
+    const sectionSubmission: SectionSubmission = {
+      trackId: currentTrackData.track.id,
+      trackName: currentTrackData.track.name,
+      answers: sectionType === 'writing' ? writingAnswers : answers,
+      submittedAt: new Date().toISOString(),
+      timeSpent: calculateTimeSpent(),
+      locked: true
+    };
+    
+    console.log('Section submission data:', sectionSubmission);
+    
+    // Update state
+    setSectionSubmissions(prev => ({
+      ...prev,
+      [sectionType]: sectionSubmission
+    }));
+    
+    // Move to next section if not last
+    if (currentTrackIndex < trackDataList.length - 1) {
+      console.log('Moving to next track...');
+      setCurrentTrackIndex(prev => prev + 1);
+      setCurrentSection(0);
+      setIsTimeWarning(false);
+      setIsTimeCritical(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // All sections submitted, proceed to final submission
+      console.log('All sections submitted, proceeding to final submission...');
+      await handleFinalSubmit(sectionType, sectionSubmission);
+    }
+  };
+
+  // Phase 2: Final submission handler for mock tests
+  const handleFinalSubmit = async (lastSectionType?: 'listening' | 'reading' | 'writing', lastSectionData?: SectionSubmission) => {
+    console.log('=== FINAL SUBMISSION ===');
+    
+    // Build complete section submissions including the last one
+    const completeSectionSubmissions = {
+      ...sectionSubmissions,
+      ...(lastSectionType && lastSectionData ? { [lastSectionType]: lastSectionData } : {})
+    };
+    
+    console.log('Complete section submissions:', completeSectionSubmissions);
+    
+    const submission: ExamSubmission = {
+      id: `${studentId}-${Date.now()}`,
+      studentId,
+      studentName,
+      trackName: trackDataList.map(td => td.track.name).join(' + '),
+      trackId: 'mock',
+      testType: 'mock',
+      examCode: currentExamCode || '',
+      sectionSubmissions: completeSectionSubmissions,
+      answers: {}, // Empty for mock tests
+      submittedAt: new Date().toISOString(),
+      timeSpent: calculateTimeSpent(),
+      status: 'completed',
+      resultPublished: false,
+      trackIds: trackDataList.map(td => td.track.id)
+    };
+    
+    if (currentBatchId) {
+      submission.batchId = currentBatchId;
+    }
+    
+    console.log('Final submission object:', JSON.stringify(submission, null, 2));
+    
+    try {
+      const success = await storage.addSubmission(submission);
+      
+      if (success) {
+        console.log('✓ Mock test submitted successfully');
+        alert('✅ Mock Test submitted successfully!\n\nAll three sections (Listening, Reading, Writing) have been recorded.\n\nResults will be published after marking. You can check your dashboard for updates.');
+        onSubmit();
+      } else {
+        console.log('⚠ Submission saved locally only');
+        alert('⚠️ Submission saved locally but could not sync to server. Your submission is safe and will sync when online.');
+        onSubmit();
+      }
+    } catch (error) {
+      console.error('❌ Error submitting mock test:', error);
+      alert('⚠️ Submission saved locally. Your submission is safe and will sync when online.');
+      onSubmit();
+    }
+  };
+
   const handleSubmit = async () => {
     if (trackDataList.length === 0) {
       alert('Error: No active exam track.');
