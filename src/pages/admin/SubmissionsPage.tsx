@@ -468,15 +468,31 @@ export function SubmissionsPage() {
     let unmarked = 0;
 
     if (isWriting) {
-      // For writing tracks, check task-based keys
-      ['task1', 'task2'].forEach(taskKey => {
+      // For writing tracks, check task-based keys dynamically from answers
+      const taskKeys = submission.answers 
+        ? Object.keys(submission.answers).filter(key => key.includes('task'))
+        : ['task1', 'task2'];
+      
+      taskKeys.forEach(taskKey => {
         const mark = submission.marks[taskKey];
         if (mark === 'correct') correct++;
         else if (mark === 'incorrect') incorrect++;
         else unmarked++;
       });
+      
+      // If no task keys found, default to checking task1 and task2
+      if (taskKeys.length === 0) {
+        ['task1', 'task2'].forEach(taskKey => {
+          const mark = submission.marks[taskKey];
+          if (mark === 'correct') correct++;
+          else if (mark === 'incorrect') incorrect++;
+          else unmarked++;
+        });
+      }
+      
       console.log('Writing track marking stats:', { 
-        submissionId: submission.id, 
+        submissionId: submission.id,
+        taskKeys,
         marks: submission.marks, 
         correct, 
         incorrect, 
