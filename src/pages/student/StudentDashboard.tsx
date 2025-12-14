@@ -103,13 +103,24 @@ export function StudentDashboard() {
 
   // Prepare chart data
   const chartData = mySubmissions
-    .filter(sub => sub.resultPublished && sub.manualScore)
+    .filter(sub => {
+      if (!sub.resultPublished) return false;
+      // Include if it has manualScore OR if it's a mock test with overallBand
+      return sub.manualScore || (sub.testType === 'mock' && sub.overallBand !== undefined);
+    })
     .sort((a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime())
-    .map(sub => ({
-      date: format(new Date(sub.submittedAt), 'MMM dd'),
-      score: sub.manualScore || 0,
-      track: sub.trackName
-    }));
+    .map(sub => {
+      let score = sub.manualScore || 0;
+      // For mock tests, convert band score to percentage for chart display
+      if (sub.testType === 'mock' && sub.overallBand !== undefined) {
+        score = Math.round((sub.overallBand / 9) * 100);
+      }
+      return {
+        date: format(new Date(sub.submittedAt), 'MMM dd'),
+        score,
+        track: sub.trackName
+      };
+    });
 
   return (
     <div className="min-h-screen bg-gray-50">
