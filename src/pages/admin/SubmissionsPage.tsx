@@ -121,7 +121,10 @@ export function SubmissionsPage() {
       
       // Filter by assigned tracks if user is a teacher
       if (role === 'teacher' && user?.assignedTracks && user.assignedTracks.length > 0) {
-        data = data.filter(s => user.assignedTracks!.includes(s.trackId));
+        // Include mock test submissions (trackId='mock') along with assigned tracks
+        data = data.filter(s => 
+          s.trackId === 'mock' || user.assignedTracks!.includes(s.trackId)
+        );
       }
       
       setSubmissions(data);
