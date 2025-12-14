@@ -1879,6 +1879,7 @@ export function SubmissionsPage() {
                                   })}
                                 </div>
                               </div>
+                              )}
                             </td>
                           </tr>
                         )}
