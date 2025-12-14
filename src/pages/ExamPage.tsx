@@ -812,40 +812,40 @@ export function ExamPage({
 
     // Existing question types (Listening-compatible)
     if (question.type === 'table-gap') {
-      return <TableGapQuestion key={idx} instruction={question.instruction} title={question.title} rows={question.rows} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <TableGapQuestion key={idx} instruction={question.instruction} title={question.title} rows={question.rows} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'multi-column-table') {
-      return <MultiColumnTableQuestion key={idx} instruction={question.instruction} title={question.title} headers={question.headers} rows={question.rows} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <MultiColumnTableQuestion key={idx} instruction={question.instruction} title={question.title} headers={question.headers} rows={question.rows} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'multiple-choice') {
-      return <MultipleChoiceQuestion key={idx} questionNumber={question.questionNumber} question={question.question} options={question.options} selectedAnswer={answers[question.questionNumber] || ''} onAnswerChange={handleAnswerChange} />;
+      return <MultipleChoiceQuestion key={idx} questionNumber={question.questionNumber} question={question.question} options={question.options} selectedAnswer={answers[question.questionNumber] || ''} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'multiple-choice-multi-select') {
-      return <MultipleChoiceMultiSelectQuestion key={idx} instruction={question.instruction} question={question.question} questionNumbers={question.questionNumbers} maxSelections={question.maxSelections} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <MultipleChoiceMultiSelectQuestion key={idx} instruction={question.instruction} question={question.question} questionNumbers={question.questionNumbers} maxSelections={question.maxSelections} options={question.options} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'sentence-completion') {
-      return <SentenceCompletionQuestion key={idx} instruction={question.instruction} items={question.items} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <SentenceCompletionQuestion key={idx} instruction={question.instruction} items={question.items} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'dropdown') {
-      return <DropdownQuestion key={idx} instruction={question.instruction} items={question.items} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <DropdownQuestion key={idx} instruction={question.instruction} items={question.items} options={question.options} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'drag-and-drop') {
-      return <DragAndDropQuestion key={idx} instruction={question.instruction} items={question.items} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <DragAndDropQuestion key={idx} instruction={question.instruction} items={question.items} options={question.options} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'flowchart') {
-      return <FlowChartQuestion key={idx} instruction={question.instruction} title={question.title} steps={question.steps} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <FlowChartQuestion key={idx} instruction={question.instruction} title={question.title} steps={question.steps} options={question.options} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'map-labeling') {
-      return <MapLabelingQuestion key={idx} instruction={question.instruction} imageUrl={question.imageUrl} labels={question.labels} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <MapLabelingQuestion key={idx} instruction={question.instruction} imageUrl={question.imageUrl} labels={question.labels} options={question.options} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'drag-drop-table') {
-      return <DragDropTableQuestion key={idx} instruction={question.instruction} title={question.title} tableData={question.tableData} items={question.items} options={question.options} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <DragDropTableQuestion key={idx} instruction={question.instruction} title={question.title} tableData={question.tableData} items={question.items} options={question.options} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'map-text-input') {
-      return <MapTextInputQuestion key={idx} instruction={question.instruction} imageUrl={question.imageUrl} labels={question.labels} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <MapTextInputQuestion key={idx} instruction={question.instruction} imageUrl={question.imageUrl} labels={question.labels} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'paragraph-gap') {
-      return <ParagraphGapQuestion key={idx} instruction={question.instruction} paragraph={question.paragraph} questionNumbers={question.questionNumbers} answers={answers} onAnswerChange={handleAnswerChange} />;
+      return <ParagraphGapQuestion key={idx} instruction={question.instruction} paragraph={question.paragraph} questionNumbers={question.questionNumbers} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     return null;
   };
