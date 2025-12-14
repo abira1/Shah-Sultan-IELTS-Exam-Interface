@@ -26,6 +26,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { exportToExcel, exportSummaryToExcel } from '../../utils/exportExcel';
 import { PrintableResult } from '../../components/PrintableResult';
 import { FolderIcon } from '../../components/FolderIcon';
+import { SectionSubmissionCard } from '../../components/SectionSubmissionCard';
+import { SpeakingMarksInput } from '../../components/SpeakingMarksInput';
 
 type AnswerFilter = 'all' | 'answered' | 'unanswered';
 type SortField = 'name' | 'id' | 'time' | 'score';
