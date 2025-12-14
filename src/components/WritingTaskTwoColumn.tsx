@@ -93,41 +93,38 @@ export function WritingTaskTwoColumn({
         </div>
 
         {/* RIGHT SIDE: Writing Area */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {/* Word Count Requirements */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-              <div className="text-sm text-blue-900">
-                <p className="font-medium mb-1">Word Count Requirements:</p>
-                <p>
-                  Write <span className="font-bold">at least {minWords} words</span>
-                </p>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <div className="flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+              <div className="text-xs text-blue-900">
+                <p className="font-medium">Word Count: Write <span className="font-bold">at least {minWords} words</span></p>
               </div>
             </div>
           </div>
 
           {/* Text Editor */}
-          <div className="space-y-3">
+          <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="block text-sm font-medium text-gray-700">
                 Your Answer:
               </label>
               
               {/* Real-time Word Counter */}
-              <div className={`flex items-center gap-4 px-4 py-2 rounded-lg text-sm font-medium ${
+              <div className={`flex items-center gap-3 px-3 py-1.5 rounded-lg text-xs font-medium ${
                 status === 'success' ? 'bg-green-100 text-green-800' :
                 status === 'warning' ? 'bg-amber-100 text-amber-800' :
                 'bg-gray-100 text-gray-600'
               }`}>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs uppercase tracking-wide">Words:</span>
-                  <span className="text-lg font-bold" data-testid={`word-count-task-${taskNumber}`}>
+                <div className="flex items-center gap-1">
+                  <span className="text-xs uppercase tracking-wide">WORDS:</span>
+                  <span className="text-base font-bold" data-testid={`word-count-task-${taskNumber}`}>
                     {wordCount}
                   </span>
                   <span className="text-xs">/ {minWords}</span>
                 </div>
-                <div className="h-4 w-px bg-current opacity-30"></div>
+                <div className="h-3 w-px bg-current opacity-30"></div>
                 <div className="text-xs">
                   {charCount} chars
                 </div>
@@ -137,14 +134,14 @@ export function WritingTaskTwoColumn({
             <textarea
               value={value}
               onChange={(e) => onChange(e.target.value)}
-              className="w-full h-[600px] p-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-y font-mono text-sm leading-relaxed"
+              className="w-full h-[calc(100vh-320px)] min-h-[500px] p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none font-mono text-sm leading-relaxed"
               placeholder="Type your answer here..."
               data-testid={`writing-textarea-task-${taskNumber}`}
             />
 
             {/* Status Message */}
             {wordCount > 0 && (
-              <div className="text-sm">
+              <div className="text-xs">
                 {wordCount < minWords && (
                   <p className="text-amber-600">
                     ⚠️ You need {minWords - wordCount} more word{minWords - wordCount !== 1 ? 's' : ''} to meet the minimum requirement.
