@@ -92,12 +92,12 @@ export function TrueFalseNotGivenCollapsible({
 
               {/* Expanded options */}
               {isExpanded && (
-                <div className="px-4 pb-4 pt-2 bg-gray-50 border-t border-gray-200">
+                <div className="px-4 pb-4 pt-2 bg-gray-50 border-t border-gray-200 transition-all duration-200">
                   <div className="flex gap-3">
                     {options.map((option) => (
                       <label
                         key={option.value}
-                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 rounded-lg cursor-pointer transition-all ${
+                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 rounded-lg cursor-pointer transition-colors ${
                           answers[item.questionNumber] === option.value
                             ? 'border-blue-500 bg-blue-50 text-blue-700 font-semibold'
                             : 'border-gray-300 hover:border-gray-400 text-gray-700 bg-white'
@@ -108,7 +108,7 @@ export function TrueFalseNotGivenCollapsible({
                           name={`question-${item.questionNumber}`}
                           value={option.value}
                           checked={answers[item.questionNumber] === option.value}
-                          onChange={(e) => onAnswerChange(item.questionNumber, e.target.value)}
+                          onChange={(e) => handleAnswerSelection(item.questionNumber, e.target.value)}
                           className="sr-only"
                           data-testid={`tfng-collapsible-${item.questionNumber}-${option.value}`}
                         />
