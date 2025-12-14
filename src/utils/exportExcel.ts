@@ -93,20 +93,29 @@ export const exportToExcel = (submissions: ExamSubmission[], options: ExportOpti
 const calculateSectionStats = (submission: ExamSubmission) => {
   let section1 = 0, section2 = 0, section3 = 0, section4 = 0;
   let correct = 0;
+  const totalQs = submission.totalQuestions || 40;
+  const isWriting = submission.trackType === 'writing' && totalQs === 2;
 
   if (submission.marks) {
-    for (let i = 1; i <= 40; i++) {
-      if (submission.marks[i] === 'correct') {
-        correct++;
-        if (i <= 10) section1++;
-        else if (i <= 20) section2++;
-        else if (i <= 30) section3++;
-        else section4++;
+    if (isWriting) {
+      // For writing tracks, count task marks
+      if (submission.marks['task1'] === 'correct') correct++;
+      if (submission.marks['task2'] === 'correct') correct++;
+    } else {
+      // For reading/listening tracks with numbered questions
+      for (let i = 1; i <= totalQs; i++) {
+        if (submission.marks[i] === 'correct') {
+          correct++;
+          if (i <= 10) section1++;
+          else if (i <= 20) section2++;
+          else if (i <= 30) section3++;
+          else section4++;
+        }
       }
     }
   }
 
-  const percentage = submission.manualScore || Math.round((correct / 40) * 100);
+  const percentage = submission.manualScore || Math.round((correct / totalQs) * 100);
 
   return { section1, section2, section3, section4, correct, percentage };
 };
