@@ -1070,22 +1070,28 @@ export function ExamPage({
                           <>
                             <button
                               onClick={() => setCurrentSection(prev => Math.max(0, prev - 1))}
-                              disabled={currentSection === 0}
+                              disabled={currentSection === 0 || sectionSubmissions[trackOrder[currentTrackIndex]]?.locked}
                               className="px-6 py-3 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
                               Previous Section
                             </button>
 
                             {currentSection === (examData?.length || 0) - 1 ? (
-                              <div className="text-center flex-1 mx-4">
-                                <p className="text-sm text-gray-600">
-                                  ⏱️ Next track will start automatically when timer ends
-                                </p>
-                              </div>
+                              <button
+                                onClick={() => handleSectionSubmit(trackOrder[currentTrackIndex])}
+                                disabled={sectionSubmissions[trackOrder[currentTrackIndex]]?.locked}
+                                className="px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                data-testid="submit-section-button"
+                              >
+                                {sectionSubmissions[trackOrder[currentTrackIndex]]?.locked 
+                                  ? '✓ Section Submitted' 
+                                  : `Submit ${trackInfo.label} Section`}
+                              </button>
                             ) : (
                               <button
                                 onClick={() => setCurrentSection(prev => prev + 1)}
-                                className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                disabled={sectionSubmissions[trackOrder[currentTrackIndex]]?.locked}
+                                className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                               >
                                 Next Section
                               </button>
