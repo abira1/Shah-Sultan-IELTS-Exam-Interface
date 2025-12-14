@@ -378,30 +378,57 @@ export function SubmissionsPage() {
   };
 
   const getAllQuestions = (submission: ExamSubmission) => {
-    const allQuestions: {
-      questionNumber: number;
-      answer: string | null;
-    }[] = [];
+    const allQuestions: { questionNumber: number | string; answer: string | null }[] = [];
     
     // Ensure answers object exists
     if (!submission.answers || typeof submission.answers !== 'object') {
-      // Return empty questions if no answers
-      for (let i = 1; i <= 40; i++) {
-        allQuestions.push({
-          questionNumber: i,
-          answer: null
-        });
+      // Return empty questions based on totalQuestions or default to 40
+      const totalQs = submission.totalQuestions || 40;
+      
+      // For writing tracks (2 tasks), use string keys
+      if (submission.trackType === 'writing' && totalQs === 2) {
+        allQuestions.push({ questionNumber: 'task1', answer: null });
+        allQuestions.push({ questionNumber: 'task2', answer: null });
+      } else {
+        // For reading/listening (numbered questions)
+        for (let i = 1; i <= totalQs; i++) {
+          allQuestions.push({ questionNumber: i, answer: null });
+        }
       }
       return allQuestions;
     }
     
-    for (let i = 1; i <= 40; i++) {
-      const answer = submission.answers[i];
-      allQuestions.push({
-        questionNumber: i,
-        answer: answer && typeof answer === 'string' && answer.trim() !== '' ? answer : null
+    // Determine if this is a writing track or reading/listening
+    const totalQs = submission.totalQuestions || 40;
+    const isWriting = submission.trackType === 'writing' && totalQs === 2;
+    
+    if (isWriting) {
+      // For writing tracks, look for task-based keys
+      Object.keys(submission.answers).forEach(key => {
+        if (key.includes('task')) {
+          const answer = submission.answers[key];
+          allQuestions.push({
+            questionNumber: key,
+            answer: answer && typeof answer === 'string' && answer.trim() !== '' ? answer : null
+          });
+        }
       });
+      // Ensure we have at least 2 tasks
+      if (allQuestions.length === 0) {
+        allQuestions.push({ questionNumber: 'task1', answer: null });
+        allQuestions.push({ questionNumber: 'task2', answer: null });
+      }
+    } else {
+      // For reading/listening tracks with numbered questions
+      for (let i = 1; i <= totalQs; i++) {
+        const answer = submission.answers[i];
+        allQuestions.push({
+          questionNumber: i,
+          answer: answer && typeof answer === 'string' && answer.trim() !== '' ? answer : null
+        });
+      }
     }
+    
     return allQuestions;
   };
 
