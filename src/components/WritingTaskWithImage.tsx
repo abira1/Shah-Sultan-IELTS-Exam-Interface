@@ -63,34 +63,34 @@ export function WritingTaskWithImage({
       {/* Two-column layout: Left side (Chart) + Right side (Writing area) */}
       <div className="grid grid-cols-1 lg:grid-cols-[45%_55%] gap-4">
         {/* LEFT SIDE: Chart Description and Image */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {/* Chart Description Box */}
-          <div className="bg-white border-2 border-gray-300 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <FileText className="w-5 h-5 text-blue-600" />
-              <h4 className="font-semibold text-gray-900">Chart Description</h4>
+          <div className="bg-white border-2 border-gray-300 rounded-lg p-3">
+            <div className="flex items-center gap-2 mb-2">
+              <FileText className="w-4 h-4 text-blue-600" />
+              <h4 className="font-semibold text-gray-900 text-sm">Chart Description</h4>
             </div>
             <p className="text-gray-700 text-sm">{chartDescription}</p>
           </div>
 
           {/* Task Prompt */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
             <div className="prose prose-sm max-w-none">
               <p className="text-gray-800 whitespace-pre-wrap leading-relaxed text-sm">{prompt}</p>
             </div>
           </div>
 
           {/* Chart Image */}
-          <div className="bg-white border-2 border-gray-300 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <ImageIcon className="w-5 h-5 text-purple-600" />
-              <h4 className="font-semibold text-gray-900">Chart</h4>
+          <div className="bg-white border-2 border-gray-300 rounded-lg p-3">
+            <div className="flex items-center gap-2 mb-2">
+              <ImageIcon className="w-4 h-4 text-purple-600" />
+              <h4 className="font-semibold text-gray-900 text-sm">Chart</h4>
             </div>
-            <div className="flex justify-center items-center bg-gray-50 rounded-lg p-4">
+            <div className="flex justify-center items-center bg-gray-50 rounded-lg p-2">
               <img 
                 src={chartImageURL} 
                 alt="Employment chart" 
-                className="max-w-full h-auto rounded shadow-lg"
+                className="max-w-full h-auto rounded shadow-md"
                 data-testid={`chart-image-task-${taskNumber}`}
               />
             </div>
