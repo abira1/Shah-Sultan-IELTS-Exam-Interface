@@ -269,19 +269,25 @@ export function ExamControlPage() {
           const now = new Date();
           const immediateEndDate = new Date(now.getTime() + duration * 60000);
           
-          await set(ref(db, 'exam/status'), {
+          const examStatusData: any = {
             isStarted: true,
             activeTrackId: trackId,
             trackName: trackName,
             testType: testType,
             selectedTracks: selectedTracks,
-            trackDurations: testType === 'mock' ? mockDurations : undefined,
             examCode: result.examCode,
             startTime: now.toISOString(),
             endTime: immediateEndDate.toISOString(),
             duration: duration,
             startedBy: 'admin'
-          });
+          };
+
+          // Only include trackDurations for mock tests
+          if (testType === 'mock') {
+            examStatusData.trackDurations = mockDurations;
+          }
+
+          await set(ref(db, 'exam/status'), examStatusData);
         }
 
         setSuccess(
