@@ -442,7 +442,32 @@ export function ExamPage({
     console.log('Test Type:', testType);
     console.log('Number of tracks:', trackDataList.length);
 
-    const score = storage.calculateScore(answers);
+    // Combine all answers (reading/listening questions + writing tasks)
+    const allAnswers = {
+      ...answers,
+      ...Object.fromEntries(
+        Object.entries(writingAnswers).map(([key, value]) => [key, value])
+      )
+    };
+
+    // Calculate total questions across all tracks
+    let totalQuestions = 0;
+    let trackType: 'listening' | 'reading' | 'writing' | 'mock' = 'listening';
+    
+    if (testType === 'mock') {
+      // For mock tests, sum up questions from all tracks
+      totalQuestions = trackDataList.reduce((sum, td) => sum + td.track.totalQuestions, 0);
+      trackType = 'mock';
+    } else {
+      // For partial tests, use the single track's question count
+      totalQuestions = trackDataList[0].track.totalQuestions;
+      trackType = trackDataList[0].track.trackType;
+    }
+
+    console.log('Total questions/tasks:', totalQuestions);
+    console.log('Track type:', trackType);
+
+    const score = storage.calculateScore(allAnswers, totalQuestions);
     
     // Build track names for display
     const trackNames = trackDataList.map(td => td.track.name).join(' + ');
@@ -455,18 +480,15 @@ export function ExamPage({
       studentName,
       trackName: trackNames,
       trackId: testType === 'mock' ? 'mock' : trackDataList[0].track.id,
-      answers: {
-        ...answers,
-        ...Object.fromEntries(
-          Object.entries(writingAnswers).map(([key, value]) => [key, value])
-        )
-      },
+      answers: allAnswers,
       submittedAt: new Date().toISOString(),
       timeSpent: calculateTimeSpent(),
       status: 'completed',
       score,
       resultPublished: false,
-      testType
+      testType,
+      totalQuestions,  // Add total questions for proper scoring
+      trackType  // Add track type for proper handling
     };
 
     // Add optional properties only if they have values (Firebase doesn't accept undefined)
