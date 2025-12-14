@@ -165,6 +165,10 @@ export interface TableSelectionQuestion {
     questionNumber: number;
     label: string;
   }>;
+  optionsLegend?: Array<{
+    value: string;
+    label: string;
+  }>;
 }
 
 export interface YesNoNotGivenQuestion {
