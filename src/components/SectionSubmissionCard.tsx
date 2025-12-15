@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CheckIcon, XIcon } from 'lucide-react';
 import { convertListeningToBand, convertReadingToBand } from '../utils/bandScoreConversion';
 import { SectionSubmission } from '../utils/storage';
@@ -24,6 +24,18 @@ export function SectionSubmissionCard({
   const [manualBandScore, setManualBandScore] = useState<string>(
     currentBandScore?.toString() || ''
   );
+
+  // CRITICAL FIX: Update localMarks when section or sectionData changes
+  // This ensures that when switching between listening/reading tabs,
+  // the marks are properly reset to the correct section's data
+  useEffect(() => {
+    setLocalMarks(sectionData.marks || {});
+  }, [section, sectionData]);
+
+  // Update manual band score when it changes
+  useEffect(() => {
+    setManualBandScore(currentBandScore?.toString() || '');
+  }, [currentBandScore]);
 
   // Get section icon and color
   const getSectionStyle = () => {
