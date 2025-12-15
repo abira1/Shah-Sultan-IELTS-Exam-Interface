@@ -19,7 +19,8 @@ export const allTracks: Track[] = [
   track1MReading,
   // Writing Tracks
   trackWriting1,
-  track1MWriting
+  track1MWriting,
+  track2MWriting
 ];
 
 // Helper function to get track by ID
