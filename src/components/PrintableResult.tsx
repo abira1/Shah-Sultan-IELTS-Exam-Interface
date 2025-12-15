@@ -309,20 +309,20 @@ export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, on
 
           {/* Additional Information */}
           <div className="grid grid-cols-2 gap-6 mb-6">
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <h4 className="text-sm font-semibold text-gray-700 mb-2">Submission Details</h4>
-              <div className="space-y-1 text-sm">
-                <p className="text-gray-600">
-                  Time Spent: <span className="font-semibold text-gray-900">{submission.timeSpent || 'N/A'}</span>
+            <div className="bg-white p-4 rounded border-2 border-gray-900">
+              <h4 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b border-gray-400 pb-2">Submission Details</h4>
+              <div className="space-y-2 text-sm">
+                <p className="text-gray-700">
+                  <span className="font-semibold">Time Spent:</span> <span className="font-bold text-gray-900">{submission.timeSpent || 'N/A'}</span>
                 </p>
-                <p className="text-gray-600">
-                  Status: <span className="font-semibold text-green-600">
+                <p className="text-gray-700">
+                  <span className="font-semibold">Status:</span> <span className="font-bold text-gray-900">
                     {submission.resultPublished ? 'Published' : 'Pending'}
                   </span>
                 </p>
                 {submission.publishedAt && (
-                  <p className="text-gray-600">
-                    Published: <span className="font-semibold text-gray-900">
+                  <p className="text-gray-700">
+                    <span className="font-semibold">Published:</span> <span className="font-bold text-gray-900">
                       {new Date(submission.publishedAt).toLocaleDateString()}
                     </span>
                   </p>
@@ -330,28 +330,28 @@ export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, on
               </div>
             </div>
 
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <h4 className="text-sm font-semibold text-gray-700 mb-2">Grading Information</h4>
-              <div className="space-y-1 text-sm">
-                <p className="text-gray-600">
-                  Graded By: <span className="font-semibold text-gray-900">{submission.markedBy || 'N/A'}</span>
+            <div className="bg-white p-4 rounded border-2 border-gray-900">
+              <h4 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b border-gray-400 pb-2">Grading Information</h4>
+              <div className="space-y-2 text-sm">
+                <p className="text-gray-700">
+                  <span className="font-semibold">Graded By:</span> <span className="font-bold text-gray-900">{submission.markedBy || 'N/A'}</span>
                 </p>
                 {isMockTest ? (
                   <>
-                    <p className="text-gray-600">
-                      Test Type: <span className="font-semibold text-gray-900">IELTS Mock Test</span>
+                    <p className="text-gray-700">
+                      <span className="font-semibold">Test Type:</span> <span className="font-bold text-gray-900">IELTS Mock Test</span>
                     </p>
-                    <p className="text-gray-600">
-                      Overall Band: <span className="font-semibold text-blue-600">{submission.overallBand?.toFixed(1)}</span>
+                    <p className="text-gray-700">
+                      <span className="font-semibold">Overall Band:</span> <span className="font-bold text-gray-900">{submission.overallBand?.toFixed(1)}</span>
                     </p>
                   </>
                 ) : (
                   <>
-                    <p className="text-gray-600">
-                      Total Questions: <span className="font-semibold text-gray-900">40</span>
+                    <p className="text-gray-700">
+                      <span className="font-semibold">Total Questions:</span> <span className="font-bold text-gray-900">40</span>
                     </p>
-                    <p className="text-gray-600">
-                      Correct Answers: <span className="font-semibold text-green-600">{stats.correct}</span>
+                    <p className="text-gray-700">
+                      <span className="font-semibold">Correct Answers:</span> <span className="font-bold text-gray-900">{stats.correct}</span>
                     </p>
                   </>
                 )}
