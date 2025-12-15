@@ -100,6 +100,8 @@ export const track3MListening: Track = {
         {
           type: 'drag-and-drop',
           instruction: 'Write the correct letter, A-F, for each answer.',
+          imageUrl: 'https://customer-assets.emergentagent.com/job_2eeda228-d9c9-4ac9-8d52-1d54bbc472a9/artifacts/pr4w5mld_Image%201.png',
+          imageTitle: 'Schedule of Repairs',
           items: [
             { questionNumber: 11, label: '(11) ..............' },
             { questionNumber: 12, label: '(12) ..............' },
@@ -108,12 +110,12 @@ export const track3MListening: Track = {
             { questionNumber: 15, label: '(15) ..............' }
           ],
           options: [
-            { label: 'A. Birds in ceiling', value: 'A' },
-            { label: 'B. Broken windows', value: 'B' },
-            { label: 'C. Electrical fault', value: 'C' },
-            { label: 'D. Fallen tree', value: 'D' },
-            { label: 'E. Leaking roof', value: 'E' },
-            { label: 'F. Staining on walls', value: 'F' }
+            { label: 'Birds in ceiling', value: 'A' },
+            { label: 'Broken windows', value: 'B' },
+            { label: 'Electrical fault', value: 'C' },
+            { label: 'Fallen tree', value: 'D' },
+            { label: 'Leaking roof', value: 'E' },
+            { label: 'Leaking roof', value: 'F' }
           ]
         },
         {
