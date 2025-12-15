@@ -1561,7 +1561,7 @@ export function SubmissionsPage() {
                                   </div>
 
                                   {/* Current Section Card */}
-                                  {submission.sectionSubmissions[currentSectionSlide] && (
+                                  {submission.sectionSubmissions[currentSectionSlide] ? (
                                     <div className="mb-6">
                                       <SectionSubmissionCard
                                         section={currentSectionSlide}
@@ -1575,6 +1575,16 @@ export function SubmissionsPage() {
                                         currentBandScore={submission.sectionScores?.[currentSectionSlide]}
                                         isReadOnly={submission.resultPublished}
                                       />
+                                    </div>
+                                  ) : (
+                                    <div className="mb-6 bg-yellow-50 border-2 border-yellow-200 rounded-lg p-8 text-center">
+                                      <AlertCircleIcon className="w-12 h-12 text-yellow-600 mx-auto mb-4" />
+                                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                                        No {currentSectionSlide.charAt(0).toUpperCase() + currentSectionSlide.slice(1)} Section Data
+                                      </h3>
+                                      <p className="text-gray-600">
+                                        This section was not completed or the submission data is incomplete.
+                                      </p>
                                     </div>
                                   )}
 
