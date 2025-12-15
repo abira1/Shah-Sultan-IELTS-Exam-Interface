@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { GraduationCap, LogOut, BookOpen, BarChart3, Calendar, TrendingUp, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { LogOut, BookOpen, BarChart3, Calendar, TrendingUp, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import { examSessionService, ExamSession } from '../../services/examSessionService';
 import { storage, ExamSubmission } from '../../utils/storage';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
