@@ -7,6 +7,8 @@ interface DragAndDropItem {
 
 interface DragAndDropQuestionProps {
   instruction: string;
+  imageUrl?: string;
+  imageTitle?: string;
   items: DragAndDropItem[];
   options: Array<{
     label: string;
@@ -18,6 +20,8 @@ interface DragAndDropQuestionProps {
 
 export function DragAndDropQuestion({
   instruction,
+  imageUrl,
+  imageTitle,
   items,
   options,
   answers,
