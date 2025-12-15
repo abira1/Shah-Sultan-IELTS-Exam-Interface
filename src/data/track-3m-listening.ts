@@ -115,7 +115,7 @@ export const track3MListening: Track = {
             { label: 'Electrical fault', value: 'C' },
             { label: 'Fallen tree', value: 'D' },
             { label: 'Leaking roof', value: 'E' },
-            { label: 'Leaking roof', value: 'F' }
+            { label: 'Staining on walls', value: 'F' }
           ]
         },
         {
