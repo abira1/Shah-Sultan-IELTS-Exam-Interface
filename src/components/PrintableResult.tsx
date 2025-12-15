@@ -352,12 +352,25 @@ export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, on
                 <p className="text-gray-600">
                   Graded By: <span className="font-semibold text-gray-900">{submission.markedBy || 'N/A'}</span>
                 </p>
-                <p className="text-gray-600">
-                  Total Questions: <span className="font-semibold text-gray-900">40</span>
-                </p>
-                <p className="text-gray-600">
-                  Correct Answers: <span className="font-semibold text-green-600">{stats.correct}</span>
-                </p>
+                {isMockTest ? (
+                  <>
+                    <p className="text-gray-600">
+                      Test Type: <span className="font-semibold text-gray-900">IELTS Mock Test</span>
+                    </p>
+                    <p className="text-gray-600">
+                      Overall Band: <span className="font-semibold text-blue-600">{submission.overallBand?.toFixed(1)}</span>
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-gray-600">
+                      Total Questions: <span className="font-semibold text-gray-900">40</span>
+                    </p>
+                    <p className="text-gray-600">
+                      Correct Answers: <span className="font-semibold text-green-600">{stats.correct}</span>
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           </div>
