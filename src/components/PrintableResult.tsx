@@ -83,7 +83,7 @@ export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, on
         {/* Printable content */}
         <div className="p-8 bg-white" id="printable-result">
           {/* Header with Logo */}
-          <div className="flex items-start justify-between mb-6 pb-6 border-b-4 border-blue-600">
+          <div className="flex items-start justify-between mb-6 pb-6 border-b-4 border-gray-900">
             <div className="flex items-center gap-4">
               <img 
                 src="/shah-sultan-academy-logo.png" 
@@ -91,15 +91,15 @@ export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, on
                 className="h-20 w-20 object-contain"
               />
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Shah Sultan IELTS Academy</h1>
-                <p className="text-lg text-gray-600">Student Performance Report</p>
-                <p className="text-sm text-gray-500 mt-1">Official Exam Results</p>
+                <h1 className="text-3xl font-bold text-gray-900 uppercase tracking-wide">Shah Sultan IELTS Academy</h1>
+                <p className="text-lg text-gray-700 font-semibold">Student Performance Report</p>
+                <p className="text-sm text-gray-600 mt-1 uppercase tracking-wider">Official Exam Results</p>
               </div>
             </div>
             <div className="text-right">
-              <div className="bg-blue-50 px-4 py-2 rounded-lg border border-blue-200">
-                <p className="text-xs text-gray-600 mb-1">Report Date</p>
-                <p className="text-sm font-semibold text-gray-900">
+              <div className="bg-gray-100 px-4 py-2 rounded border-2 border-gray-900">
+                <p className="text-xs text-gray-700 mb-1 uppercase tracking-wider font-semibold">Report Date</p>
+                <p className="text-sm font-bold text-gray-900">
                   {new Date().toLocaleDateString('en-US', { 
                     year: 'numeric', 
                     month: 'long', 
