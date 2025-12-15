@@ -8,15 +8,22 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyACqLW0zlrEByDJo1cqg_qPCZInHpS2gnI",
-  authDomain: "shah-sultan-s-ielts-academy.firebaseapp.com",
-  databaseURL: "https://shah-sultan-s-ielts-academy-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "shah-sultan-s-ielts-academy",
-  storageBucket: "shah-sultan-s-ielts-academy.firebasestorage.app",
-  messagingSenderId: "321911668194",
-  appId: "1:321911668194:web:bfa5aa4afbc53a57da4dbb",
-  measurementId: "G-Q4S9V2GSW8"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
+
+// Validate that all required environment variables are present
+if (!firebaseConfig.apiKey || !firebaseConfig.authDomain || !firebaseConfig.projectId) {
+  throw new Error(
+    'Missing Firebase configuration. Please check your .env file and ensure all VITE_FIREBASE_* variables are set.'
+  );
+}
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
