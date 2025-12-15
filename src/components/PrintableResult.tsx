@@ -155,17 +155,17 @@ export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, on
           {isMockTest ? (
             <>
               {/* Mock Test Band Score Display */}
-              <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-8 rounded-xl border-2 border-blue-400 mb-6 text-white">
+              <div className="bg-white p-8 rounded-lg border-4 border-gray-900 mb-6">
                 <div className="text-center">
-                  <h3 className="text-xl font-bold mb-4 opacity-90">IELTS Mock Test Result</h3>
-                  <div className="mb-2">
-                    <p className="text-sm opacity-80 mb-2">Overall Band Score</p>
-                    <div className="text-8xl font-bold mb-2">
+                  <h3 className="text-xl font-bold mb-4 text-gray-900 uppercase tracking-wide">IELTS Mock Test Result</h3>
+                  <div className="mb-2 py-6 border-y-2 border-gray-300">
+                    <p className="text-sm text-gray-600 mb-3 uppercase tracking-wider">Overall Band Score</p>
+                    <div className="text-9xl font-bold mb-2 text-gray-900">
                       {submission.overallBand!.toFixed(1)}
                     </div>
                   </div>
-                  <div className="mt-4 pt-4 border-t border-white/30">
-                    <p className="text-sm opacity-90">
+                  <div className="mt-6">
+                    <p className="text-sm text-gray-700 italic">
                       {getBandInterpretation(submission.overallBand!)}
                     </p>
                   </div>
@@ -174,69 +174,58 @@ export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, on
 
               {/* Section Band Scores */}
               <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b-2 border-gray-900 uppercase tracking-wide">
                   Section Band Scores
                 </h3>
                 <div className="grid grid-cols-4 gap-4">
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 rounded-lg p-5 text-center">
-                    <div className="text-2xl mb-2">🎧</div>
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Listening</h4>
-                    <div className="text-4xl font-bold text-blue-600">
+                  <div className="bg-white border-2 border-gray-900 rounded-lg p-5 text-center">
+                    <h4 className="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wider">Listening</h4>
+                    <div className="text-5xl font-bold text-gray-900 py-4">
                       {submission.sectionScores?.listening?.toFixed(1) || '--'}
                     </div>
-                    <p className="text-xs text-gray-600 mt-2">Band Score</p>
+                    <p className="text-xs text-gray-600 uppercase tracking-wider">Band Score</p>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 rounded-lg p-5 text-center">
-                    <div className="text-2xl mb-2">📖</div>
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Reading</h4>
-                    <div className="text-4xl font-bold text-green-600">
+                  <div className="bg-white border-2 border-gray-900 rounded-lg p-5 text-center">
+                    <h4 className="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wider">Reading</h4>
+                    <div className="text-5xl font-bold text-gray-900 py-4">
                       {submission.sectionScores?.reading?.toFixed(1) || '--'}
                     </div>
-                    <p className="text-xs text-gray-600 mt-2">Band Score</p>
+                    <p className="text-xs text-gray-600 uppercase tracking-wider">Band Score</p>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 border-2 border-orange-300 rounded-lg p-5 text-center">
-                    <div className="text-2xl mb-2">✍️</div>
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Writing</h4>
-                    <div className="text-4xl font-bold text-orange-600">
+                  <div className="bg-white border-2 border-gray-900 rounded-lg p-5 text-center">
+                    <h4 className="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wider">Writing</h4>
+                    <div className="text-5xl font-bold text-gray-900 py-4">
                       {submission.sectionScores?.writing?.toFixed(1) || '--'}
                     </div>
-                    <p className="text-xs text-gray-600 mt-2">Band Score</p>
+                    <p className="text-xs text-gray-600 uppercase tracking-wider">Band Score</p>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 rounded-lg p-5 text-center">
-                    <div className="text-2xl mb-2">🎤</div>
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Speaking</h4>
-                    <div className="text-4xl font-bold text-purple-600">
+                  <div className="bg-white border-2 border-gray-900 rounded-lg p-5 text-center">
+                    <h4 className="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wider">Speaking</h4>
+                    <div className="text-5xl font-bold text-gray-900 py-4">
                       {submission.sectionScores?.speaking?.toFixed(1) || '--'}
                     </div>
-                    <p className="text-xs text-gray-600 mt-2">Band Score</p>
+                    <p className="text-xs text-gray-600 uppercase tracking-wider">Band Score</p>
                   </div>
                 </div>
               </div>
 
-              {/* Performance Indicator */}
-              <div className="bg-blue-50 p-5 rounded-lg border-2 border-blue-200 mb-6">
-                <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                  <span className="text-lg">🎯</span>
-                  Performance Indicator
+              {/* Performance Indicator - Simplified */}
+              <div className="bg-gray-100 p-5 rounded-lg border-2 border-gray-400 mb-6">
+                <h4 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider">
+                  Performance Level
                 </h4>
-                <div className="bg-white rounded-full h-4 overflow-hidden border border-gray-300">
+                <div className="bg-white rounded h-6 overflow-hidden border-2 border-gray-900">
                   <div 
-                    className={`h-full transition-all ${
-                      submission.overallBand! >= 8.5 ? 'bg-green-500' :
-                      submission.overallBand! >= 7.5 ? 'bg-blue-500' :
-                      submission.overallBand! >= 6.5 ? 'bg-yellow-500' :
-                      submission.overallBand! >= 5.5 ? 'bg-orange-500' :
-                      'bg-red-500'
-                    }`}
+                    className="h-full bg-gray-900"
                     style={{ width: `${(submission.overallBand! / 9) * 100}%` }}
                   ></div>
                 </div>
-                <div className="flex justify-between text-xs text-gray-600 mt-2">
+                <div className="flex justify-between text-xs text-gray-700 mt-3 font-semibold">
                   <span>0.0</span>
-                  <span className="font-bold text-gray-800">Band {submission.overallBand!.toFixed(1)}</span>
+                  <span className="text-base">Band {submission.overallBand!.toFixed(1)}</span>
                   <span>9.0</span>
                 </div>
               </div>
