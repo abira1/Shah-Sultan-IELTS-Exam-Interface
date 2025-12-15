@@ -112,38 +112,38 @@ export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, on
 
           {/* Student Information */}
           <div className="grid grid-cols-2 gap-6 mb-6">
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <h3 className="text-sm font-semibold text-gray-600 mb-3">Student Information</h3>
+            <div className="bg-white p-4 rounded border-2 border-gray-900">
+              <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b border-gray-400 pb-2">Student Information</h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Student ID:</span>
-                  <span className="text-sm font-semibold text-gray-900">{submission.studentId}</span>
+                  <span className="text-sm text-gray-700 font-semibold">Student ID:</span>
+                  <span className="text-sm font-bold text-gray-900">{submission.studentId}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Name:</span>
-                  <span className="text-sm font-semibold text-gray-900">{submission.studentName}</span>
+                  <span className="text-sm text-gray-700 font-semibold">Name:</span>
+                  <span className="text-sm font-bold text-gray-900">{submission.studentName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Batch:</span>
-                  <span className="text-sm font-semibold text-gray-900">{submission.batchId || 'N/A'}</span>
+                  <span className="text-sm text-gray-700 font-semibold">Batch:</span>
+                  <span className="text-sm font-bold text-gray-900">{submission.batchId || 'N/A'}</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <h3 className="text-sm font-semibold text-gray-600 mb-3">Exam Information</h3>
+            <div className="bg-white p-4 rounded border-2 border-gray-900">
+              <h3 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wider border-b border-gray-400 pb-2">Exam Information</h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Exam Code:</span>
-                  <span className="text-sm font-semibold text-gray-900">{submission.examCode || 'N/A'}</span>
+                  <span className="text-sm text-gray-700 font-semibold">Exam Code:</span>
+                  <span className="text-sm font-bold text-gray-900">{submission.examCode || 'N/A'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Track:</span>
-                  <span className="text-sm font-semibold text-gray-900">{track?.name || submission.trackName}</span>
+                  <span className="text-sm text-gray-700 font-semibold">Track:</span>
+                  <span className="text-sm font-bold text-gray-900">{track?.name || submission.trackName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Date:</span>
-                  <span className="text-sm font-semibold text-gray-900">
+                  <span className="text-sm text-gray-700 font-semibold">Date:</span>
+                  <span className="text-sm font-bold text-gray-900">
                     {new Date(submission.submittedAt).toLocaleDateString()}
                   </span>
                 </div>
