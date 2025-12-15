@@ -9,6 +9,7 @@ import { track1MWriting } from './track-1m-writing';
 import { track2MWriting } from './track-2m-writing';
 import { track3MWriting } from './track-3m-writing';
 import { track4MWriting } from './track-4m-writing';
+import { track5MWriting } from './track-5m-writing';
 
 // Export all tracks as an array
 export const allTracks: Track[] = [
