@@ -117,7 +117,7 @@ export function StudentDashboard() {
   const chartData = filteredSubmissions.map((sub) => {
     let score = sub.manualScore || 0;
     let displayLabel = '';
-    let testType = sub.testType || 'partial';
+    const testType = sub.testType || 'partial';
     
     // For mock tests, convert band score to percentage for chart display
     if (sub.testType === 'mock' && sub.overallBand !== undefined) {
