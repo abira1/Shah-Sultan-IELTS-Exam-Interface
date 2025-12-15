@@ -849,7 +849,7 @@ export function ExamPage({
       return <DropdownQuestion key={idx} instruction={question.instruction} items={question.items} options={question.options} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'drag-and-drop') {
-      return <DragAndDropQuestion key={idx} instruction={question.instruction} items={question.items} options={question.options} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
+      return <DragAndDropQuestion key={idx} instruction={question.instruction} imageUrl={question.imageUrl} imageTitle={question.imageTitle} items={question.items} options={question.options} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
     }
     if (question.type === 'flowchart') {
       return <FlowChartQuestion key={idx} instruction={question.instruction} title={question.title} steps={question.steps} options={question.options} answers={answers} onAnswerChange={(qNum, value) => !isLocked && handleAnswerChange(qNum, value)} disabled={isLocked} />;
