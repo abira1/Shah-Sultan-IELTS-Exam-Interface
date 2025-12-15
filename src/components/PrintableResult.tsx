@@ -9,6 +9,7 @@ interface PrintableResultProps {
 
 export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, onClose }) => {
   const track = allTracks.find(t => t.id === submission.trackId);
+  const isMockTest = submission.testType === 'mock' && submission.overallBand !== undefined;
   
   // Calculate section-wise scores
   const calculateSectionStats = () => {
@@ -42,6 +43,16 @@ export const PrintableResult: React.FC<PrintableResultProps> = ({ submission, on
   const stats = calculateSectionStats();
   const totalQs = submission.totalQuestions || 40;
   const percentage = submission.manualScore || Math.round((stats.correct / totalQs) * 100);
+
+  // Helper function for band score interpretation
+  const getBandInterpretation = (band: number): string => {
+    if (band >= 8.5) return "Excellent! Very good command of English with effective handling of complex language.";
+    if (band >= 7.5) return "Very Good! High level of operational command with occasional errors.";
+    if (band >= 6.5) return "Good! Generally effective command of the language despite some inaccuracies.";
+    if (band >= 5.5) return "Competent! Partial command of the language, handles overall meaning in most situations.";
+    if (band >= 4.5) return "Basic! Limited ability with potential communication breakdowns.";
+    return "Keep practicing! There's room for improvement in English language skills.";
+  };
 
   const handlePrint = () => {
     window.print();
