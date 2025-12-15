@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { GraduationCap, LogOut, BookOpen, BarChart3, Calendar, TrendingUp, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import { examSessionService, ExamSession } from '../../services/examSessionService';
 import { storage, ExamSubmission } from '../../utils/storage';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { format } from 'date-fns';
 
 export function StudentDashboard() {
