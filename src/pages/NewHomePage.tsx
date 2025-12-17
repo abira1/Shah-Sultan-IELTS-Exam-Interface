@@ -89,7 +89,7 @@ export function NewHomePage() {
                 Need help?
               </p>
               <p className="text-gray-600">
-                For support or account issues, please contact: <span className="font-semibold">support@school.com</span>
+                For support or account issues, please contact: <span className="font-semibold">shahsultans.ieltsacademy02@gmail.com</span>
               </p>
             </div>
           </div>
