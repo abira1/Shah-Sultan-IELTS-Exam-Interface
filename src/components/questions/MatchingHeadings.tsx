@@ -34,8 +34,7 @@ export function MatchingHeadings({
         <div className="space-y-2">
           {headings.map((heading) => (
             <div key={heading.value} className="bg-white rounded-lg p-3 border border-gray-200">
-              <span className="font-medium text-purple-700">{heading.value}.</span>
-              <span className="ml-2 text-gray-800">{heading.label}</span>
+              <span className="text-gray-800">{heading.label}</span>
             </div>
           ))}
         </div>
