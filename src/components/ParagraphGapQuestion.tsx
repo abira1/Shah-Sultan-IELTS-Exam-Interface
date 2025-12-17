@@ -14,7 +14,8 @@ export function ParagraphGapQuestion({
   paragraph,
   questionNumbers,
   answers,
-  onAnswerChange
+  onAnswerChange,
+  disabled = false
 }: ParagraphGapQuestionProps) {
   // Split paragraph by question number patterns like (6).......... or (6)……………………
   const renderParagraphWithGaps = () => {
