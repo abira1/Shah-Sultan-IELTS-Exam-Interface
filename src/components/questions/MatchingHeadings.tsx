@@ -63,7 +63,7 @@ export function MatchingHeadings({
                   <option value="">Select heading...</option>
                   {headings.map((heading) => (
                     <option key={heading.value} value={heading.value}>
-                      {heading.value} - {heading.label}
+                      {heading.label}
                     </option>
                   ))}
                 </select>
