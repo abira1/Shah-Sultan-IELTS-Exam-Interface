@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface SentenceCompletionItem {
   questionNumber: number;
   text: string;
