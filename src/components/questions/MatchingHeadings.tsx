@@ -58,7 +58,8 @@ export function MatchingHeadings({
                 <select
                   value={answers[paragraph.questionNumber] || ''}
                   onChange={(e) => onAnswerChange(paragraph.questionNumber, e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white text-gray-900 font-medium"
+                  disabled={disabled}
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white text-gray-900 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   data-testid={`heading-select-${paragraph.questionNumber}`}
                 >
                   <option value="">Select heading...</option>
