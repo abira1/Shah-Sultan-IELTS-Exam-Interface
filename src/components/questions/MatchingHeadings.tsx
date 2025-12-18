@@ -21,7 +21,8 @@ export function MatchingHeadings({
   paragraphs,
   headings,
   answers,
-  onAnswerChange
+  onAnswerChange,
+  disabled = false
 }: MatchingHeadingsProps) {
   return (
     <div className="space-y-6">
