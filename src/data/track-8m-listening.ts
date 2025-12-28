@@ -61,23 +61,23 @@ export const track8MListening: Track = {
           items: [
             {
               questionNumber: 6,
-              text: 'Notes on Jobs\n\n• Local jobs can be found in the (6)'
+              text: 'Notes on Jobs\n\n• Local jobs can be found in the ............'
             },
             {
               questionNumber: 7,
-              text: '• Buy the (7) to get one free magazine (Job Plus) instead of the recruitment seminar'
+              text: '• Buy the ............ to get one free magazine (Job Plus) instead of the recruitment seminar'
             },
             {
               questionNumber: 8,
-              text: '• The (8) is on the second floor of the library.'
+              text: '• The ............ is on the second floor of the library.'
             },
             {
               questionNumber: 9,
-              text: '• Make a/an (9) with the counselor first.'
+              text: '• Make a/an ............ with the counselor first.'
             },
             {
               questionNumber: 10,
-              text: '• (10) is not allowed in the library.'
+              text: '• ............ is not allowed in the library.'
             }
           ]
         }
