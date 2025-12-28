@@ -272,43 +272,43 @@ export const track8MListening: Track = {
           items: [
             {
               questionNumber: 31,
-              text: 'A Survey Research\n\nResults of Questionnaire\n\n• The patients preferred to choose the hospital because of the free (31)........................ service provided.'
+              text: 'A Survey Research\n\nResults of Questionnaire\n\n• The patients preferred to choose the hospital because of the free (31) service provided.'
             },
             {
               questionNumber: 32,
-              text: '• Most patients wished the hospital to be (32)........................'
+              text: '• Most patients wished the hospital to be (32)'
             },
             {
               questionNumber: 33,
-              text: '• Patients were concerned about prior (33)........................ about the hospital treatment.'
+              text: '• Patients were concerned about prior (33) about the hospital treatment.'
             },
             {
               questionNumber: 34,
-              text: 'Actions in the next year\n\n• improvements on website for local (34)........................ as well as hospital medical staff'
+              text: 'Actions in the next year\n\n• improvements on website for local (34) as well as hospital medical staff'
             },
             {
               questionNumber: 35,
-              text: "• incentive to motivate the members of staff - extra (35)........................ for staff's success in work"
+              text: "• incentive to motivate the members of staff - extra (35) for staff's success in work"
             },
             {
               questionNumber: 36,
-              text: '• considering the opinions of the (36)........................'
+              text: '• considering the opinions of the (36)'
             },
             {
               questionNumber: 37,
-              text: '• improving the effectiveness of (37)........................ between patients, doctors and staff'
+              text: '• improving the effectiveness of (37) between patients, doctors and staff'
             },
             {
               questionNumber: 38,
-              text: '• first-come-first-served system\n\nRecommendation\n\n• A new unit would be built for those who are suffering from (38)........................ disturbance.'
+              text: '• first-come-first-served system\n\nRecommendation\n\n• A new unit would be built for those who are suffering from (38) disturbance.'
             },
             {
               questionNumber: 39,
-              text: '• A new ward would be proposed to those in need of (39)........................ surgery.'
+              text: '• A new ward would be proposed to those in need of (39) surgery.'
             },
             {
               questionNumber: 40,
-              text: '• The equipment is advanced enough to do with the treatments.\n• More effective (40)........................ is needed to improve the efficiency of communication.'
+              text: '• The equipment is advanced enough to do with the treatments.\n• More effective (40) is needed to improve the efficiency of communication.'
             }
           ]
         }
