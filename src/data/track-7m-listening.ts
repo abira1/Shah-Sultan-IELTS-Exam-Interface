@@ -53,20 +53,20 @@ export const track7MListening: Track = {
             },
             {
               cells: [
-                { content: '(5)............. room' },
+                { content: { questionNumber: 5, suffix: ' room' } },
                 { content: 'Use before 11 p.m.' }
               ]
             },
             {
               cells: [
                 { content: 'Lounge' },
-                { content: '(6)............. after 11 p.m.' }
+                { content: { questionNumber: 6, suffix: ' after 11 p.m.' } }
               ]
             },
             {
               cells: [
                 { content: 'Yard' },
-                { content: 'No (7)............. is allowed' }
+                { content: { questionNumber: 7, prefix: 'No ', suffix: ' is allowed' } }
               ]
             }
           ]
