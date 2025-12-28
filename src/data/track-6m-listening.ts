@@ -31,13 +31,13 @@ export const track6MListening: Track = {
               cells: [
                 { content: 'For non-\nmembers' },
                 { content: 'Guided tour available' },
-                { content: '(7) ........ for free' }
+                { content: '(6) ........ for free' }
               ]
             },
             {
               cells: [
                 { content: 'Café' },
-                { content: '(8) ........ members get 10%\ndiscount' },
+                { content: '(7) ........ members get 10%\ndiscount' },
                 { content: 'Closed at present' }
               ]
             },
@@ -45,13 +45,13 @@ export const track6MListening: Track = {
               cells: [
                 { content: 'Equipment' },
                 { content: 'Wide range of machines' },
-                { content: 'Machines arranged for\ndoing (9) ........' }
+                { content: 'Machines arranged for\ndoing (8) ........' }
               ]
             },
             {
               cells: [
                 { content: 'Facilities' },
-                { content: 'Full-size swimming pool is\nnow (10) ........' },
+                { content: 'Full-size swimming pool is\nnow (9) ........' },
                 { content: 'All-weather tennis courts;\nsmall pool' }
               ]
             },
