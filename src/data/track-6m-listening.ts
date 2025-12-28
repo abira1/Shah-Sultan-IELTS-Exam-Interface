@@ -37,7 +37,7 @@ export const track6MListening: Track = {
             {
               cells: [
                 { content: 'Café' },
-                { content: '(7) ........ members get 10%\ndiscount' },
+                { content: '(8) ........ members get 10%\ndiscount' },
                 { content: 'Closed at present' }
               ]
             },
