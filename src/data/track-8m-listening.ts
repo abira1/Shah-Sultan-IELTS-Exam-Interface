@@ -46,7 +46,7 @@ export const track8MListening: Track = {
                   content: '• good pay\n• work\n  – in (3)............ office\n  – in a (4)................\n• chance of promotion' 
                 },
                 { 
-                  content: '(5)..............' 
+                  content: { questionNumber: 5 }
                 },
                 { 
                   content: 'go to office' 
