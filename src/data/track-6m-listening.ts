@@ -45,7 +45,7 @@ export const track6MListening: Track = {
               cells: [
                 { content: 'Equipment' },
                 { content: 'Wide range of machines' },
-                { content: 'Machines arranged for\ndoing (8) ........' }
+                { content: 'Machines arranged for\ndoing (9) ........' }
               ]
             },
             {
