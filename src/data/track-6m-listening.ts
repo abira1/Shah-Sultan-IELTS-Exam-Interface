@@ -59,7 +59,7 @@ export const track6MListening: Track = {
               cells: [
                 { content: 'Support' },
                 { content: 'Personal trainer always\navailable' },
-                { content: 'Consult qualified trainers\n(11) ........ only' }
+                { content: 'Consult qualified trainers\n(10) ........ only' }
               ]
             }
           ]
