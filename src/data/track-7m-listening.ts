@@ -112,7 +112,7 @@ export const track7MListening: Track = {
               cells: [
                 { content: 'Age' },
                 { content: '16–22' },
-                { content: { questionNumber: 12, prefix: 'Up to ' } }
+                { content: 'Up to (12)............' }
               ]
             },
             {
@@ -126,7 +126,7 @@ export const track7MListening: Track = {
               cells: [
                 { content: 'Date' },
                 { content: { questionNumber: 15 } },
-                { content: { questionNumber: 16, suffix: ' evenings' } }
+                { content: '(16)............. evenings' }
               ]
             },
             {
