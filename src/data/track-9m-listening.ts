@@ -224,6 +224,8 @@ export const track9MListening: Track = {
         {
           type: 'table-selection',
           instruction: 'Mark the correct letter, A-H, next to questions 15-20.',
+          imageUrl: '/LeisureComplexPlan.png',
+          imageTitle: 'Leisure Complex Plan',
           headers: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
           rows: [
             {
