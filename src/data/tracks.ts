@@ -1,9 +1,9 @@
 // Track Registry - All available exam tracks
-import { track1, Track } from './track1';
-import { track4 } from './track4';
-import { track5 } from './track5';
-import { track6 } from './track6';
+import { Track } from './track1';
+import { track5 } from './track5'; // 1-M Listening
+import { track6 } from './track6'; // 2-M Listening
 import { track3MListening } from './track-3m-listening';
+import { track4 } from './track4'; // 4-M Listening
 import { track5MListening } from './track-5m-listening';
 import { track6MListening } from './track-6m-listening';
 import { track7MListening } from './track-7m-listening';
@@ -22,17 +22,16 @@ import { track5MWriting } from './track-5m-writing';
 
 // Export all tracks as an array
 export const allTracks: Track[] = [
-  // Listening Tracks
-  track1, 
-  track4, 
-  track5, 
-  track6,
-  track3MListening,
-  track5MListening,
-  track6MListening,
-  track7MListening,
-  track9MListening,
-  track10MListening,
+  // Listening Tracks (organized by number: 1-M, 2-M, 3-M, 4-M, 5-M, 6-M, 7-M, 9-M, 10-M)
+  track5,           // 1-M Listening
+  track6,           // 2-M Listening
+  track3MListening, // 3-M Listening
+  track4,           // 4-M Listening
+  track5MListening, // 5-M Listening
+  track6MListening, // 6-M Listening
+  track7MListening, // 7-M Listening
+  track9MListening, // 9-M Listening
+  track10MListening,// 10-M Listening
   // Reading Tracks
   track1MReading,
   track2MReading,
