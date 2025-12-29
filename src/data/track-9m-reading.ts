@@ -361,18 +361,13 @@ Questions like this illustrate why those famous collapses of past civilisations 
         },
         {
           type: 'multiple-choice',
-          instruction: 'Choose the correct letter A, B, C or D.',
-          items: [
-            {
-              questionNumber: 40,
-              question: 'What is the main argument of Reading Passage 3?',
-              options: [
-                { label: 'A. There are differences as well as similarities between past and present societies.', value: 'A' },
-                { label: 'B. More should be done to preserve the physical remains of earlier civilizations.', value: 'B' },
-                { label: 'C. Some historical accounts of great civilizations are inaccurate.', value: 'C' },
-                { label: 'D. Modern societies are dependent on each other for their continuing survival.', value: 'D' }
-              ]
-            }
+          questionNumber: 40,
+          question: 'What is the main argument of Reading Passage 3?',
+          options: [
+            { label: 'A. There are differences as well as similarities between past and present societies.', value: 'A' },
+            { label: 'B. More should be done to preserve the physical remains of earlier civilizations.', value: 'B' },
+            { label: 'C. Some historical accounts of great civilizations are inaccurate.', value: 'C' },
+            { label: 'D. Modern societies are dependent on each other for their continuing survival.', value: 'D' }
           ]
         }
       ]
