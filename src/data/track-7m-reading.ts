@@ -236,7 +236,7 @@ The study discovered that the crocodiles' metabolic engines function slowly, cre
           instruction: 'Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 22-27 on your answer sheet.',
           paragraph: `Aestivation
 
-In many places inhabited by crocodilians, most types of crocodiles have evolved a successful scheme to survive in the drought brought by a 22 ………………………. According to Kennett and Christian's six-year study of Australian freshwater crocodiles' aestivation, they found estivating crocodiles spent around 23 ………………………… of the year and had no access to 24 …………………… The amount of water in the body declined proportionately with 25………………………; thus there is no sign of 26 ………………………… and other health-damaging impact on the crocodiles even after an aestivation period. This super capacity helps crocodiles endure the tough drought without slowing their speed of 27………………………….`,
+In many places inhabited by crocodilians, most types of crocodiles have evolved a successful scheme to survive in the drought brought by a (22)………………………. According to Kennett and Christian's six-year study of Australian freshwater crocodiles' aestivation, they found estivating crocodiles spent around (23)………………………… of the year and had no access to (24)…………………… The amount of water in the body declined proportionately with (25)………………………; thus there is no sign of (26)………………………… and other health-damaging impact on the crocodiles even after an aestivation period. This super capacity helps crocodiles endure the tough drought without slowing their speed of (27)………………………….`,
           questionNumbers: [22, 23, 24, 25, 26, 27]
         }
       ]
