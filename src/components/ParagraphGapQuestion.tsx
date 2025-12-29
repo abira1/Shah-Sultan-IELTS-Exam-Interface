@@ -38,7 +38,7 @@ export function ParagraphGapQuestion({
               onChange={(e) => onAnswerChange(questionNumber, e.target.value)}
               className="mx-1 px-2 py-1 border-b-2 border-gray-400 focus:outline-none focus:border-blue-500 bg-transparent"
               style={{ minWidth: `${Math.max(dots.length * 8, 100)}px`, maxWidth: '200px' }}
-              placeholder="..."
+              placeholder="Type your answer"
               disabled={disabled}
               data-testid={`paragraph-gap-${questionNumber}`}
             />
