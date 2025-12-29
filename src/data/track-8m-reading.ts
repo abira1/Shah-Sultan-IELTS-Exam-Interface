@@ -94,24 +94,24 @@ Kefir's rise in popularity has encouraged producers to take short cuts or alter 
           ]
         },
         {
-          type: 'short-answer',
+          type: 'sentence-completion',
           instruction: 'Answer the questions below using NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 8–11 on your answer sheet.',
-          questions: [
+          items: [
             {
               questionNumber: 8,
-              question: 'What do kefir grains look like?'
+              text: 'What do kefir grains look like? ……………………'
             },
             {
               questionNumber: 9,
-              question: 'What needs to happen to kefir while it is ripening?'
+              text: 'What needs to happen to kefir while it is ripening? ……………………'
             },
             {
               questionNumber: 10,
-              question: 'What will the yeast cultures have consumed before kefir is ready to drink?'
+              text: 'What will the yeast cultures have consumed before kefir is ready to drink? ……………………'
             },
             {
               questionNumber: 11,
-              question: 'The texture of kefir in the mouth is similar to what?'
+              text: 'The texture of kefir in the mouth is similar to what? ……………………'
             }
           ]
         },
