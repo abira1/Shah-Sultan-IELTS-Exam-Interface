@@ -17,6 +17,7 @@ import { track4MReading } from './track-4m-reading';
 import { track5MReading } from './track-5m-reading';
 import { track6MReading } from './track-6m-reading';
 import { track7MReading } from './track-7m-reading';
+import { track8MReading } from './track-8m-reading';
 import { track1MWriting } from './track-1m-writing';
 import { track2MWriting } from './track-2m-writing';
 import { track3MWriting } from './track-3m-writing';
