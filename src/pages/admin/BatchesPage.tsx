@@ -184,6 +184,14 @@ export function BatchesPage() {
     );
   };
 
+  const handleSelectAllTracks = () => {
+    setSelectedTracks(allTracks.map(track => track.id));
+  };
+
+  const handleDeselectAllTracks = () => {
+    setSelectedTracks([]);
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
