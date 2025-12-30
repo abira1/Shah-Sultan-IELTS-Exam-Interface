@@ -1432,6 +1432,29 @@ export function ExamPage({
           />
         </div>
       )}
+
+      {/* Context Menu for Text Highlighting */}
+      {contextMenu.isOpen && (
+        <ContextMenu
+          items={[
+            {
+              label: 'Highlight',
+              icon: <Highlighter className="w-4 h-4" />,
+              onClick: handleHighlight,
+              disabled: !contextMenu.selectedRange
+            },
+            {
+              label: 'Clear Highlight',
+              icon: <Eraser className="w-4 h-4" />,
+              onClick: handleClearHighlight,
+              disabled: !canClearHighlight(),
+              danger: true
+            }
+          ]}
+          position={contextMenu.position}
+          onClose={() => setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, selectedRange: null, targetElement: null })}
+        />
+      )}
     </div>
   );
 }
