@@ -1167,8 +1167,57 @@ export function ExamPage({
             </div>
           </div>
         ) : currentTrack.trackType !== 'reading' ? (
-          /* Standard Layout for Non-Reading Tracks */
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-6">
+          /* Standard Layout for Non-Reading Tracks (Listening & Writing) */
+          <div 
+            className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-6"
+            onMouseUp={(e) => {
+              // Only enable highlighting for listening tracks
+              if (currentTrack.trackType === 'listening') {
+                const selection = window.getSelection();
+                if (selection && selection.toString().trim().length > 0) {
+                  // Don't highlight if selection is within an input, textarea, select, or button
+                  const target = e.target as HTMLElement;
+                  if (
+                    target.tagName === 'INPUT' ||
+                    target.tagName === 'TEXTAREA' ||
+                    target.tagName === 'SELECT' ||
+                    target.tagName === 'BUTTON' ||
+                    target.closest('input, textarea, select, button')
+                  ) {
+                    return;
+                  }
+
+                  e.preventDefault();
+                  const range = selection.getRangeAt(0);
+                  const span = document.createElement('span');
+                  span.className = 'bg-yellow-200';
+                  span.style.backgroundColor = '#fef08a';
+                  try {
+                    range.surroundContents(span);
+                    selection.removeAllRanges();
+                  } catch (err) {
+                    // If surroundContents fails, do nothing
+                  }
+                }
+              }
+            }}
+            onCopy={(e) => {
+              if (currentTrack.trackType === 'listening') {
+                e.preventDefault();
+              }
+            }}
+            onCut={(e) => {
+              if (currentTrack.trackType === 'listening') {
+                e.preventDefault();
+              }
+            }}
+            onPaste={(e) => {
+              if (currentTrack.trackType === 'listening') {
+                e.preventDefault();
+              }
+            }}
+            style={currentTrack.trackType === 'listening' ? { userSelect: 'text', WebkitUserSelect: 'text' } : {}}
+          >
             {examData && examData.length > 1 && (
               <div className="flex gap-2 mb-6 border-b border-gray-200">
                 {examData.map((section, idx) => (
