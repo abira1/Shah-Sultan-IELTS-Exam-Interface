@@ -184,7 +184,16 @@ export const studentService = {
   // Delete student
   async deleteStudent(studentId: string): Promise<boolean> {
     try {
+      // Get student to find their batchId
+      const student = await this.getStudentById(studentId);
+      
       await remove(ref(db, `students/${studentId}`));
+      
+      // Update batch student count
+      if (student?.batchId) {
+        await batchService.updateStudentCount(student.batchId);
+      }
+      
       return true;
     } catch (error) {
       console.error('Error deleting student:', error);
