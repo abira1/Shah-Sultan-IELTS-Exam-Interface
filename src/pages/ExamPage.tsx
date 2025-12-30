@@ -466,6 +466,128 @@ export function ExamPage({
     });
   };
 
+  // Handle context menu for text highlighting
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    const selection = window.getSelection();
+    if (!selection || selection.toString().trim().length === 0) {
+      // No text selected, don't show menu
+      setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, selectedRange: null, targetElement: null });
+      return;
+    }
+
+    // Don't show menu if selection is within input, textarea, select, or button
+    const target = e.target as HTMLElement;
+    if (
+      target.tagName === 'INPUT' ||
+      target.tagName === 'TEXTAREA' ||
+      target.tagName === 'SELECT' ||
+      target.tagName === 'BUTTON' ||
+      target.closest('input, textarea, select, button')
+    ) {
+      return;
+    }
+
+    // Store the range for later highlighting
+    const range = selection.getRangeAt(0);
+    
+    setContextMenu({
+      isOpen: true,
+      position: { x: e.clientX, y: e.clientY },
+      selectedRange: range.cloneRange(),
+      targetElement: target
+    });
+  };
+
+  // Highlight selected text
+  const handleHighlight = () => {
+    if (!contextMenu.selectedRange) return;
+
+    try {
+      const span = document.createElement('span');
+      span.className = 'bg-yellow-200 exam-highlight';
+      span.style.backgroundColor = '#fef08a';
+      span.setAttribute('data-highlighted', 'true');
+      
+      contextMenu.selectedRange.surroundContents(span);
+      
+      // Clear selection
+      window.getSelection()?.removeAllRanges();
+    } catch (err) {
+      console.warn('Could not highlight text:', err);
+    }
+    
+    setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, selectedRange: null, targetElement: null });
+  };
+
+  // Clear highlight from selected text or clicked highlight
+  const handleClearHighlight = () => {
+    const selection = window.getSelection();
+    let clearedAny = false;
+
+    if (selection && selection.toString().trim().length > 0) {
+      // User has text selected - check if any highlighted spans are in selection
+      const range = selection.getRangeAt(0);
+      const container = range.commonAncestorContainer;
+      const parent = container.nodeType === 3 ? container.parentElement : container as HTMLElement;
+      
+      if (parent) {
+        // Find all highlighted spans within the selection
+        const highlightedSpans = parent.querySelectorAll('span[data-highlighted="true"]');
+        highlightedSpans.forEach(span => {
+          // Replace span with its text content
+          const textNode = document.createTextNode(span.textContent || '');
+          span.parentNode?.replaceChild(textNode, span);
+          clearedAny = true;
+        });
+        
+        // Also check if parent itself is highlighted
+        if (parent.hasAttribute('data-highlighted')) {
+          const textNode = document.createTextNode(parent.textContent || '');
+          parent.parentNode?.replaceChild(textNode, parent);
+          clearedAny = true;
+        }
+      }
+    } else if (contextMenu.targetElement) {
+      // No selection, check if user right-clicked on a highlighted element
+      const highlightedElement = contextMenu.targetElement.closest('span[data-highlighted="true"]');
+      if (highlightedElement) {
+        const textNode = document.createTextNode(highlightedElement.textContent || '');
+        highlightedElement.parentNode?.replaceChild(textNode, highlightedElement);
+        clearedAny = true;
+      }
+    }
+
+    if (clearedAny) {
+      // Clear selection
+      window.getSelection()?.removeAllRanges();
+    }
+    
+    setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, selectedRange: null, targetElement: null });
+  };
+
+  // Check if there's a highlight that can be cleared
+  const canClearHighlight = () => {
+    if (!contextMenu.targetElement) return false;
+    
+    const selection = window.getSelection();
+    if (selection && selection.toString().trim().length > 0) {
+      const range = selection.getRangeAt(0);
+      const container = range.commonAncestorContainer;
+      const parent = container.nodeType === 3 ? container.parentElement : container as HTMLElement;
+      
+      if (parent) {
+        const hasHighlight = parent.querySelector('span[data-highlighted="true"]') || parent.hasAttribute('data-highlighted');
+        return !!hasHighlight;
+      }
+    }
+    
+    // Check if clicked element is highlighted
+    const highlightedElement = contextMenu.targetElement.closest('span[data-highlighted="true"]');
+    return !!highlightedElement;
+  };
+
   const calculateTimeSpent = () => {
     const elapsed = Date.now() - startTime;
     const minutes = Math.floor(elapsed / 60000);
