@@ -54,11 +54,31 @@ export function BatchesPage() {
     try {
       const allBatches = await batchService.getAllBatches();
       setBatches(allBatches);
+      
+      // Recalculate student counts for all batches on load
+      // This ensures counts are up-to-date even if they weren't updated before
+      await recalculateAllStudentCounts(allBatches);
     } catch (err) {
       console.error('Error loading batches:', err);
       setError('Failed to load batches');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const recalculateAllStudentCounts = async (batchList: Batch[]) => {
+    try {
+      // Update student count for each batch
+      const updatePromises = batchList.map(batch => 
+        batchService.updateStudentCount(batch.batchId)
+      );
+      await Promise.all(updatePromises);
+      
+      // Reload batches to get updated counts
+      const updatedBatches = await batchService.getAllBatches();
+      setBatches(updatedBatches);
+    } catch (err) {
+      console.error('Error recalculating student counts:', err);
     }
   };
 
