@@ -155,6 +155,7 @@ export const studentService = {
         return false;
       }
 
+      const oldBatchId = student.batchId;
       const updatedStudent = {
         ...student,
         ...updates,
@@ -162,6 +163,17 @@ export const studentService = {
       };
 
       await set(ref(db, `students/${studentId}`), updatedStudent);
+      
+      // Update student count for old batch
+      if (oldBatchId) {
+        await batchService.updateStudentCount(oldBatchId);
+      }
+      
+      // If batch changed, update new batch count too
+      if (updates.batchId && updates.batchId !== oldBatchId) {
+        await batchService.updateStudentCount(updates.batchId);
+      }
+      
       return true;
     } catch (error) {
       console.error('Error updating student:', error);
