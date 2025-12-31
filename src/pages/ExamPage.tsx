@@ -108,6 +108,13 @@ export function ExamPage({
     [key: number]: boolean;
   }>({});
   
+  // Notice and Instructions flow control
+  const [showNotice, setShowNotice] = useState(true);
+  const [noticeAccepted, setNoticeAccepted] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [instructionsRead, setInstructionsRead] = useState<Record<number, boolean>>({});
+  const [examStarted, setExamStarted] = useState(false);
+  
   // Get current track data
   const currentTrackData = trackDataList[currentTrackIndex];
   const currentTrack = currentTrackData?.track;
