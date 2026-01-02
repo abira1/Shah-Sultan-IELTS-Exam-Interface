@@ -386,17 +386,20 @@ export function TrackManagement() {
             <div className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4 ${
               activeTab === 'listening' ? 'bg-blue-100' :
               activeTab === 'reading' ? 'bg-green-100' :
-              'bg-orange-100'
+              activeTab === 'writing' ? 'bg-orange-100' :
+              'bg-slate-100'
             }`}>
               {activeTab === 'listening' && <Headphones className="w-8 h-8 text-blue-600" />}
               {activeTab === 'reading' && <BookOpen className="w-8 h-8 text-green-600" />}
               {activeTab === 'writing' && <PenTool className="w-8 h-8 text-orange-600" />}
+              {activeTab === 'sicu' && <Layers className="w-8 h-8 text-slate-600" />}
             </div>
             <p className="text-gray-600 text-lg font-medium mb-2">No {getTabInfo(activeTab).label} Tracks</p>
             <p className="text-gray-500 text-sm">
               {activeTab === 'listening' && 'No listening tracks are currently available.'}
               {activeTab === 'reading' && 'No reading tracks are currently available.'}
               {activeTab === 'writing' && 'No writing tracks are currently available.'}
+              {activeTab === 'sicu' && 'No SICU tracks are currently available.'}
             </p>
           </div>
         ) : (
