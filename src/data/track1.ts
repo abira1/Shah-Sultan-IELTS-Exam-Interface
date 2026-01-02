@@ -8,7 +8,7 @@ export interface Track {
   description: string;
   duration: number; // in minutes
   totalQuestions: number;
-  trackType: 'listening' | 'reading' | 'writing'; // NEW FIELD
+  trackType: 'listening' | 'reading' | 'writing' | 'sicu'; // Track types including SICU
   audioURL: string | null;
   sections: Section[];
 }
