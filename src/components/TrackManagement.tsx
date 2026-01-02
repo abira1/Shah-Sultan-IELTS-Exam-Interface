@@ -276,18 +276,21 @@ export function TrackManagement() {
         <div className={`bg-white p-6 rounded-lg border-2 ${
           activeTab === 'listening' ? 'border-blue-200 bg-blue-50' :
           activeTab === 'reading' ? 'border-green-200 bg-green-50' :
-          'border-orange-200 bg-orange-50'
+          activeTab === 'writing' ? 'border-orange-200 bg-orange-50' :
+          'border-slate-200 bg-slate-50'
         }`}>
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
               activeTab === 'listening' ? 'bg-blue-100' :
               activeTab === 'reading' ? 'bg-green-100' :
-              'bg-orange-100'
+              activeTab === 'writing' ? 'bg-orange-100' :
+              'bg-slate-100'
             }`}>
               <ListIcon className={`w-5 h-5 ${
                 activeTab === 'listening' ? 'text-blue-600' :
                 activeTab === 'reading' ? 'text-green-600' :
-                'text-orange-600'
+                activeTab === 'writing' ? 'text-orange-600' :
+                'text-slate-600'
               }`} />
             </div>
             <div>
