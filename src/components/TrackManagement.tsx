@@ -426,12 +426,14 @@ export function TrackManagement() {
                           <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
                             track.trackType === 'listening' ? 'bg-blue-100' :
                             track.trackType === 'reading' ? 'bg-green-100' :
-                            'bg-orange-100'
+                            track.trackType === 'writing' ? 'bg-orange-100' :
+                            'bg-slate-100'
                           }`}>
                             <Icon className={`w-4 h-4 ${
                               track.trackType === 'listening' ? 'text-blue-600' :
                               track.trackType === 'reading' ? 'text-green-600' :
-                              'text-orange-600'
+                              track.trackType === 'writing' ? 'text-orange-600' :
+                              'text-slate-600'
                             }`} />
                           </div>
                           <h3 className="font-bold text-gray-900 text-lg">
