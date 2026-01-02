@@ -460,7 +460,7 @@ export function ExamControlPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-3">
                   Track Type <span className="text-red-500">*</span>
                 </label>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-4 gap-3">
                   <button
                     type="button"
                     onClick={() => {
@@ -508,6 +508,22 @@ export function ExamControlPage() {
                   >
                     <PenTool className="w-5 h-5" />
                     <span className="font-medium">Writing</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPartialTrackType('sicu');
+                      setPartialSelectedTrack('');
+                      setGeneratedExamCode('');
+                    }}
+                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                      partialTrackType === 'sicu'
+                        ? 'border-slate-500 bg-slate-50 text-slate-700'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-slate-300'
+                    }`}
+                  >
+                    <Layers className="w-5 h-5" />
+                    <span className="font-medium">SICU</span>
                   </button>
                 </div>
               </div>
