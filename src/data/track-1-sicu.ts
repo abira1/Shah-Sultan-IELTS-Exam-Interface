@@ -14,10 +14,18 @@ export const track1SICU: Track = {
   sections: [
     {
       sectionNumber: 1,
-      title: 'Demo Version',
+      title: 'Demo Version - Coming Soon',
       passage: {
         title: '📢 Important Notice',
-        content: 'This is a demo version. Questions will be available very soon.'
+        content: `Dear Students,
+
+This is a demo version of the SICU (Specialized Integrated Class Unit) test.
+
+The full version with comprehensive questions covering Listening, Reading, and Writing skills will be available very soon.
+
+Thank you for your patience and understanding.
+
+Shah Sultan IELTS Academy`
       },
       questions: []
     }
