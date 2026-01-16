@@ -1253,7 +1253,14 @@ export function ExamPage({
               className="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-full max-h-full overflow-hidden min-h-0"
             >
               <div className="flex-1 overflow-y-auto px-6 min-h-0">
-                <div className="space-y-6 pt-4 pb-24">
+                <div 
+                  className="space-y-6 pt-4 pb-24"
+                  onContextMenu={handleContextMenu}
+                  onCopy={(e) => e.preventDefault()}
+                  onCut={(e) => e.preventDefault()}
+                  onPaste={(e) => e.preventDefault()}
+                  style={{ userSelect: 'text', WebkitUserSelect: 'text' }}
+                >
                   {examData && examData[currentSection] && (
                     <>
                       <h2 className="text-lg font-bold text-gray-900 mb-4">
