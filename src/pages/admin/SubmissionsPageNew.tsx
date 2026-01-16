@@ -1009,16 +1009,16 @@ export function SubmissionsPageNew() {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4">
               {/* Export Dropdown */}
               {selectedSubmission && (
                 <div className="relative">
                   <button
                     onClick={() => setShowExportMenu(!showExportMenu)}
-                    className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
                   >
                     <Download className="w-4 h-4" />
-                    <span className="text-sm font-medium">Export</span>
+                    <span className="font-medium hidden sm:inline">Export</span>
                   </button>
 
                   {showExportMenu && (
