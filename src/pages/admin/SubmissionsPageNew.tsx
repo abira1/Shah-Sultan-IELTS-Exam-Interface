@@ -1138,7 +1138,7 @@ export function SubmissionsPageNew() {
                 </div>
 
                 {/* Submission Content */}
-                <div className="p-6">
+                <div className="p-4 sm:p-6 pb-8">
                   {/* Mock Test Interface */}
                   {selectedSubmission.testType === 'mock' && selectedSubmission.sectionSubmissions && Object.keys(selectedSubmission.sectionSubmissions).length > 0 ? (
                     <div className="space-y-6">
