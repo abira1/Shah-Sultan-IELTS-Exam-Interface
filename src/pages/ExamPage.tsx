@@ -1158,6 +1158,13 @@ export function ExamPage({
         trackType={currentTrack.trackType}
       />
 
+      {/* Phase 3: Time sync indicator */}
+      {!isTimeSynced && (
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 p-3 mx-4 mt-4 text-sm">
+          <p className="text-yellow-800">⏳ Synchronizing time with server...</p>
+        </div>
+      )}
+
       {/* Phase 2: Auto-Submit Notification Banner for Mock Tests */}
       {testType === 'mock' && 
        currentTrackTimeRemaining === '00:00' && 
