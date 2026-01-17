@@ -1291,16 +1291,19 @@ export function ExamPage({
                             </button>
 
                             {currentSection === (examData?.length || 0) - 1 ? (
-                              <button
-                                onClick={() => handleSectionSubmit(trackOrder[currentTrackIndex])}
-                                disabled={sectionSubmissions[trackOrder[currentTrackIndex]]?.locked}
-                                className="px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                data-testid="submit-section-button"
-                              >
-                                {sectionSubmissions[trackOrder[currentTrackIndex]]?.locked 
-                                  ? '✓ Section Submitted' 
-                                  : `Submit ${trackInfo.label} Section`}
-                              </button>
+                              // Only show submit button if time hasn't expired or already submitted
+                              (currentTrackTimeRemaining !== '00:00' || sectionSubmissions[trackOrder[currentTrackIndex]]?.locked) && (
+                                <button
+                                  onClick={() => handleSectionSubmit(trackOrder[currentTrackIndex])}
+                                  disabled={sectionSubmissions[trackOrder[currentTrackIndex]]?.locked}
+                                  className="px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                  data-testid="submit-section-button"
+                                >
+                                  {sectionSubmissions[trackOrder[currentTrackIndex]]?.locked 
+                                    ? '✓ Section Submitted' 
+                                    : `Submit ${trackInfo.label} Section`}
+                                </button>
+                              )
                             ) : (
                               <button
                                 onClick={() => setCurrentSection(prev => prev + 1)}
