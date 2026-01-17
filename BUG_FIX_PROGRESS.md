@@ -751,8 +751,15 @@ After all phases are complete, perform comprehensive testing:
 ### **Phase 2 (Completed):**
 4. ✅ `/app/src/pages/ExamPage.tsx` - Auto-submit logic (~50 lines changed)
 
-### **Phase 3 (Pending):**
-5. ⏳ `/app/src/pages/ExamPage.tsx` - Server time sync (~60 lines)
+### **Phase 3 (Completed):**
+5. ✅ `/app/src/pages/ExamPage.tsx` - Server time sync (~80 lines changed)
+   - Added server time offset state variables
+   - Created syncServerTime() function
+   - Created getServerTime() helper
+   - Updated all timer calculations
+   - Updated all submission timestamps
+   - Added time sync UI indicator
+   - Updated useEffect dependencies
 
 ### **Phase 4 (Pending):**
 6. ⏳ `/app/src/pages/ExamPage.tsx` - Copy protection (~10 lines)
