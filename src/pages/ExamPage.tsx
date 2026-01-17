@@ -115,6 +115,9 @@ export function ExamPage({
   const [instructionsRead, setInstructionsRead] = useState<Record<number, boolean>>({});
   const [examStarted, setExamStarted] = useState(false);
   
+  // Phase 2: Auto-submit state
+  const [hasAutoSubmitted, setHasAutoSubmitted] = useState(false);
+  
   // Get current track data
   const currentTrackData = trackDataList[currentTrackIndex];
   const currentTrack = currentTrackData?.track;
