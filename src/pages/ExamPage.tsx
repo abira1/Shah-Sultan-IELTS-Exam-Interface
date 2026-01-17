@@ -357,6 +357,35 @@ export function ExamPage({
       }
     };
     
+    // Phase 3: Sync client time with Firebase server time
+    const syncServerTime = async () => {
+      try {
+        const db = getDatabase(app);
+        const serverTimeRef = ref(db, '.info/serverTimeOffset');
+        
+        const snapshot = await get(serverTimeRef);
+        if (snapshot.exists()) {
+          const offset = snapshot.val();
+          setServerTimeOffset(offset);
+          setIsTimeSynced(true);
+          console.log('✓ Server time synced. Offset:', offset, 'ms');
+        }
+      } catch (error) {
+        console.error('Failed to sync server time:', error);
+        // Fallback: use client time with warning
+        setIsTimeSynced(true);
+        console.warn('⚠️ Using client time as fallback');
+      }
+    };
+    
+    // Phase 3: Get current time synchronized with server
+    const getServerTime = () => {
+      if (isTimeSynced) {
+        return Date.now() + serverTimeOffset;
+      }
+      return Date.now(); // Fallback to client time
+    };
+    
     fetchExamData();
   }, [examCode, studentId, studentBatchId]);
 
