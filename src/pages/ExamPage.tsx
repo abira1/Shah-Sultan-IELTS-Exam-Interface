@@ -710,7 +710,7 @@ export function ExamPage({
     console.log('Complete section submissions:', completeSectionSubmissions);
     
     const submission: ExamSubmission = {
-      id: `${studentId}-${Date.now()}`,
+      id: `${studentId}-${getServerTime()}`, // Phase 3: Use server time
       studentId,
       studentName,
       trackName: trackDataList.map(td => td.track.name).join(' + '),
@@ -719,7 +719,7 @@ export function ExamPage({
       examCode: currentExamCode || '',
       sectionSubmissions: completeSectionSubmissions,
       answers: {}, // Empty for mock tests
-      submittedAt: new Date().toISOString(),
+      submittedAt: new Date(getServerTime()).toISOString(), // Phase 3: Use server time
       timeSpent: calculateTimeSpent(),
       status: 'completed',
       resultPublished: false,
