@@ -355,6 +355,12 @@ export function getBandInterpretation(band: number): string {
 /**
  * IELTS Writing Assessment Criteria (for teacher reference)
  * Each task is assessed on four criteria, each worth 25% of the score
+ * 
+ * Overall Writing Band Score Calculation:
+ * - Task 1 contributes 1/3 of the final score
+ * - Task 2 contributes 2/3 of the final score (double weight)
+ * - Formula: (Task 1 + Task 2 × 2) ÷ 3
+ * - Result is rounded to the nearest 0.5 band score
  */
 export const WRITING_CRITERIA = {
   task1: {
