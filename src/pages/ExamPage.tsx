@@ -490,7 +490,7 @@ export function ExamPage({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [examEndTime, testType, trackEndTimes, currentTrackIndex, trackDataList.length]);
+  }, [examEndTime, testType, trackEndTimes, currentTrackIndex, trackDataList.length, isTimeSynced, serverTimeOffset, sectionSubmissions, hasAutoSubmitted, trackOrder]);
 
   const handleAnswerChange = (questionNumber: number, value: string) => {
     setTrackAnswers(prev => ({
