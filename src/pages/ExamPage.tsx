@@ -824,13 +824,13 @@ export function ExamPage({
 
     // Base submission object (avoid undefined values for Firebase)
     const submission: ExamSubmission = {
-      id: `${studentId}-${Date.now()}`,
+      id: `${studentId}-${getServerTime()}`, // Phase 3: Use server time
       studentId,
       studentName,
       trackName: trackNames,
       trackId: testType === 'mock' ? 'mock' : trackDataList[0].track.id,
       answers: allAnswers,
-      submittedAt: new Date().toISOString(),
+      submittedAt: new Date(getServerTime()).toISOString(), // Phase 3: Use server time
       timeSpent: calculateTimeSpent(),
       status: 'completed',
       score,
