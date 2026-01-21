@@ -345,32 +345,74 @@ export function ExamPage({
         // Set exam end time
         if (examTestType === 'mock' && examSession.trackDurations) {
           // Mock test: Set individual track end times
-          // Note: This runs after syncServerTime, so server offset is already applied
-          const now = Date.now() + serverTimeOffset;
+          // CRITICAL FIX: Use global exam start time (not current time) to ensure
+          // all students have the same end times regardless of when they join
+          
+          if (!globalStatus.startTime) {
+            console.error('❌ Global status missing startTime for mock test');
+            setTrackError('Exam timing error. Please contact administrator.');
+            setIsLoadingTrack(false);
+            return;
+          }
+          
+          // Calculate end times based on GLOBAL exam start time (set by admin)
+          // NOT based on when this student enters
+          const examStartTime = new Date(globalStatus.startTime).getTime();
           const endTimes: number[] = [];
-          let cumulativeTime = now;
+          let cumulativeTime = examStartTime;
+          
+          console.log('Mock test - Global exam start time:', new Date(examStartTime).toLocaleString());
+          console.log('Track durations:', examSession.trackDurations);
           
           if (order[0] === 'listening' && examSession.trackDurations.listening) {
             cumulativeTime += examSession.trackDurations.listening * 60000;
             endTimes.push(cumulativeTime);
+            console.log(`  Listening end: ${new Date(cumulativeTime).toLocaleString()} (${examSession.trackDurations.listening} min)`);
           }
           if (order[1] === 'reading' && examSession.trackDurations.reading) {
             cumulativeTime += examSession.trackDurations.reading * 60000;
             endTimes.push(cumulativeTime);
+            console.log(`  Reading end: ${new Date(cumulativeTime).toLocaleString()} (${examSession.trackDurations.reading} min)`);
           }
           if (order[2] === 'writing' && examSession.trackDurations.writing) {
             cumulativeTime += examSession.trackDurations.writing * 60000;
             endTimes.push(cumulativeTime);
+            console.log(`  Writing end: ${new Date(cumulativeTime).toLocaleString()} (${examSession.trackDurations.writing} min)`);
           }
           
           setTrackEndTimes(endTimes);
           setExamEndTime(endTimes[endTimes.length - 1]); // Total exam end time
-          console.log('✓ Track end times set for mock test:', endTimes.map(t => new Date(t).toLocaleString()));
+          
+          // Verify student hasn't joined after exam ended
+          const now = Date.now() + serverTimeOffset;
+          const totalExamEndTime = endTimes[endTimes.length - 1];
+          if (now >= totalExamEndTime) {
+            console.log('⚠️ Student attempting to join after exam ended');
+            setTrackError('This exam has already ended. You cannot join at this time.');
+            setIsLoadingTrack(false);
+            return;
+          }
+          
+          console.log('✓ Track end times set for mock test (fixed to global start time)');
+          console.log('  Current server time:', new Date(now).toLocaleString());
+          console.log('  Time remaining:', Math.floor((totalExamEndTime - now) / 60000), 'minutes');
         } else if (globalStatus.endTime) {
           // Partial test: Use global end time
           const endTime = new Date(globalStatus.endTime).getTime();
           console.log('✓ Exam end time:', new Date(endTime).toLocaleString());
+          
+          // Verify student hasn't joined after exam ended
+          const now = Date.now() + serverTimeOffset;
+          if (now >= endTime) {
+            console.log('⚠️ Student attempting to join after exam ended');
+            setTrackError('This exam has already ended. You cannot join at this time.');
+            setIsLoadingTrack(false);
+            return;
+          }
+          
           setExamEndTime(endTime);
+          console.log('  Current server time:', new Date(now).toLocaleString());
+          console.log('  Time remaining:', Math.floor((endTime - now) / 60000), 'minutes');
         }
         
         console.log('=== EXAM DATA LOADED SUCCESSFULLY ===');
