@@ -169,7 +169,7 @@ export function ExamControlPage() {
     }
   };
 
-  const handleCreateSession = async (startImmediately: boolean = false) => {
+  const handleCreateSession = async (startImmediately: boolean = false, withCountdown: boolean = false) => {
     // Validation
     if (testType === 'partial') {
       if (!partialSelectedTrack) {
