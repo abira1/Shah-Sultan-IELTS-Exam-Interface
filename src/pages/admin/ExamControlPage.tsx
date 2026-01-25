@@ -61,6 +61,7 @@ export function ExamControlPage() {
   const [examDate, setExamDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
   const [startTime, setStartTime] = useState<string>('10:00');
   const [duration, setDuration] = useState<number>(60);
+  const [isDurationManuallySet, setIsDurationManuallySet] = useState(false);
   const [selectedBatches, setSelectedBatches] = useState<string[]>([]);
   const [generatedExamCode, setGeneratedExamCode] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
