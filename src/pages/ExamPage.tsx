@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { getDatabase, ref, get } from 'firebase/database';
+import React, { useEffect, useState, useRef } from 'react';
+import { getDatabase, ref, get, onValue } from 'firebase/database';
 import { app } from '../firebase';
 import { ExamHeader } from '../components/ExamHeader';
 import { TableGapQuestion } from '../components/TableGapQuestion';
