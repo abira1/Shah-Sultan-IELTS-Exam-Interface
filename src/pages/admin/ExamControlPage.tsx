@@ -256,7 +256,10 @@ export function ExamControlPage() {
         status: startImmediately ? 'active' : 'scheduled',
         allowedBatches: selectedBatches,
         audioURL: audioURL,
-        createdBy: 'admin' // TODO: Get from auth context
+        createdBy: 'admin', // TODO: Get from auth context
+        // PHASE 1: Store countdown settings
+        countdownEnabled: useCountdown && withCountdown,
+        countdownSeconds: useCountdown && withCountdown ? countdownSeconds : undefined
       };
 
       // Only include trackDurations for mock tests
