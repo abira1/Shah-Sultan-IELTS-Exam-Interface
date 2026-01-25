@@ -467,7 +467,7 @@ export function ExamPage({
             // Set late entry info
             setLateEntryInfo({
               isLate: true,
-              examName: examSession.trackName || examName,
+              examName: examSession.trackName || 'Exam',
               examCode: examCode,
               startTime: globalStatus.startTime,
               originalDuration: totalDuration,
