@@ -1253,6 +1253,21 @@ export function ExamPage({
     );
   }
 
+  // Phase 3: Show Late Entry Modal if student is joining late
+  if (showLateEntryModal && lateEntryInfo) {
+    return (
+      <LateEntryModal
+        examName={lateEntryInfo.examName}
+        examCode={lateEntryInfo.examCode}
+        startTime={lateEntryInfo.startTime}
+        originalDuration={lateEntryInfo.originalDuration}
+        remainingMinutes={lateEntryInfo.remainingMinutes}
+        onGoBack={handleLateEntryGoBack}
+        onEnterExam={handleLateEntryEnter}
+      />
+    );
+  }
+
   // Show Important Notice first (for both mock and partial tests)
   if (showNotice) {
     return <ImportantNotice onAccept={handleAcceptNotice} />;
