@@ -135,6 +135,12 @@ export function ExamPage({
   } | null>(null);
   const [showLateEntryModal, setShowLateEntryModal] = useState(false);
   
+  // Phase 4: Force exit and auto-submit
+  const [showForceExitModal, setShowForceExitModal] = useState(false);
+  const [forceExitReason, setForceExitReason] = useState<'time_expired' | 'admin_stopped' | 'exam_ended'>('time_expired');
+  const hasAutoSubmittedRef = useRef(false); // Prevent double submission
+  const isSubmittingRef = useRef(false); // Track submission in progress
+  
   // Get current track data
   const currentTrackData = trackDataList[currentTrackIndex];
   const currentTrack = currentTrackData?.track;
