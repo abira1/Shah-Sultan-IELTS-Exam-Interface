@@ -103,15 +103,11 @@ export function generateStudentCredentialEmail(data: {
                     <h2 class="section-title">Office Hours</h2>
                     <table class="details-table">
                         <tr>
-                            <td class="label">Mon - Fri</td>
-                            <td class="value">: 9:00 AM - 6:00 PM</td>
+                            <td class="label">Saturday - Thursday</td>
+                            <td class="value">: 9:00 AM - 8:00 PM</td>
                         </tr>
                         <tr>
-                            <td class="label">Saturday</td>
-                            <td class="value">: 10:00 AM - 4:00 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="label">Sunday</td>
+                            <td class="label">Friday</td>
                             <td class="value">: Closed</td>
                         </tr>
                     </table>
