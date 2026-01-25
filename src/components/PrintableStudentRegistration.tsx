@@ -315,15 +315,11 @@ export const PrintableStudentRegistration: React.FC<PrintableStudentRegistration
                     <p className="font-semibold text-gray-600 mb-3 text-sm">Office Hours</p>
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-700 font-medium">Mon - Fri</span>
-                        <span className="font-bold text-gray-900">9AM - 6PM</span>
+                        <span className="text-gray-700 font-medium">Sat - Thu</span>
+                        <span className="font-bold text-gray-900">9AM - 8PM</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-700 font-medium">Saturday</span>
-                        <span className="font-bold text-gray-900">10AM - 4PM</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-700 font-medium">Sunday</span>
+                        <span className="text-gray-700 font-medium">Friday</span>
                         <span className="font-bold text-red-600">Closed</span>
                       </div>
                     </div>
