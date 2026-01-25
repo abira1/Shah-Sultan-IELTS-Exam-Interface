@@ -1042,7 +1042,8 @@ export function ExamPage({
       resultPublished: false,
       testType,
       totalQuestions,  // Explicitly set total questions (2 for writing, 40 for others)
-      trackType  // Explicitly set track type ('writing', 'reading', 'listening', or 'mock')
+      trackType,  // Explicitly set track type ('writing', 'reading', 'listening', or 'mock')
+      autoSubmitted: isAutoSubmit  // Phase 4: Flag auto-submitted exams
     };
 
     // Add optional properties only if they have values (Firebase doesn't accept undefined)
@@ -1063,17 +1064,24 @@ export function ExamPage({
       
       if (success) {
         console.log('✓ Exam submitted successfully');
-        alert('✅ Exam submitted successfully!\n\nThank you for completing the exam. Your submission has been recorded.\n\nResults will be published soon. You can check your dashboard for updates.');
-        onSubmit();
+        // Phase 4: Don't show alert if auto-submitted (force exit modal will handle it)
+        if (!isAutoSubmit) {
+          alert('✅ Exam submitted successfully!\n\nThank you for completing the exam. Your submission has been recorded.\n\nResults will be published soon. You can check your dashboard for updates.');
+          onSubmit();
+        }
       } else {
         console.log('⚠ Submission saved locally only');
-        alert('⚠️ Submission saved locally but could not sync to server. Your submission is safe and will sync when online.');
-        onSubmit();
+        if (!isAutoSubmit) {
+          alert('⚠️ Submission saved locally but could not sync to server. Your submission is safe and will sync when online.');
+          onSubmit();
+        }
       }
     } catch (error) {
       console.error('❌ Error submitting exam:', error);
-      alert('⚠️ Submission saved locally. Your submission is safe and will sync when online.');
-      onSubmit();
+      if (!isAutoSubmit) {
+        alert('⚠️ Submission saved locally. Your submission is safe and will sync when online.');
+        onSubmit();
+      }
     }
   };
 
