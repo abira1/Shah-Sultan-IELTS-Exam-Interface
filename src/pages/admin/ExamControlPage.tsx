@@ -270,8 +270,25 @@ export function ExamControlPage() {
       const result = await examSessionService.createExamSession(sessionData);
 
       if (result.success) {
-        // If starting immediately, update global exam status
-        if (startImmediately && result.examCode) {
+        // PHASE 2: If starting with countdown, trigger countdown flow
+        if (withCountdown && result.examCode) {
+          console.log('🕐 Starting exam with countdown...');
+          
+          // Trigger countdown flow in background
+          examSessionService.startExamWithCountdown(result.examCode).then(success => {
+            if (success) {
+              console.log('✅ Exam started successfully after countdown');
+              loadExamSessions();
+            } else {
+              console.error('❌ Failed to start exam after countdown');
+              setError('Failed to start exam after countdown');
+            }
+          });
+
+          setSuccess(`Exam ${result.examCode} countdown started! Students will see countdown popup.`);
+        } 
+        // If starting immediately without countdown, update global exam status
+        else if (startImmediately && result.examCode) {
           const db = getDatabase(app);
           // Calculate end time from NOW when starting immediately
           const now = new Date();
@@ -296,13 +313,10 @@ export function ExamControlPage() {
           }
 
           await set(ref(db, 'exam/status'), examStatusData);
+          setSuccess(`Exam ${result.examCode} started successfully!`);
+        } else {
+          setSuccess(`Exam ${result.examCode} scheduled successfully!`);
         }
-
-        setSuccess(
-          startImmediately
-            ? `Exam ${result.examCode} started successfully!`
-            : `Exam ${result.examCode} scheduled successfully!`
-        );
 
         // Reset form
         setPartialSelectedTrack('');
@@ -313,7 +327,7 @@ export function ExamControlPage() {
         // Reload sessions
         await loadExamSessions();
 
-        setTimeout(() => setSuccess(null), 3000);
+        setTimeout(() => setSuccess(null), 5000);
       } else {
         setError(result.error || 'Failed to create exam session');
       }
