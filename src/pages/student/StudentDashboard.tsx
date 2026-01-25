@@ -35,6 +35,32 @@ export function StudentDashboard() {
 
   useEffect(() => {
     loadDashboardData();
+
+    // PHASE 2: Real-time countdown listener
+    const db = getDatabase(app);
+    const countdownRef = ref(db, 'exam/countdown');
+    
+    const unsubscribe = onValue(countdownRef, (snapshot) => {
+      const data = snapshot.val();
+      
+      if (data && data.isActive && user?.batchId) {
+        // Check if student's batch is allowed for this countdown
+        if (data.allowedBatches && data.allowedBatches.includes(user.batchId)) {
+          console.log('🕐 Countdown active for student:', data);
+          setCountdownData({
+            isActive: true,
+            examCode: data.examCode,
+            trackName: data.trackName,
+            countdownStartTime: data.countdownStartTime,
+            countdownSeconds: data.countdownSeconds
+          });
+        }
+      } else {
+        setCountdownData(null);
+      }
+    });
+
+    return () => unsubscribe();
   }, [user]);
 
   const loadDashboardData = async () => {
