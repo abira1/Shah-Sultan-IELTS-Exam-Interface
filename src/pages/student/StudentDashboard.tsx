@@ -7,6 +7,9 @@ import { storage, ExamSubmission } from '../../utils/storage';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { format } from 'date-fns';
 import { convertListeningToBand, convertReadingToBand } from '../../utils/bandScoreConversion';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { app } from '../../firebase';
+import { CountdownPopup } from '../../components/CountdownPopup';
 
 export function StudentDashboard() {
   const { user, logout } = useAuth();
