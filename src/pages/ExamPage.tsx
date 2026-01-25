@@ -32,6 +32,7 @@ import { ContextMenu, ContextMenuItem } from '../components/ui/context-menu';
 import { ImportantNotice } from '../components/ImportantNotice';
 import { ExamInstructions } from '../components/ExamInstructions';
 import { LateEntryModal } from '../components/LateEntryModal';
+import { ForceExitModal } from '../components/ForceExitModal';
 
 interface ExamPageProps {
   studentId: string;
