@@ -80,7 +80,7 @@ export function WritingTaskTwoColumn({
               <h4 className="font-semibold text-gray-900 text-sm">Question</h4>
             </div>
             <div className="prose prose-sm max-w-none">
-              <p className="text-gray-800 whitespace-pre-wrap leading-relaxed text-sm">{prompt}</p>
+              <p className="text-gray-800 text-lg font-semibold whitespace-pre-wrap leading-relaxed">{prompt}</p>
             </div>
           </div>
 
