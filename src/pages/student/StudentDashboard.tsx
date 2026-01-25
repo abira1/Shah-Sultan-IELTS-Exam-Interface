@@ -140,6 +140,14 @@ export function StudentDashboard() {
     navigate(`/student/results/${submissionId}`);
   };
 
+  // PHASE 2: Handle countdown complete
+  const handleCountdownComplete = () => {
+    if (countdownData) {
+      console.log('⏰ Countdown complete, navigating to exam:', countdownData.examCode);
+      navigate(`/student/exam/${countdownData.examCode}`);
+    }
+  };
+
   // Prepare chart data for bar chart
   const filteredSubmissions = mySubmissions
     .filter(sub => {
