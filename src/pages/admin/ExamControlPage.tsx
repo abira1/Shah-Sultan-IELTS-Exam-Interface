@@ -576,6 +576,11 @@ export function ExamControlPage() {
                     </option>
                   ))}
                 </select>
+                {partialSelectedTrack && (
+                  <p className="text-xs text-gray-500 mt-2">
+                    ℹ️ Default duration: {allTracks.find(t => t.id === partialSelectedTrack)?.duration} minutes (You can customize it below)
+                  </p>
+                )}
               </div>
             </div>
           )}
