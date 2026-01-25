@@ -24,6 +24,15 @@ export function StudentDashboard() {
     upcomingCount: 0
   });
 
+  // PHASE 2: Countdown state
+  const [countdownData, setCountdownData] = useState<{
+    isActive: boolean;
+    examCode: string;
+    trackName: string;
+    countdownStartTime: string;
+    countdownSeconds: number;
+  } | null>(null);
+
   useEffect(() => {
     loadDashboardData();
   }, [user]);
