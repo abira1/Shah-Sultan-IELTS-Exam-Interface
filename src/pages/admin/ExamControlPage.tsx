@@ -144,7 +144,10 @@ export function ExamControlPage() {
           'partial'
         );
         setGeneratedExamCode(code);
-        setDuration(track.duration); // Set duration from track
+        // Only set duration from track if it hasn't been manually set by admin
+        if (!isDurationManuallySet) {
+          setDuration(track.duration);
+        }
       } else {
         // Mock test
         if (!mockTracks.listening || !mockTracks.reading || !mockTracks.writing) return;
