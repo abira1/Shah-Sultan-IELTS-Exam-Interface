@@ -1131,6 +1131,42 @@ export function ExamPage({
     setShowLateEntryModal(false);
     // Continue with normal exam flow (notice -> instructions -> exam)
   };
+  
+  // Phase 4: Handle force exit (time expired or admin stopped)
+  const handleForceExit = async (reason: 'time_expired' | 'admin_stopped' | 'exam_ended') => {
+    console.log(`🚨 Phase 4: Force exit triggered - Reason: ${reason}`);
+    
+    // Prevent multiple force exits
+    if (hasAutoSubmittedRef.current) {
+      console.log('⚠️ Already force exited, skipping');
+      return;
+    }
+    
+    hasAutoSubmittedRef.current = true;
+    
+    // If not already submitting and reason is time_expired or admin_stopped, submit first
+    if (!isSubmittingRef.current && (reason === 'time_expired' || reason === 'admin_stopped')) {
+      isSubmittingRef.current = true;
+      
+      try {
+        console.log('📝 Auto-submitting before force exit...');
+        await handleSubmit(true);
+        console.log('✓ Auto-submit completed');
+      } catch (error) {
+        console.error('❌ Error during force exit auto-submit:', error);
+      }
+    }
+    
+    // Show force exit modal
+    setForceExitReason(reason);
+    setShowForceExitModal(true);
+  };
+  
+  // Phase 4: Handle force exit modal close (redirect to dashboard)
+  const handleForceExitModalClose = () => {
+    console.log('🔄 Redirecting to dashboard after force exit');
+    onSubmit(); // This will navigate back to dashboard
+  };
 
   const renderQuestion = (question: any, idx: number) => {
     // Phase 2: Check if current section is locked (view-only mode)
