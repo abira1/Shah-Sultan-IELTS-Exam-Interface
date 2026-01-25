@@ -955,7 +955,7 @@ export function ExamPage({
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (isAutoSubmit: boolean = false) => {
     if (trackDataList.length === 0) {
       alert('Error: No active exam track.');
       return;
@@ -970,6 +970,7 @@ export function ExamPage({
 
     console.log('=== SUBMITTING EXAM ===');
     console.log('Test Type:', testType);
+    console.log('Auto-submit:', isAutoSubmit);
     console.log('Number of tracks:', trackDataList.length);
 
     // Calculate total questions across all tracks
