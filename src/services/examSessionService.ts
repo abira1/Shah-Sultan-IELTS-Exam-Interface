@@ -35,6 +35,9 @@ export interface ExamSession {
   createdAt: string;
   startedAt?: string;
   completedAt?: string;
+  // PHASE 1: Countdown fields
+  countdownEnabled?: boolean;
+  countdownSeconds?: number;
 }
 
 const db = getDatabase(app);
