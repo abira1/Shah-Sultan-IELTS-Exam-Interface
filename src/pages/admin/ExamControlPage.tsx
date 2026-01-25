@@ -560,7 +560,10 @@ export function ExamControlPage() {
                 </label>
                 <select
                   value={partialSelectedTrack}
-                  onChange={(e) => setPartialSelectedTrack(e.target.value)}
+                  onChange={(e) => {
+                    setPartialSelectedTrack(e.target.value);
+                    setIsDurationManuallySet(false); // Reset flag when track changes
+                  }}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   data-testid="partial-track-selector"
                 >
