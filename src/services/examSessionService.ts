@@ -327,23 +327,34 @@ export const examSessionService = {
     }
   },
 
-  // Stop exam
+  // Stop exam - Phase 4: Enhanced to trigger force exit for all students
   async stopExam(examCode: string): Promise<boolean> {
     try {
+      console.log('🛑 Phase 4: Stopping exam:', examCode);
+      
+      // Update exam session status
       await this.updateExamSession(examCode, {
         status: 'completed',
         completedAt: new Date().toISOString()
       });
+      console.log('✓ Exam session marked as completed');
 
-      // Clear global exam status
+      // Clear global exam status - THIS TRIGGERS FORCE EXIT FOR ALL STUDENTS
+      // The real-time listener in ExamPage.tsx will detect this change
+      // and force all active students to exit the exam
       await set(ref(db, 'exam/status'), {
         isStarted: false,
         activeTrackId: null,
         trackName: null,
         examCode: null,
         testType: null,
-        selectedTracks: null
+        selectedTracks: null,
+        globalStartTime: null,
+        globalEndTime: null,
+        startTime: null,
+        endTime: null
       });
+      console.log('✓ Global exam status cleared - all students will be forced to exit');
 
       return true;
     } catch (error) {
