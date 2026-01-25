@@ -410,9 +410,18 @@ export function ExamPage({
           console.log('✓ Track end times set for mock test (fixed to global start time)');
           console.log('  Current server time:', new Date(now).toLocaleString());
           console.log('  Time remaining:', Math.floor((totalExamEndTime - now) / 60000), 'minutes');
-        } else if (globalStatus.endTime) {
+        } else {
           // Partial test: Use global end time
-          const endTime = new Date(globalStatus.endTime).getTime();
+          // Phase 3: Use globalEndTime with fallback to endTime for backward compatibility
+          const globalEndTimeStr = globalStatus.globalEndTime || globalStatus.endTime;
+          if (!globalEndTimeStr) {
+            console.error('❌ Global status missing endTime');
+            setTrackError('Exam timing error. Please contact administrator.');
+            setIsLoadingTrack(false);
+            return;
+          }
+          
+          const endTime = new Date(globalEndTimeStr).getTime();
           console.log('✓ Exam end time:', new Date(endTime).toLocaleString());
           
           // Verify student hasn't joined after exam ended
