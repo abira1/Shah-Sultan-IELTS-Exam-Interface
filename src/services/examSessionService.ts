@@ -392,5 +392,106 @@ export const examSessionService = {
       console.error('Error getting scheduled exams:', error);
       return [];
     }
+  },
+
+  // PHASE 2: Trigger countdown
+  async triggerCountdown(examCode: string): Promise<boolean> {
+    try {
+      console.log('🕐 Triggering countdown for exam:', examCode);
+      
+      const session = await this.getExamSessionByCode(examCode);
+      if (!session) {
+        console.error('Exam session not found:', examCode);
+        return false;
+      }
+
+      if (!session.countdownEnabled || !session.countdownSeconds) {
+        console.error('Countdown not enabled for this exam');
+        return false;
+      }
+
+      const countdownStartTime = new Date().toISOString();
+      const examStartTime = new Date(Date.now() + session.countdownSeconds * 1000).toISOString();
+
+      const countdownData = {
+        isActive: true,
+        examCode: examCode,
+        countdownStartTime: countdownStartTime,
+        countdownSeconds: session.countdownSeconds,
+        examStartTime: examStartTime,
+        trackName: session.trackName,
+        testType: session.testType || 'partial',
+        selectedTracks: session.selectedTracks,
+        allowedBatches: session.allowedBatches
+      };
+
+      await set(ref(db, 'exam/countdown'), countdownData);
+      console.log('✓ Countdown triggered successfully:', countdownData);
+
+      return true;
+    } catch (error) {
+      console.error('❌ Error triggering countdown:', error);
+      return false;
+    }
+  },
+
+  // PHASE 2: Clear countdown
+  async clearCountdown(): Promise<boolean> {
+    try {
+      await set(ref(db, 'exam/countdown'), {
+        isActive: false,
+        examCode: null,
+        countdownStartTime: null,
+        countdownSeconds: 0,
+        examStartTime: null,
+        trackName: null,
+        testType: null,
+        selectedTracks: null,
+        allowedBatches: []
+      });
+      console.log('✓ Countdown cleared');
+      return true;
+    } catch (error) {
+      console.error('❌ Error clearing countdown:', error);
+      return false;
+    }
+  },
+
+  // PHASE 2: Start exam with countdown flow
+  async startExamWithCountdown(examCode: string): Promise<boolean> {
+    try {
+      console.log('🚀 Starting exam with countdown flow:', examCode);
+      
+      // Step 1: Trigger countdown
+      const countdownTriggered = await this.triggerCountdown(examCode);
+      if (!countdownTriggered) {
+        console.error('Failed to trigger countdown');
+        return false;
+      }
+
+      const session = await this.getExamSessionByCode(examCode);
+      if (!session) {
+        return false;
+      }
+
+      // Step 2: Wait for countdown duration
+      console.log(`⏳ Waiting for ${session.countdownSeconds} seconds...`);
+      await new Promise(resolve => setTimeout(resolve, session.countdownSeconds! * 1000));
+
+      // Step 3: Start exam normally
+      console.log('▶️ Countdown complete, starting exam...');
+      const examStarted = await this.startExam(examCode);
+      
+      if (examStarted) {
+        // Step 4: Clear countdown
+        await this.clearCountdown();
+        console.log('✅ Exam started successfully after countdown');
+      }
+
+      return examStarted;
+    } catch (error) {
+      console.error('❌ Error in countdown flow:', error);
+      return false;
+    }
   }
 };
