@@ -441,9 +441,11 @@ export function ExamPage({
         console.log('=== EXAM DATA LOADED SUCCESSFULLY ===');
         
         // Phase 3: Check for late entry
-        if (globalStatus.startTime) {
+        // Use globalStartTime with fallback to startTime for backward compatibility
+        const globalStartTimeStr = globalStatus.globalStartTime || globalStatus.startTime;
+        if (globalStartTimeStr) {
           const now = Date.now() + serverTimeOffset;
-          const examStartTime = new Date(globalStatus.startTime).getTime();
+          const examStartTime = new Date(globalStartTimeStr).getTime();
           
           // Check if student is joining after exam has started
           if (now > examStartTime) {
@@ -461,11 +463,14 @@ export function ExamPage({
               endTime = trackEndTimes[trackEndTimes.length - 1];
               const totalDurationMs = endTime - examStartTime;
               totalDuration = Math.floor(totalDurationMs / 60000);
-            } else if (globalStatus.endTime) {
-              // Partial test: Use global end time
-              endTime = new Date(globalStatus.endTime).getTime();
             } else {
-              endTime = examStartTime + (totalDuration * 60000);
+              // Partial test: Use global end time
+              const globalEndTimeStr = globalStatus.globalEndTime || globalStatus.endTime;
+              if (globalEndTimeStr) {
+                endTime = new Date(globalEndTimeStr).getTime();
+              } else {
+                endTime = examStartTime + (totalDuration * 60000);
+              }
             }
             
             const remainingMs = endTime - now;
@@ -480,7 +485,7 @@ export function ExamPage({
               isLate: true,
               examName: examSession.trackName || 'Exam',
               examCode: examCode,
-              startTime: globalStatus.startTime,
+              startTime: globalStartTimeStr,
               originalDuration: totalDuration,
               remainingMinutes: remainingMinutes
             });
