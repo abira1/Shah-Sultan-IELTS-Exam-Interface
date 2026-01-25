@@ -1016,6 +1016,18 @@ export function ExamPage({
     setExamStarted(true);
   };
 
+  // Phase 3: Handle late entry modal actions
+  const handleLateEntryGoBack = () => {
+    console.log('Late entry - User chose to go back');
+    onSubmit(); // Navigate back to dashboard
+  };
+
+  const handleLateEntryEnter = () => {
+    console.log('Late entry - User chose to enter exam with reduced time');
+    setShowLateEntryModal(false);
+    // Continue with normal exam flow (notice -> instructions -> exam)
+  };
+
   const renderQuestion = (question: any, idx: number) => {
     // Phase 2: Check if current section is locked (view-only mode)
     const isLocked = testType === 'mock' && sectionSubmissions[trackOrder[currentTrackIndex]]?.locked;
