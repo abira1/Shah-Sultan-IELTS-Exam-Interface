@@ -304,8 +304,10 @@ export const examSessionService = {
         testType: session.testType || 'partial',
         selectedTracks: session.selectedTracks,
         examCode: examCode,
-        startTime: new Date().toISOString(),
-        endTime: new Date(Date.now() + session.duration * 60000).toISOString(),
+        globalStartTime: new Date().toISOString(),  // Phase 3: Renamed from startTime
+        globalEndTime: new Date(Date.now() + session.duration * 60000).toISOString(),  // Phase 3: Renamed from endTime
+        startTime: new Date().toISOString(),  // Keep for backward compatibility
+        endTime: new Date(Date.now() + session.duration * 60000).toISOString(),  // Keep for backward compatibility
         duration: session.duration,
         startedBy: session.createdBy
       };
