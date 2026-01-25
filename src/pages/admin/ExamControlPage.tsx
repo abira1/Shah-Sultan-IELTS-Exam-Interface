@@ -781,7 +781,10 @@ export function ExamControlPage() {
                     <button
                       key={m}
                       type="button"
-                      onClick={() => setDuration(m)}
+                      onClick={() => {
+                        setDuration(m);
+                        setIsDurationManuallySet(true);
+                      }}
                       className={`px-4 py-2 rounded-md text-sm font-medium border ${
                         duration === m
                           ? 'bg-blue-600 text-white border-blue-600'
@@ -796,9 +799,16 @@ export function ExamControlPage() {
                   type="number"
                   min={1}
                   value={duration}
-                  onChange={(e) => setDuration(Number(e.target.value))}
+                  onChange={(e) => {
+                    setDuration(Number(e.target.value));
+                    setIsDurationManuallySet(true);
+                  }}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter custom duration in minutes"
                 />
+                <p className="text-xs text-gray-500 mt-2">
+                  💡 You can customize the duration for this exam session
+                </p>
               </>
             )}
           </div>
