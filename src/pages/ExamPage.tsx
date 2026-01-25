@@ -31,6 +31,7 @@ import { Loader, Headphones, BookOpen, PenTool, ChevronRight, ChevronLeft, Alert
 import { ContextMenu, ContextMenuItem } from '../components/ui/context-menu';
 import { ImportantNotice } from '../components/ImportantNotice';
 import { ExamInstructions } from '../components/ExamInstructions';
+import { LateEntryModal } from '../components/LateEntryModal';
 
 interface ExamPageProps {
   studentId: string;
