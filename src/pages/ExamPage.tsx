@@ -360,7 +360,9 @@ export function ExamPage({
           // CRITICAL FIX: Use global exam start time (not current time) to ensure
           // all students have the same end times regardless of when they join
           
-          if (!globalStatus.startTime) {
+          // Phase 3: Use globalStartTime with fallback to startTime for backward compatibility
+          const globalStartTimeStr = globalStatus.globalStartTime || globalStatus.startTime;
+          if (!globalStartTimeStr) {
             console.error('❌ Global status missing startTime for mock test');
             setTrackError('Exam timing error. Please contact administrator.');
             setIsLoadingTrack(false);
@@ -369,7 +371,7 @@ export function ExamPage({
           
           // Calculate end times based on GLOBAL exam start time (set by admin)
           // NOT based on when this student enters
-          const examStartTime = new Date(globalStatus.startTime).getTime();
+          const examStartTime = new Date(globalStartTimeStr).getTime();
           const endTimes: number[] = [];
           let cumulativeTime = examStartTime;
           
