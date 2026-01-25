@@ -450,6 +450,7 @@ export function ExamControlPage() {
                   onChange={(e) => {
                     setTestType('partial');
                     setGeneratedExamCode('');
+                    setIsDurationManuallySet(false);
                   }}
                   className="w-4 h-4 text-blue-600 focus:ring-2 focus:ring-blue-500"
                 />
@@ -464,6 +465,7 @@ export function ExamControlPage() {
                   onChange={(e) => {
                     setTestType('mock');
                     setGeneratedExamCode('');
+                    setIsDurationManuallySet(false);
                   }}
                   className="w-4 h-4 text-blue-600 focus:ring-2 focus:ring-blue-500"
                 />
