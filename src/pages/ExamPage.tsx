@@ -428,6 +428,61 @@ export function ExamPage({
         }
         
         console.log('=== EXAM DATA LOADED SUCCESSFULLY ===');
+        
+        // Phase 3: Check for late entry
+        if (globalStatus.startTime) {
+          const now = Date.now() + serverTimeOffset;
+          const examStartTime = new Date(globalStatus.startTime).getTime();
+          
+          // Check if student is joining after exam has started
+          if (now > examStartTime) {
+            console.log('⚠️ LATE ENTRY DETECTED');
+            
+            // Calculate elapsed time and remaining time
+            const elapsedMs = now - examStartTime;
+            const elapsedMinutes = Math.floor(elapsedMs / 60000);
+            
+            let totalDuration = examSession.duration;
+            let endTime: number;
+            
+            if (examTestType === 'mock' && trackEndTimes.length > 0) {
+              // Mock test: Calculate total duration from all tracks
+              endTime = trackEndTimes[trackEndTimes.length - 1];
+              const totalDurationMs = endTime - examStartTime;
+              totalDuration = Math.floor(totalDurationMs / 60000);
+            } else if (globalStatus.endTime) {
+              // Partial test: Use global end time
+              endTime = new Date(globalStatus.endTime).getTime();
+            } else {
+              endTime = examStartTime + (totalDuration * 60000);
+            }
+            
+            const remainingMs = endTime - now;
+            const remainingMinutes = Math.floor(remainingMs / 60000);
+            
+            console.log(`  Elapsed: ${elapsedMinutes} minutes`);
+            console.log(`  Remaining: ${remainingMinutes} minutes`);
+            console.log(`  Original duration: ${totalDuration} minutes`);
+            
+            // Set late entry info
+            setLateEntryInfo({
+              isLate: true,
+              examName: examSession.trackName || examName,
+              examCode: examCode,
+              startTime: globalStatus.startTime,
+              originalDuration: totalDuration,
+              remainingMinutes: remainingMinutes
+            });
+            
+            // Show late entry modal
+            setShowLateEntryModal(true);
+            console.log('✓ Late entry modal will be shown');
+          } else {
+            console.log('✓ Student joining on time');
+            setLateEntryInfo(null);
+            setShowLateEntryModal(false);
+          }
+        }
       } catch (error) {
         console.error('❌ Error fetching exam data:', error);
         setTrackError(`Error loading exam: ${error instanceof Error ? error.message : 'Unknown error'}. Please refresh the page.`);
