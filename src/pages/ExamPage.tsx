@@ -646,13 +646,31 @@ export function ExamPage({
         const totalSecs = totalSeconds % 60;
         setTimeRemaining(`${String(totalMins).padStart(2, '0')}:${String(totalSecs).padStart(2, '0')}`);
       } else {
-        // Partial test: Original timer logic
+        // Partial test: Original timer logic with Phase 4 enhancement
         const remainingMs = examEndTime - now;
         
         if (remainingMs <= 0) {
           clearInterval(timer);
           setTimeRemaining('00:00');
-          handleSubmit();
+          
+          // Phase 4: Enhanced auto-submit with force exit
+          if (!hasAutoSubmittedRef.current && !isSubmittingRef.current) {
+            console.log('⏰ Phase 4: Time expired - triggering auto-submit and force exit');
+            hasAutoSubmittedRef.current = true;
+            isSubmittingRef.current = true;
+            
+            // Submit the exam
+            handleSubmit(true).then(() => {
+              // Show force exit modal
+              setForceExitReason('time_expired');
+              setShowForceExitModal(true);
+            }).catch((error) => {
+              console.error('❌ Error during auto-submit:', error);
+              // Still show force exit modal even if submission failed
+              setForceExitReason('time_expired');
+              setShowForceExitModal(true);
+            });
+          }
           return;
         }
 
