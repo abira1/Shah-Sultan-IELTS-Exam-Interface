@@ -64,6 +64,9 @@ export interface ExamSubmission {
   // NEW: Overall IELTS band score (average of 4 sections, rounded to 0.5)
   overallBand?: number;
   
+  // Phase 4: Auto-submission flag
+  autoSubmitted?: boolean;  // True if exam was auto-submitted due to time expiry
+  
   // Publishing
   resultPublished?: boolean;
   publishedAt?: string;
