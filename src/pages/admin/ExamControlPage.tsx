@@ -67,6 +67,10 @@ export function ExamControlPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  
+  // PHASE 1: Countdown configuration
+  const [useCountdown, setUseCountdown] = useState(false);
+  const [countdownSeconds, setCountdownSeconds] = useState(120); // Default 2 minutes
 
   // Sessions state
   const [activeExams, setActiveExams] = useState<ExamSession[]>([]);
