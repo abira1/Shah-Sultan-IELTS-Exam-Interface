@@ -57,14 +57,12 @@ export const studentService = {
     }
   },
 
-  // Generate random password
+  // Generate random password (6-digit numeric)
   generatePassword(): string {
-    const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
-    let password = '';
-    for (let i = 0; i < 8; i++) {
-      password += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return password;
+    // Generate 6-digit number between 000000 and 999999
+    const randomNum = Math.floor(Math.random() * 1000000);
+    // Pad with leading zeros to ensure 6 digits
+    return String(randomNum).padStart(6, '0');
   },
 
   // Create new student
