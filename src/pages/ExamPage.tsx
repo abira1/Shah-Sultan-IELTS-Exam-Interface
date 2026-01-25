@@ -641,6 +641,34 @@ export function ExamPage({
         
         // Also update overall time remaining
         const totalRemainingMs = examEndTime - now;
+        
+        // Phase 4: Check if overall exam time expired (for mock tests)
+        if (totalRemainingMs <= 0) {
+          clearInterval(timer);
+          setTimeRemaining('00:00');
+          setCurrentTrackTimeRemaining('00:00');
+          
+          // Enhanced auto-submit with force exit for entire exam
+          if (!hasAutoSubmittedRef.current && !isSubmittingRef.current) {
+            console.log('⏰ Phase 4: Mock test time expired - triggering final auto-submit and force exit');
+            hasAutoSubmittedRef.current = true;
+            isSubmittingRef.current = true;
+            
+            // Submit the entire exam
+            handleFinalSubmit().then(() => {
+              // Show force exit modal
+              setForceExitReason('time_expired');
+              setShowForceExitModal(true);
+            }).catch((error) => {
+              console.error('❌ Error during mock test auto-submit:', error);
+              // Still show force exit modal even if submission failed
+              setForceExitReason('time_expired');
+              setShowForceExitModal(true);
+            });
+          }
+          return;
+        }
+        
         const totalSeconds = Math.floor(totalRemainingMs / 1000);
         const totalMins = Math.floor(totalSeconds / 60);
         const totalSecs = totalSeconds % 60;
