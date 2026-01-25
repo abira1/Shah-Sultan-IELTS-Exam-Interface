@@ -127,6 +127,9 @@ export const examSessionService = {
     allowedBatches: string[];
     audioURL?: string;
     createdBy: string;
+    // PHASE 1: Countdown parameters
+    countdownEnabled?: boolean;
+    countdownSeconds?: number;
   }): Promise<{ success: boolean; examCode?: string; error?: string }> {
     try {
       console.log('Creating exam session:', data.examCode);
@@ -155,6 +158,12 @@ export const examSessionService = {
       // Only include trackDurations if it's provided (for mock tests)
       if (data.trackDurations) {
         session.trackDurations = data.trackDurations;
+      }
+
+      // PHASE 1: Include countdown settings if provided
+      if (data.countdownEnabled && data.countdownSeconds) {
+        session.countdownEnabled = data.countdownEnabled;
+        session.countdownSeconds = data.countdownSeconds;
       }
 
       // Create exam session
