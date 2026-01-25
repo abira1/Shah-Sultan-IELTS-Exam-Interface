@@ -123,6 +123,17 @@ export function ExamPage({
   // Phase 2: Auto-submit state
   const [hasAutoSubmitted, setHasAutoSubmitted] = useState(false);
   
+  // Phase 3: Late entry detection
+  const [lateEntryInfo, setLateEntryInfo] = useState<{
+    isLate: boolean;
+    examName: string;
+    examCode: string;
+    startTime: string;
+    originalDuration: number;
+    remainingMinutes: number;
+  } | null>(null);
+  const [showLateEntryModal, setShowLateEntryModal] = useState(false);
+  
   // Get current track data
   const currentTrackData = trackDataList[currentTrackIndex];
   const currentTrack = currentTrackData?.track;
