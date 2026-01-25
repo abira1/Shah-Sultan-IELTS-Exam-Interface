@@ -1407,6 +1407,17 @@ export function ExamPage({
       />
     );
   }
+  
+  // Phase 4: Show Force Exit Modal when time expires or admin stops exam
+  if (showForceExitModal) {
+    return (
+      <ForceExitModal
+        reason={forceExitReason}
+        onClose={handleForceExitModalClose}
+        autoRedirectSeconds={3}
+      />
+    );
+  }
 
   // Show Important Notice first (for both mock and partial tests)
   if (showNotice) {
