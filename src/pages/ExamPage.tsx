@@ -517,6 +517,60 @@ export function ExamPage({
     fetchExamData();
   }, [examCode, studentId, studentBatchId]);
   
+  // Phase 4: Real-time exam status listener - Force exit on admin stop or exam end
+  useEffect(() => {
+    if (!examStarted || !currentExamCode) return;
+    
+    const db = getDatabase(app);
+    const examStatusRef = ref(db, 'exam/status');
+    
+    console.log('🔄 Phase 4: Setting up real-time exam status listener');
+    
+    const unsubscribe = onValue(examStatusRef, (snapshot) => {
+      if (!snapshot.exists()) {
+        console.log('⚠️ Exam status node deleted - forcing exit');
+        handleForceExit('admin_stopped');
+        return;
+      }
+      
+      const status = snapshot.val();
+      console.log('📡 Exam status update received:', status);
+      
+      // Check if exam was stopped (isStarted became false)
+      if (!status.isStarted) {
+        console.log('🛑 Exam stopped by admin - forcing exit');
+        handleForceExit('admin_stopped');
+        return;
+      }
+      
+      // Check if exam code changed (different exam started)
+      if (status.examCode && status.examCode !== currentExamCode) {
+        console.log('🔄 Different exam started - forcing exit');
+        handleForceExit('admin_stopped');
+        return;
+      }
+      
+      // Phase 4: Check if global end time passed (for edge cases)
+      if (status.globalEndTime || status.endTime) {
+        const now = getServerTime();
+        const endTimeStr = status.globalEndTime || status.endTime;
+        const endTime = new Date(endTimeStr).getTime();
+        
+        if (now >= endTime) {
+          console.log('⏰ Global end time reached - forcing exit');
+          handleForceExit('time_expired');
+        }
+      }
+    }, (error) => {
+      console.error('❌ Error in exam status listener:', error);
+    });
+    
+    return () => {
+      console.log('🔌 Cleaning up exam status listener');
+      unsubscribe();
+    };
+  }, [examStarted, currentExamCode, serverTimeOffset, isTimeSynced]);
+  
   // Phase 3: Get current time synchronized with server
   const getServerTime = () => {
     if (isTimeSynced) {
