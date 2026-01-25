@@ -924,6 +924,7 @@ export function ExamControlPage() {
                 isCreating || 
                 selectedBatches.length === 0 ||
                 activeExams.length > 0 ||
+                useCountdown ||
                 (testType === 'partial' && !partialSelectedTrack) ||
                 (testType === 'mock' && (!mockTracks.listening || !mockTracks.reading || !mockTracks.writing))
               }
@@ -938,10 +939,38 @@ export function ExamControlPage() {
               ) : (
                 <>
                   <Play className="w-5 h-5" />
-                  Create & Start Now
+                  Start Immediately
                 </>
               )}
             </button>
+
+            {/* PHASE 1: Start with Countdown Button */}
+            {useCountdown && (
+              <button
+                onClick={() => handleCreateSession(true, true)}
+                disabled={
+                  isCreating || 
+                  selectedBatches.length === 0 ||
+                  activeExams.length > 0 ||
+                  (testType === 'partial' && !partialSelectedTrack) ||
+                  (testType === 'mock' && (!mockTracks.listening || !mockTracks.reading || !mockTracks.writing))
+                }
+                className="flex-1 px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                data-testid="create-start-countdown-button"
+              >
+                {isCreating ? (
+                  <>
+                    <Loader className="w-5 h-5 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  <>
+                    <Clock className="w-5 h-5" />
+                    Start with Countdown ({Math.floor(countdownSeconds / 60)}:{(countdownSeconds % 60).toString().padStart(2, '0')})
+                  </>
+                )}
+              </button>
+            )}
           </div>
 
           {activeExams.length > 0 && (
