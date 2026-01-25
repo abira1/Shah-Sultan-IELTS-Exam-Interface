@@ -68,7 +68,7 @@ export function WritingTaskInput({
           <h4 className="font-semibold text-gray-900">Task Prompt</h4>
         </div>
         <div className="prose prose-sm max-w-none">
-          <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{prompt}</p>
+          <p className="text-gray-700 text-xl font-semibold whitespace-pre-wrap leading-relaxed">{prompt}</p>
         </div>
       </div>
 
