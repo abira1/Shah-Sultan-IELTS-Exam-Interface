@@ -82,6 +82,12 @@ export function ExamPage({
   const [trackDataList, setTrackDataList] = useState<TrackData[]>([]);
   const [trackOrder, setTrackOrder] = useState<Array<'listening' | 'reading' | 'writing'>>([]);
   
+  // Audio preloading state - runs in background without blocking exam
+  const [preloadedAudio, setPreloadedAudio] = useState<HTMLAudioElement | null>(null);
+  const [audioLoadProgress, setAudioLoadProgress] = useState(0);
+  const [audioLoadError, setAudioLoadError] = useState<string | null>(null);
+  const audioPreloadStarted = useRef(false);
+  
   const [isLoadingTrack, setIsLoadingTrack] = useState(true);
   const [trackError, setTrackError] = useState<string | null>(null);
   const [currentExamCode, setCurrentExamCode] = useState<string | null>(examCode);
