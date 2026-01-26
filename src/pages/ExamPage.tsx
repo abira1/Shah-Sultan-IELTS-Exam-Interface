@@ -1725,21 +1725,8 @@ export function ExamPage({
                               Previous Section
                             </button>
 
-                            {currentSection === (examData?.length || 0) - 1 ? (
-                              // Only show submit button if time hasn't expired or already submitted
-                              (currentTrackTimeRemaining !== '00:00' || sectionSubmissions[trackOrder[currentTrackIndex]]?.locked) && (
-                                <button
-                                  onClick={() => handleSectionSubmit(trackOrder[currentTrackIndex])}
-                                  disabled={sectionSubmissions[trackOrder[currentTrackIndex]]?.locked}
-                                  className="px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                  data-testid="submit-section-button"
-                                >
-                                  {sectionSubmissions[trackOrder[currentTrackIndex]]?.locked 
-                                    ? '✓ Section Submitted' 
-                                    : `Submit ${trackInfo.label} Section`}
-                                </button>
-                              )
-                            ) : (
+                            {/* No manual submit button - auto-submission only when time expires */}
+                            {currentSection < (examData?.length || 0) - 1 && (
                               <button
                                 onClick={() => setCurrentSection(prev => prev + 1)}
                                 disabled={sectionSubmissions[trackOrder[currentTrackIndex]]?.locked}
@@ -1759,14 +1746,8 @@ export function ExamPage({
                               Previous Section
                             </button>
 
-                            {currentSection === (examData?.length || 0) - 1 ? (
-                              <button
-                                onClick={handleSubmit}
-                                className="px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
-                              >
-                                Submit Exam
-                              </button>
-                            ) : (
+                            {/* No manual submit button for partial tests - auto-submission only */}
+                            {currentSection < (examData?.length || 0) - 1 && (
                               <button
                                 onClick={() => setCurrentSection(prev => prev + 1)}
                                 className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
