@@ -317,6 +317,37 @@ export function ExamPage({
         
         if (!globalStatus.isStarted) {
           console.log('❌ Exam is not started globally');
+          
+          // Countdown fix: Retry with listener instead of immediate error
+          if (retryAttempt < 10) {
+            console.log(`⏳ Waiting for exam to start globally (attempt ${retryAttempt + 1}/10)...`);
+            setIsWaitingForExamStart(true);
+            setIsLoadingTrack(false);
+            
+            // Set up real-time listener for global exam status
+            const globalStatusRef = ref(db, 'exam/status/isStarted');
+            const unsubscribe = onValue(globalStatusRef, (snapshot) => {
+              if (snapshot.exists() && snapshot.val() === true) {
+                console.log('✅ Exam has started globally! Reloading...');
+                unsubscribe();
+                setRetryAttempt(0);
+                setIsWaitingForExamStart(false);
+                fetchExamData();
+              }
+            });
+            
+            // Fallback: retry after 2 seconds
+            retryTimeoutRef.current = setTimeout(() => {
+              console.log('⏱️ Retry timeout, attempting reload...');
+              unsubscribe();
+              setRetryAttempt(prev => prev + 1);
+              setIsWaitingForExamStart(false);
+              fetchExamData();
+            }, 2000);
+            
+            return;
+          }
+          
           setTrackError('Exam not started yet. Please wait for admin to start the exam.');
           setIsLoadingTrack(false);
           return;
