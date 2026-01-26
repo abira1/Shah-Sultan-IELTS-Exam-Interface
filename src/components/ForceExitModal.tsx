@@ -33,11 +33,11 @@ export function ForceExitModal({
     switch (reason) {
       case 'time_expired':
         return {
-          icon: <Clock className="w-16 h-16 text-orange-600" />,
-          title: '⏰ Time Expired',
-          message: 'Your exam time has ended and your answers have been automatically submitted.',
-          bgColor: 'from-orange-500 to-red-500',
-          iconBg: 'bg-orange-100'
+          icon: <CheckCircle className="w-16 h-16 text-green-600" />,
+          title: '✅ Submission Successful',
+          message: 'Your exam time has ended. Your answers have been recorded and submitted successfully.',
+          bgColor: 'from-green-500 to-emerald-600',
+          iconBg: 'bg-green-100'
         };
       case 'admin_stopped':
         return {
