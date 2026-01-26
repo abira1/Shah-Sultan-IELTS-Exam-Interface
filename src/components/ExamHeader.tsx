@@ -184,11 +184,20 @@ export function ExamHeader({
           {/* Audio Player Controls - Only show for listening tracks */}
           {audioURL && (!trackType || trackType === 'listening') && (
             <div className="flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg px-3 py-2 flex-shrink-0 w-full lg:flex-1 lg:min-w-[400px] xl:min-w-[500px]" data-testid="audio-player-bar">
-              <audio ref={setAudioRef} src={audioURL} preload="metadata" />
+              <audio 
+                ref={setAudioRef} 
+                src={audioURL} 
+                preload="auto"
+                crossOrigin="anonymous"
+              />
               
-              {/* Audio Icon */}
+              {/* Audio Icon with loading state */}
               <div className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-blue-600 text-white rounded-full flex-shrink-0">
-                <Volume2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                {isBuffering ? (
+                  <Loader className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
+                ) : (
+                  <Volume2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                )}
               </div>
 
               {/* Time Display */}
@@ -228,15 +237,36 @@ export function ExamHeader({
 
               {/* Playing Status Indicator - Hidden on small screens */}
               <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
-                <div className="flex gap-0.5">
-                  <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
-                  <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-                </div>
-                <span className="text-xs font-medium text-blue-700">
-                  Playing
-                </span>
+                {isBuffering ? (
+                  <>
+                    <Loader className="w-4 h-4 text-blue-600 animate-spin" />
+                    <span className="text-xs font-medium text-blue-700">
+                      Buffering...
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex gap-0.5">
+                      <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
+                      <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                    </div>
+                    <span className="text-xs font-medium text-blue-700">
+                      Playing
+                    </span>
+                  </>
+                )}
               </div>
+
+              {/* Buffer progress indicator (subtle) */}
+              {bufferProgress < 100 && bufferProgress > 0 && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-200">
+                  <div 
+                    className="h-full bg-blue-500 transition-all duration-300"
+                    style={{ width: `${bufferProgress}%` }}
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>
