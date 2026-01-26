@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Clock, BookOpen } from 'lucide-react';
+import { Clock, BookOpen, Loader } from 'lucide-react';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { app } from '../firebase';
 
 interface CountdownPopupProps {
   examCode: string;
@@ -18,6 +20,7 @@ export function CountdownPopup({
 }: CountdownPopupProps) {
   const [timeRemaining, setTimeRemaining] = useState<number>(countdownSeconds);
   const [isComplete, setIsComplete] = useState(false);
+  const [isWaitingForExam, setIsWaitingForExam] = useState(false);
 
   useEffect(() => {
     // Calculate actual remaining time based on server start time
@@ -28,12 +31,11 @@ export function CountdownPopup({
     
     setTimeRemaining(remaining);
 
-    // If already complete, trigger immediately
+    // If already complete, wait for exam to be active
     if (remaining <= 0) {
       setIsComplete(true);
-      setTimeout(() => {
-        onComplete();
-      }, 500);
+      setIsWaitingForExam(true);
+      // Don't call onComplete yet - wait for exam status
       return;
     }
 
@@ -45,9 +47,8 @@ export function CountdownPopup({
         if (newValue <= 0) {
           clearInterval(interval);
           setIsComplete(true);
-          setTimeout(() => {
-            onComplete();
-          }, 500);
+          setIsWaitingForExam(true);
+          // Don't call onComplete yet - will be triggered by exam status listener
           return 0;
         }
         
@@ -56,7 +57,43 @@ export function CountdownPopup({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [countdownStartTime, countdownSeconds, onComplete]);
+  }, [countdownStartTime, countdownSeconds]);
+
+  // NEW: Listen for exam status to become active before redirecting
+  useEffect(() => {
+    if (!isWaitingForExam) return;
+
+    console.log('🔄 Countdown complete, waiting for exam to become active...');
+    const db = getDatabase(app);
+    const examStatusRef = ref(db, 'exam/status');
+    
+    const unsubscribe = onValue(examStatusRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const status = snapshot.val();
+        console.log('📡 Exam status update:', status);
+        
+        // Check if exam is started and matches our exam code
+        if (status.isStarted && status.examCode === examCode) {
+          console.log('✅ Exam is now active, redirecting...');
+          // Give a brief moment for UI feedback, then redirect
+          setTimeout(() => {
+            onComplete();
+          }, 500);
+          unsubscribe(); // Stop listening
+        }
+      }
+    }, (error) => {
+      console.error('❌ Error listening to exam status:', error);
+      // Fallback: redirect anyway after 3 seconds
+      setTimeout(() => {
+        console.log('⚠️ Timeout waiting for exam status, redirecting anyway...');
+        onComplete();
+      }, 3000);
+    });
+
+    // Cleanup listener
+    return () => unsubscribe();
+  }, [isWaitingForExam, examCode, onComplete]);
 
   // Format time as MM:SS
   const formatTime = (seconds: number): string => {
