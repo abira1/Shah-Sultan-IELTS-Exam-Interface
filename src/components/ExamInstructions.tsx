@@ -53,82 +53,82 @@ export function ExamInstructions({ examType, onStart }: ExamInstructionsProps) {
 
   const renderListeningInstructions = () => (
     <>
-      <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-        <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <FileText className="w-6 h-6 text-purple-600" />
-          Official Instructions to Candidates
+      <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 border border-gray-200">
+        <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-3 sm:mb-4 flex items-center gap-2">
+          <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 flex-shrink-0" />
+          <span>Official Instructions to Candidates</span>
         </h3>
-        <ul className="space-y-3 text-gray-700">
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+        <ul className="space-y-2 sm:space-y-3 text-gray-700 text-sm sm:text-base">
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>Do not open this question paper until you are told to do so.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>Write your name and candidate number in the spaces at the top of this page.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>Listen carefully to the instructions for each part of the test.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>Answer all the questions.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>While you are listening, write your answers on the question paper.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>You will have 10 minutes at the end of the test to transfer your answers to the answer sheet.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>Use a pencil.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>At the end of the test, hand in this question paper.</span>
           </li>
         </ul>
       </div>
 
-      <div className="bg-purple-50 rounded-xl shadow-md p-6 border border-purple-200">
-        <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <CheckSquare className="w-6 h-6 text-purple-600" />
-          Information for Candidates
+      <div className="bg-purple-50 rounded-xl shadow-md p-4 sm:p-6 border border-purple-200">
+        <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-3 sm:mb-4 flex items-center gap-2">
+          <CheckSquare className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 flex-shrink-0" />
+          <span>Information for Candidates</span>
         </h3>
-        <ul className="space-y-3 text-gray-700">
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+        <ul className="space-y-2 sm:space-y-3 text-gray-700 text-sm sm:text-base">
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>The test consists of four parts.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>You will hear each part once only.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>There are 40 questions in total.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>Each question carries one mark.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>Before each part, you will have time to read the questions.</span>
           </li>
-          <li className="flex items-start gap-3">
-            <span className="text-purple-600 font-bold mt-1">•</span>
+          <li className="flex items-start gap-2 sm:gap-3">
+            <span className="text-purple-600 font-bold mt-1 flex-shrink-0">•</span>
             <span>After each part, you will have time to check your answers.</span>
           </li>
         </ul>
       </div>
 
-      <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-        <p className="text-sm text-gray-600 italic">
+      <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+        <p className="text-xs sm:text-sm text-gray-600 italic">
           <span className="font-semibold">Instruction Source:</span> British Council Listening Test Format
         </p>
       </div>
