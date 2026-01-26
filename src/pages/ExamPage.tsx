@@ -273,6 +273,40 @@ export function ExamPage({
         
         if (!globalStatusSnapshot.exists()) {
           console.log('❌ No global exam status found in Firebase');
+          
+          // Countdown fix: Retry with listener instead of immediate error
+          if (retryAttempt < 10) {
+            console.log(`⏳ Waiting for global exam status (attempt ${retryAttempt + 1}/10)...`);
+            setIsWaitingForExamStart(true);
+            setIsLoadingTrack(false);
+            
+            // Set up real-time listener for global exam status
+            const globalStatusRef = ref(db, 'exam/status');
+            const unsubscribe = onValue(globalStatusRef, (snapshot) => {
+              if (snapshot.exists()) {
+                const status = snapshot.val();
+                if (status.isStarted && status.examCode === examCode) {
+                  console.log('✅ Global exam status is now active! Reloading...');
+                  unsubscribe();
+                  setRetryAttempt(0);
+                  setIsWaitingForExamStart(false);
+                  fetchExamData();
+                }
+              }
+            });
+            
+            // Fallback: retry after 2 seconds
+            retryTimeoutRef.current = setTimeout(() => {
+              console.log('⏱️ Retry timeout, attempting reload...');
+              unsubscribe();
+              setRetryAttempt(prev => prev + 1);
+              setIsWaitingForExamStart(false);
+              fetchExamData();
+            }, 2000);
+            
+            return;
+          }
+          
           setTrackError('Exam not started yet. Please wait for admin to start the exam.');
           setIsLoadingTrack(false);
           return;
