@@ -1532,6 +1532,30 @@ export function ExamPage({
         </div>
       )}
 
+      {/* Background Audio Loading Indicator (non-blocking, subtle) */}
+      {currentAudioURL && currentTrack?.trackType === 'listening' && audioLoadProgress < 100 && audioLoadProgress > 0 && (
+        <div className="bg-blue-50 border-l-4 border-blue-400 p-2 mx-4 mt-2 text-xs">
+          <div className="flex items-center gap-2">
+            <Loader className="w-3 h-3 text-blue-600 animate-spin flex-shrink-0" />
+            <span className="text-blue-700">
+              Audio loading in background... {audioLoadProgress}%
+            </span>
+          </div>
+        </div>
+      )}
+      
+      {/* Audio Load Error (non-blocking warning) */}
+      {audioLoadError && currentTrack?.trackType === 'listening' && (
+        <div className="bg-orange-50 border-l-4 border-orange-400 p-2 mx-4 mt-2 text-xs">
+          <div className="flex items-center gap-2">
+            <AlertCircle className="w-3 h-3 text-orange-600 flex-shrink-0" />
+            <span className="text-orange-700">
+              {audioLoadError} Audio will stream during playback.
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Phase 2: Auto-Submit Notification Banner for Mock Tests */}
       {testType === 'mock' && 
        currentTrackTimeRemaining === '00:00' && 
