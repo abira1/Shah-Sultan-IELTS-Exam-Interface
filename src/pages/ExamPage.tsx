@@ -212,6 +212,39 @@ export function ExamPage({
         // Step 2: Check if exam session is active
         if (examSession.status !== 'active') {
           console.log('❌ Exam session is not active. Status:', examSession.status);
+          
+          // Countdown fix: If exam has countdown enabled, it might be starting soon
+          // Set up a listener and auto-retry instead of showing immediate error
+          if (examSession.countdownEnabled && retryAttempt < 10) {
+            console.log(`⏳ Exam starting soon (attempt ${retryAttempt + 1}/10). Setting up listener...`);
+            setIsWaitingForExamStart(true);
+            setIsLoadingTrack(false);
+            
+            // Set up real-time listener for exam session status
+            const examSessionRef = ref(db, `examSessions/${examCode}/status`);
+            const unsubscribe = onValue(examSessionRef, (snapshot) => {
+              if (snapshot.exists() && snapshot.val() === 'active') {
+                console.log('✅ Exam is now active! Reloading...');
+                unsubscribe();
+                setRetryAttempt(0);
+                setIsWaitingForExamStart(false);
+                // Retry loading exam data
+                fetchExamData();
+              }
+            });
+            
+            // Fallback: retry after 2 seconds if listener doesn't trigger
+            retryTimeoutRef.current = setTimeout(() => {
+              console.log('⏱️ Retry timeout, attempting reload...');
+              unsubscribe();
+              setRetryAttempt(prev => prev + 1);
+              setIsWaitingForExamStart(false);
+              fetchExamData();
+            }, 2000);
+            
+            return;
+          }
+          
           setTrackError('Exam not started yet. Please wait for admin to start the exam.');
           setIsLoadingTrack(false);
           return;
