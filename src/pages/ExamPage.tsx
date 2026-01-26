@@ -1558,6 +1558,30 @@ export function ExamPage({
       </div>
     );
   }
+  
+  // Countdown fix: Waiting for exam to start state
+  if (isWaitingForExamStart) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-6">
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Loader className="w-8 h-8 text-blue-600 animate-spin" />
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Exam Starting...</h2>
+          <p className="text-gray-600 mb-2">
+            Please wait while we prepare your exam.
+          </p>
+          <p className="text-sm text-gray-500">
+            This usually takes just a few seconds.
+          </p>
+          <div className="mt-4 flex items-center justify-center gap-2 text-sm text-blue-600">
+            <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+            <span>Attempt {retryAttempt + 1}/10</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Error state
   if (trackError || trackDataList.length === 0) {
