@@ -147,6 +147,11 @@ export function ExamPage({
   const hasAutoSubmittedRef = useRef(false); // Prevent double submission
   const isSubmittingRef = useRef(false); // Track submission in progress
   
+  // Countdown fix: Auto-retry and wait state
+  const [isWaitingForExamStart, setIsWaitingForExamStart] = useState(false);
+  const [retryAttempt, setRetryAttempt] = useState(0);
+  const retryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
   // Get current track data
   const currentTrackData = trackDataList[currentTrackIndex];
   const currentTrack = currentTrackData?.track;
