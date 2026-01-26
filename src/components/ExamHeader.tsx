@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ClockIcon, UserIcon, Volume2, VolumeX } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ClockIcon, UserIcon, Volume2, VolumeX, Loader } from 'lucide-react';
 
 interface ExamHeaderProps {
   trackName: string;
@@ -12,6 +12,7 @@ interface ExamHeaderProps {
   audioURL?: string | null;
   autoPlayAudio?: boolean;
   trackType?: 'listening' | 'reading' | 'writing';
+  preloadedAudio?: HTMLAudioElement | null;
 }
 
 export function ExamHeader({
@@ -24,33 +25,79 @@ export function ExamHeader({
   isTimeCritical = false,
   audioURL = null,
   autoPlayAudio = false,
-  trackType
+  trackType,
+  preloadedAudio = null
 }: ExamHeaderProps) {
   const [audioRef, setAudioRef] = useState<HTMLAudioElement | null>(null);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [isBuffering, setIsBuffering] = useState(false);
+  const [bufferProgress, setBufferProgress] = useState(0);
+  const autoPlayAttempted = useRef(false);
 
+  // Use preloaded audio if available
   useEffect(() => {
-    if (audioRef && audioURL && autoPlayAudio) {
-      // Auto-play the audio when exam starts
-      audioRef.play().catch(err => console.log("Auto-play failed:", err));
+    if (preloadedAudio && !audioRef) {
+      setAudioRef(preloadedAudio);
+      setDuration(preloadedAudio.duration || 0);
+    }
+  }, [preloadedAudio, audioRef]);
+
+  // Auto-play logic - runs in background, doesn't block exam
+  useEffect(() => {
+    if (audioRef && audioURL && autoPlayAudio && !autoPlayAttempted.current) {
+      autoPlayAttempted.current = true;
+      
+      // Wait a brief moment to ensure buffer is ready
+      const playTimeout = setTimeout(() => {
+        audioRef.play().catch(err => {
+          console.log("Auto-play failed (browser restriction or network issue):", err);
+          // Don't block exam - just log the error
+        });
+      }, 100);
+
+      return () => clearTimeout(playTimeout);
     }
   }, [audioRef, audioURL, autoPlayAudio]);
 
+  // Monitor buffering and progress
   useEffect(() => {
     if (!audioRef) return;
 
     const handleTimeUpdate = () => setCurrentTime(audioRef.currentTime);
     const handleLoadedMetadata = () => setDuration(audioRef.duration);
+    
+    const handleWaiting = () => setIsBuffering(true);
+    const handleCanPlay = () => setIsBuffering(false);
+    const handlePlaying = () => setIsBuffering(false);
+    
+    const handleProgress = () => {
+      if (audioRef.buffered.length > 0) {
+        const bufferedEnd = audioRef.buffered.end(audioRef.buffered.length - 1);
+        const duration = audioRef.duration;
+        if (duration > 0) {
+          const percent = Math.round((bufferedEnd / duration) * 100);
+          setBufferProgress(percent);
+        }
+      }
+    };
 
     audioRef.addEventListener('timeupdate', handleTimeUpdate);
     audioRef.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audioRef.addEventListener('waiting', handleWaiting);
+    audioRef.addEventListener('canplay', handleCanPlay);
+    audioRef.addEventListener('playing', handlePlaying);
+    audioRef.addEventListener('progress', handleProgress);
 
     return () => {
       audioRef.removeEventListener('timeupdate', handleTimeUpdate);
       audioRef.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audioRef.removeEventListener('waiting', handleWaiting);
+      audioRef.removeEventListener('canplay', handleCanPlay);
+      audioRef.removeEventListener('playing', handlePlaying);
+      audioRef.removeEventListener('progress', handleProgress);
     };
   }, [audioRef]);
 
