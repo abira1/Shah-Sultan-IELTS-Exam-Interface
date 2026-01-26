@@ -162,6 +162,18 @@ export function CountdownPopup({
               Make sure you have a stable internet connection.
             </p>
           </div>
+        ) : isWaitingForExam ? (
+          <div className="space-y-3 animate-fade-in px-2">
+            <div className="flex items-center justify-center gap-2">
+              <Loader className="w-5 h-5 text-green-300 animate-spin" />
+              <p className="text-base sm:text-lg md:text-xl text-green-300 font-semibold">
+                Starting exam, please wait...
+              </p>
+            </div>
+            <p className="text-xs sm:text-sm text-blue-300">
+              Preparing your exam interface...
+            </p>
+          </div>
         ) : (
           <div className="space-y-2 animate-fade-in px-2">
             <p className="text-base sm:text-lg md:text-xl text-green-300 font-semibold">
