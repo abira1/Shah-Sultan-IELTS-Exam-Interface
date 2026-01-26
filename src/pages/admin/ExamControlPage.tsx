@@ -106,6 +106,9 @@ export function ExamControlPage() {
   const loadExamSessions = async () => {
     setIsLoadingSessions(true);
     try {
+      // Auto-stop any expired exams first
+      await examSessionService.autoStopExpiredExams();
+
       const [active, scheduled] = await Promise.all([
         examSessionService.getActiveExams(),
         examSessionService.getScheduledExams()
