@@ -1522,6 +1522,7 @@ export function ExamPage({
         audioURL={currentAudioURL}
         autoPlayAudio={true}
         trackType={currentTrack.trackType}
+        preloadedAudio={preloadedAudio}
       />
 
       {/* Phase 3: Time sync indicator */}
