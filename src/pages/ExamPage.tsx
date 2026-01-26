@@ -523,6 +523,51 @@ export function ExamPage({
     fetchExamData();
   }, [examCode, studentId, studentBatchId]);
   
+  // Background audio preloading - runs independently without blocking exam
+  useEffect(() => {
+    // Only preload if we have audio URL and haven't started preloading yet
+    if (!currentAudioURL || audioPreloadStarted.current || currentTrack?.trackType !== 'listening') {
+      return;
+    }
+    
+    audioPreloadStarted.current = true;
+    
+    const preloadAudio = async () => {
+      try {
+        console.log('🎵 Starting background audio preload...');
+        setAudioLoadProgress(0);
+        setAudioLoadError(null);
+        
+        const preloadedElement = await audioService.preloadAudioInBackground(
+          currentAudioURL,
+          (progress) => {
+            setAudioLoadProgress(progress);
+            if (progress === 100) {
+              console.log('✅ Audio fully preloaded and ready');
+            }
+          }
+        );
+        
+        setPreloadedAudio(preloadedElement);
+        console.log('✅ Audio preloading complete');
+      } catch (error) {
+        console.error('⚠️ Audio preload failed (exam continues):', error);
+        setAudioLoadError('Audio preload failed. Audio will load during playback.');
+        // Don't block the exam - it can still proceed
+      }
+    };
+    
+    preloadAudio();
+    
+    // Cleanup on unmount
+    return () => {
+      if (preloadedAudio) {
+        preloadedAudio.pause();
+        preloadedAudio.src = '';
+      }
+    };
+  }, [currentAudioURL, currentTrack]);
+  
   // Phase 4: Real-time exam status listener - Force exit on admin stop or exam end
   useEffect(() => {
     if (!examStarted || !currentExamCode) return;
