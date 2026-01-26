@@ -292,40 +292,40 @@ export function ExamInstructions({ examType, onStart }: ExamInstructionsProps) {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 px-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-6 sm:py-8 md:py-12 px-3 sm:px-4 md:px-6">
+      <div className="max-w-full sm:max-w-3xl md:max-w-4xl mx-auto">
         {/* Header */}
-        <div className={`bg-gradient-to-r ${getGradient()} rounded-2xl shadow-2xl p-8 mb-8`}>
-          <div className="flex items-center gap-6">
-            <div className="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center">
+        <div className={`bg-gradient-to-r ${getGradient()} rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8`}>
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white/20 backdrop-blur rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
               {getIcon()}
             </div>
-            <div className="flex-1">
-              <h1 className="text-4xl font-bold text-white mb-2">{getTitle()}</h1>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2 truncate">{getTitle()}</h1>
               <div className="flex items-center gap-2 text-white/90">
-                <Clock className="w-5 h-5" />
-                <span className="text-lg font-medium">Time: {getDuration()}</span>
+                <Clock className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                <span className="text-sm sm:text-base md:text-lg font-medium">Time: {getDuration()}</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Instructions Content */}
-        <div className="space-y-6 mb-8">
+        <div className="space-y-4 sm:space-y-6 mb-6 sm:mb-8">
           {examType === 'listening' && renderListeningInstructions()}
           {examType === 'reading' && renderReadingInstructions()}
           {examType === 'writing' && renderWritingInstructions()}
         </div>
 
         {/* Start Button */}
-        <div className="sticky bottom-6">
+        <div className="sticky bottom-4 sm:bottom-6">
           <button
             onClick={onStart}
             data-testid={`start-${examType}-test-button`}
-            className={`w-full bg-gradient-to-r ${getGradient()} hover:shadow-2xl text-white font-bold text-xl py-5 px-8 rounded-xl shadow-lg transform hover:scale-[1.02] transition-all duration-200 flex items-center justify-center gap-3`}
+            className={`w-full bg-gradient-to-r ${getGradient()} hover:shadow-2xl text-white font-bold text-base sm:text-lg md:text-xl py-4 px-6 sm:py-5 sm:px-8 rounded-xl shadow-lg transform hover:scale-[1.02] transition-all duration-200 flex items-center justify-center gap-2 sm:gap-3`}
           >
             <span>Start {getTitle()} Test</span>
-            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </button>
