@@ -506,5 +506,41 @@ export const examSessionService = {
       console.error('❌ Error in countdown flow:', error);
       return false;
     }
+  },
+
+  // Auto-stop expired exams
+  async autoStopExpiredExams(): Promise<void> {
+    try {
+      const activeExams = await this.getActiveExams();
+      
+      if (activeExams.length === 0) {
+        return;
+      }
+
+      const now = new Date();
+
+      for (const exam of activeExams) {
+        // Use startedAt if available, otherwise fall back to createdAt
+        const startTime = exam.startedAt || exam.createdAt;
+        const examStartDate = new Date(startTime);
+        const durationMs = exam.duration * 60 * 1000; // Convert minutes to milliseconds
+        const examEndDate = new Date(examStartDate.getTime() + durationMs);
+
+        // Check if exam has expired
+        if (now >= examEndDate) {
+          console.log(`⏰ Auto-stopping expired exam: ${exam.examCode} (ended at ${examEndDate.toISOString()})`);
+          
+          const success = await this.stopExam(exam.examCode);
+          
+          if (success) {
+            console.log(`✅ Successfully auto-stopped exam: ${exam.examCode}`);
+          } else {
+            console.error(`❌ Failed to auto-stop exam: ${exam.examCode}`);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('❌ Error in autoStopExpiredExams:', error);
+    }
   }
 };
