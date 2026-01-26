@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AlertCircle, Clock, XCircle } from 'lucide-react';
+import { AlertCircle, Clock, XCircle, CheckCircle } from 'lucide-react';
 
 interface ForceExitModalProps {
   reason: 'time_expired' | 'admin_stopped' | 'exam_ended';
