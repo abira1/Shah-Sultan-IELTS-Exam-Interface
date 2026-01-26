@@ -7,7 +7,86 @@ const database = getDatabase(app);
 
 const AUDIO_DB_PATH = "exam/audio";
 
+// Audio preloader with retry logic and progress tracking
+class AudioPreloader {
+  private audioElement: HTMLAudioElement | null = null;
+  private retryCount = 0;
+  private maxRetries = 3;
+  private retryDelay = 1000; // Start with 1 second
+  
+  async preloadAudio(url: string, onProgress?: (percent: number) => void): Promise<HTMLAudioElement> {
+    return new Promise((resolve, reject) => {
+      const audio = new Audio();
+      audio.preload = 'auto';
+      audio.crossOrigin = 'anonymous';
+      
+      let progressInterval: NodeJS.Timeout | null = null;
+      
+      // Monitor loading progress
+      const handleProgress = () => {
+        if (audio.buffered.length > 0) {
+          const bufferedEnd = audio.buffered.end(audio.buffered.length - 1);
+          const duration = audio.duration;
+          if (duration > 0) {
+            const percent = Math.round((bufferedEnd / duration) * 100);
+            onProgress?.(percent);
+          }
+        }
+      };
+      
+      const handleCanPlayThrough = () => {
+        if (progressInterval) clearInterval(progressInterval);
+        onProgress?.(100);
+        this.audioElement = audio;
+        resolve(audio);
+      };
+      
+      const handleError = async () => {
+        if (progressInterval) clearInterval(progressInterval);
+        
+        if (this.retryCount < this.maxRetries) {
+          this.retryCount++;
+          const delay = this.retryDelay * Math.pow(2, this.retryCount - 1); // Exponential backoff
+          console.log(`Audio load failed, retrying in ${delay}ms (attempt ${this.retryCount}/${this.maxRetries})`);
+          
+          await new Promise(resolve => setTimeout(resolve, delay));
+          
+          try {
+            const retryAudio = await this.preloadAudio(url, onProgress);
+            resolve(retryAudio);
+          } catch (err) {
+            reject(err);
+          }
+        } else {
+          reject(new Error('Failed to load audio after multiple attempts'));
+        }
+      };
+      
+      audio.addEventListener('canplaythrough', handleCanPlayThrough, { once: true });
+      audio.addEventListener('error', handleError, { once: true });
+      audio.addEventListener('progress', handleProgress);
+      
+      // Start periodic progress check
+      progressInterval = setInterval(handleProgress, 500);
+      
+      audio.src = url;
+      audio.load();
+    });
+  }
+  
+  getAudioElement(): HTMLAudioElement | null {
+    return this.audioElement;
+  }
+  
+  reset() {
+    this.retryCount = 0;
+    this.audioElement = null;
+  }
+}
+
 export const audioService = {
+  preloader: new AudioPreloader(),
+  
   // Upload audio file to Firebase Storage
   async uploadAudio(file: File): Promise<string> {
     try {
@@ -67,6 +146,16 @@ export const audioService = {
     } catch (error) {
       console.error("Error fetching audio URL:", error);
       return null;
+    }
+  },
+
+  // Preload audio in background with progress tracking
+  async preloadAudioInBackground(url: string, onProgress?: (percent: number) => void): Promise<HTMLAudioElement> {
+    try {
+      return await this.preloader.preloadAudio(url, onProgress);
+    } catch (error) {
+      console.error("Error preloading audio:", error);
+      throw error;
     }
   },
 
