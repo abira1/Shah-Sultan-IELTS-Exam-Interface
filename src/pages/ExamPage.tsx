@@ -624,7 +624,14 @@ export function ExamPage({
     };
     
     fetchExamData();
-  }, [examCode, studentId, studentBatchId]);
+    
+    // Cleanup retry timeout on unmount
+    return () => {
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current);
+      }
+    };
+  }, [examCode, studentId, studentBatchId, retryAttempt]);
   
   // Background audio preloading - runs independently without blocking exam
   useEffect(() => {
