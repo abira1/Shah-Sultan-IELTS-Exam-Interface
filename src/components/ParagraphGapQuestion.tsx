@@ -20,6 +20,7 @@ export function ParagraphGapQuestion({
   const renderParagraphWithGaps = () => {
     // Split the paragraph into lines
     const lines = paragraph.split('\n');
+    let currentQuestionNum: number | null = null;
     
     return lines.map((line, lineIdx) => {
       if (!line.trim()) {
@@ -28,9 +29,9 @@ export function ParagraphGapQuestion({
 
       // Check if line starts with a question number like (20) or (21)
       const questionNumMatch = line.match(/^\((\d+)\)/);
-      let currentQuestionNum: number | null = null;
       
       if (questionNumMatch) {
+        // Update the current question number if we find one
         currentQuestionNum = parseInt(questionNumMatch[1]);
       }
 
@@ -43,17 +44,18 @@ export function ParagraphGapQuestion({
         if (/^[.…]{3,}$/.test(part)) {
           // Only render input if we have a valid question number and it's in the questionNumbers array
           if (currentQuestionNum && questionNumbers.includes(currentQuestionNum)) {
+            const questionForThisBlank = currentQuestionNum;
             return (
               <span key={`${lineIdx}-${partIdx}`} className="inline-flex items-baseline mx-1">
                 <input
                   type="text"
-                  value={answers[currentQuestionNum] || ''}
-                  onChange={(e) => onAnswerChange(currentQuestionNum, e.target.value)}
+                  value={answers[questionForThisBlank] || ''}
+                  onChange={(e) => onAnswerChange(questionForThisBlank, e.target.value)}
                   className="mx-1 px-2 py-1 border-b-2 border-gray-400 focus:outline-none focus:border-blue-500 bg-transparent"
                   style={{ minWidth: '150px', maxWidth: '250px' }}
                   placeholder="Type your answer"
                   disabled={disabled}
-                  data-testid={`paragraph-gap-${currentQuestionNum}`}
+                  data-testid={`paragraph-gap-${questionForThisBlank}`}
                 />
               </span>
             );
