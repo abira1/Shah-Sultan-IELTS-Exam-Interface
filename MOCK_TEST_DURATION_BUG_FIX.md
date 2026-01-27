@@ -8,8 +8,9 @@ When admin adds custom durations for all tracks in a mock test, the system still
 ## Root Cause Analysis
 The issue was in `/app/src/pages/admin/ExamControlPage.tsx`:
 
-1. The duration display section (lines 783-789) always showed "Duration is automatically calculated based on selected tracks" for ALL mock tests
-2. There was no logic to differentiate between:
+1. **Display Issue**: The duration display section (lines 783-789) always showed "Duration is automatically calculated based on selected tracks" for ALL mock tests
+2. **Calculation Issue**: The `useEffect` hook that triggers duration calculation (lines 103-110) was missing `mockDurations` in its dependency array, so changing custom durations didn't trigger a recalculation
+3. There was no logic to differentiate between:
    - Default track durations (automatically set when tracks are selected)
    - Custom durations (manually modified by admin)
 
