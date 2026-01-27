@@ -339,6 +339,7 @@ export function ExamControlPage() {
         // Reset form
         setPartialSelectedTrack('');
         setMockTracks({ listening: '', reading: '', writing: '' });
+        setMockDurationsCustomized({ listening: false, reading: false, writing: false });
         setSelectedBatches([]);
         setGeneratedExamCode('');
 
