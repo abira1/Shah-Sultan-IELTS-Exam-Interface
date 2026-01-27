@@ -2080,6 +2080,12 @@ export function ExamPage({
               disabled: !contextMenu.selectedRange
             },
             {
+              label: 'Copy',
+              icon: <Copy className="w-4 h-4" />,
+              onClick: handleCopy,
+              disabled: !contextMenu.selectedRange
+            },
+            {
               label: 'Clear Highlight',
               icon: <Eraser className="w-4 h-4" />,
               onClick: handleClearHighlight,
