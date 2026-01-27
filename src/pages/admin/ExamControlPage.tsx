@@ -822,9 +822,15 @@ export function ExamControlPage() {
             </label>
             {testType === 'mock' ? (
               <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <p className="text-sm text-gray-600 mb-1">
-                  Duration is automatically calculated based on selected tracks
-                </p>
+                {(mockDurationsCustomized.listening || mockDurationsCustomized.reading || mockDurationsCustomized.writing) ? (
+                  <p className="text-sm text-orange-600 mb-1 font-medium">
+                    ⚙️ Custom durations are set for this mock test
+                  </p>
+                ) : (
+                  <p className="text-sm text-gray-600 mb-1">
+                    Duration is automatically calculated based on selected tracks
+                  </p>
+                )}
                 <p className="text-2xl font-bold text-gray-900">{duration} minutes</p>
               </div>
             ) : (
