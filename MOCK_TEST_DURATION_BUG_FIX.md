@@ -104,6 +104,24 @@ When the form is reset after creating an exam session, the customization flags a
 setMockDurationsCustomized({ listening: false, reading: false, writing: false });
 ```
 
+### 7. Fix Duration Recalculation (Critical Fix)
+Added `mockDurations` to the `useEffect` dependency array so the total duration automatically recalculates when any custom duration is changed:
+
+```typescript
+useEffect(() => {
+  // Generate exam code when relevant fields change
+  if (testType === 'partial' && partialSelectedTrack) {
+    generateExamCode();
+  } else if (testType === 'mock' && mockTracks.listening && mockTracks.reading && mockTracks.writing) {
+    generateExamCode();
+  }
+}, [testType, partialSelectedTrack, mockTracks, mockDurations, examDate]);
+//                                              ^^^^^^^^^^^^^ ADDED THIS
+```
+
+Now when admin changes any duration field, the total is immediately recalculated:
+- Listening: 51 + Reading: 10 + Writing: 19 = **80 minutes** ✅ (Previously showed 121)
+
 ## Testing Instructions
 
 ### Test Case 1: Default Track Durations
