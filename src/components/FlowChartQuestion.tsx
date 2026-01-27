@@ -25,7 +25,8 @@ export function FlowChartQuestion({
   steps,
   options,
   answers,
-  onAnswerChange
+  onAnswerChange,
+  disabled = false
 }: FlowChartQuestionProps) {
   const [draggedOption, setDraggedOption] = useState<string | null>(null);
   const [hoveredQuestion, setHoveredQuestion] = useState<number | null>(null);
