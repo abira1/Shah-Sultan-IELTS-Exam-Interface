@@ -267,40 +267,40 @@ Research on love stories continues apace. Defying the myth that rigorous science
       },
       questions: [
         {
-          type: 'drag-and-drop',
-          instruction: 'Use the information in the passage to match the love styles (listed A-F) with the statements below by dragging the style into the appropriate box.',
+          type: 'dropdown',
+          instruction: 'Use the information in the passage to match the love styles (listed A-F) with the statements below by selecting the correct option from the dropdown.',
           items: [
             {
               questionNumber: 27,
-              label: 'My most important concern is that my partner is happy.'
+              statement: 'My most important concern is that my partner is happy.'
             },
             {
               questionNumber: 28,
-              label: 'I enjoy having many romantic partners.'
+              statement: 'I enjoy having many romantic partners.'
             },
             {
               questionNumber: 29,
-              label: 'I feel that my partner and I were always going to end up together.'
+              statement: 'I feel that my partner and I were always going to end up together.'
             },
             {
               questionNumber: 30,
-              label: 'I want to be friends first and then let romance develop later.'
+              statement: 'I want to be friends first and then let romance develop later.'
             },
             {
               questionNumber: 31,
-              label: 'I always feel either very excited or absolutely miserable about my relationship.'
+              statement: 'I always feel either very excited or absolutely miserable about my relationship.'
             },
             {
               questionNumber: 32,
-              label: 'I prefer to keep many aspects of my love life to myself.'
+              statement: 'I prefer to keep many aspects of my love life to myself.'
             },
             {
               questionNumber: 33,
-              label: 'When I am in love, that is all I can think about.'
+              statement: 'When I am in love, that is all I can think about.'
             },
             {
               questionNumber: 34,
-              label: 'I know before I meet someone what qualities I need in a partner.'
+              statement: 'I know before I meet someone what qualities I need in a partner.'
             }
           ],
           options: [
