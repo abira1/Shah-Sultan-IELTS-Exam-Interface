@@ -344,47 +344,47 @@ export const track9MListening: Track = {
       questions: [
         {
           type: 'sentence-completion',
-          instruction: 'Write ONE WORD ONLY for each answer.',
+          instruction: 'Complete the notes below. Write ONE WORD ONLY for each answer.',
           items: [
             {
               questionNumber: 31,
-              text: 'Nanotechnology\n\nGeneral information\n• explanation: manipulation of matter on a minute scale\n• huge investment in research The reason why development of Nanotechnology may be started because of a new type of (31)........................'
+              text: 'Nanotechnology\n\nGeneral Information:\n• Explanation: manipulation of matter on a minute scale\n• Huge investment in research\n\nThe development of nanotechnology may have started because of a new type of (31)........................'
             },
             {
               questionNumber: 32,
-              text: 'Application\n\na) daily lives\n* aids in getting (32)........................ from diet'
+              text: 'Applications:\n\nDaily Lives:\n• Aids in getting (32)........................ from diet'
             },
             {
               questionNumber: 33,
-              text: '* reduces the cost of (33)........................'
+              text: '• Reduces the cost of (33)........................'
             },
             {
               questionNumber: 34,
-              text: '* improves the (34)........................ of food'
+              text: '• Improves the (34)........................ of food'
             },
             {
               questionNumber: 35,
-              text: 'b) agriculture\n* use of Nanotechnology has resulted in a spray which increase the efficiency of (35)........................ in the soil and can be use instead of Artificial chemical'
+              text: 'Agriculture:\n• Use of nanotechnology has resulted in a spray which increases the efficiency of (35)........................ in the soil and can be used instead of artificial chemicals'
             },
             {
               questionNumber: 36,
-              text: 'c) medical area\n* Nanotechnology can help avoid food poisoning\n* Nanotechnology can kill foods\' (36)........................ and make them'
+              text: 'Medical Area:\n• Nanotechnology can help avoid food poisoning\n• Nanotechnology can kill foods\' (36)........................ and make them safe'
             },
             {
               questionNumber: 37,
-              text: '* Nanoparticles are injected into the body and allow (37)………… to enter the veins.'
+              text: '• Nanoparticles are injected into the body and allow (37)........................ to enter the veins'
             },
             {
               questionNumber: 38,
-              text: '*  Some certain nanoparticles are able to sterilise more than 650 types of bacteria.\n*  (38)………….. has the greatest antibacterial qualities.'
+              text: '• Some nanoparticles can sterilise more than 650 types of bacteria\n• (38)........................ has the greatest antibacterial qualities'
             },
             {
               questionNumber: 39,
-              text: '* Splifferenes help (39)……..….. loss programmes.'
+              text: '• Fullerenes help (39)........................ loss programmes'
             },
             {
               questionNumber: 40,
-              text: 'd) cosmetics –\n* Preventing (40)………… from entering the body avoids skin cancer.'
+              text: 'Cosmetics:\n• Preventing (40)........................ from entering the body avoids skin cancer'
             }
           ]
         }
