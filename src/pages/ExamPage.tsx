@@ -968,6 +968,47 @@ export function ExamPage({
     setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, selectedRange: null, targetElement: null });
   };
 
+  // Copy selected text to clipboard
+  const handleCopy = async () => {
+    if (!contextMenu.selectedRange) return;
+
+    try {
+      const selectedText = contextMenu.selectedRange.toString();
+      
+      if (selectedText.trim().length === 0) {
+        console.warn('No text selected to copy');
+        return;
+      }
+
+      // Use Clipboard API to copy text
+      await navigator.clipboard.writeText(selectedText);
+      console.log('Text copied to clipboard:', selectedText);
+      
+      // Optional: Show a brief success message (you can add a toast notification here)
+      // For now, we'll just log it
+      
+    } catch (err) {
+      console.error('Failed to copy text:', err);
+      
+      // Fallback method for older browsers
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = contextMenu.selectedRange.toString();
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        console.log('Text copied using fallback method');
+      } catch (fallbackErr) {
+        console.error('Fallback copy method also failed:', fallbackErr);
+      }
+    }
+    
+    setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, selectedRange: null, targetElement: null });
+  };
+
   // Clear highlight from selected text or clicked highlight
   const handleClearHighlight = () => {
     const selection = window.getSelection();
