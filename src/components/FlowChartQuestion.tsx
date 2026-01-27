@@ -148,7 +148,8 @@ export function FlowChartQuestion({
                                       type="text"
                                       value={answers[questionNumber] || ''}
                                       onChange={(e) => handleTextInputChange(questionNumber, e.target.value)}
-                                      className="ml-2 px-3 py-1 border-2 border-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                      disabled={disabled}
+                                      className="ml-2 px-3 py-1 border-2 border-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                                       style={{ minWidth: `${Math.max(dots.length * 8, 140)}px` }}
                                       placeholder="Type answer here"
                                       data-testid={`flowchart-input-${questionNumber}`}
