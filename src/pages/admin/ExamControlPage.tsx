@@ -480,6 +480,8 @@ export function ExamControlPage() {
                     setTestType('mock');
                     setGeneratedExamCode('');
                     setIsDurationManuallySet(false);
+                    // Reset customization flags when switching to mock test
+                    setMockDurationsCustomized({ listening: false, reading: false, writing: false });
                   }}
                   className="w-4 h-4 text-blue-600 focus:ring-2 focus:ring-blue-500"
                 />
