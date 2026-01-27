@@ -36,6 +36,7 @@ export function App() {
           <Route path="/" element={<NewHomePage />} />
           <Route path="/student/login" element={<StudentLogin />} />
           <Route path="/staff/login" element={<StaffLogin />} />
+          <Route path="/test-paragraph-gap" element={<TestParagraphGap />} />
 
           {/* Student Routes (Protected) */}
           <Route
