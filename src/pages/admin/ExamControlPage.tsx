@@ -707,6 +707,8 @@ export function ExamControlPage() {
                     const track = getTracksByType('writing').find(t => t.id === e.target.value);
                     if (track) {
                       setMockDurations(prev => ({ ...prev, writing: track.duration }));
+                      // Reset customization flag when track changes
+                      setMockDurationsCustomized(prev => ({ ...prev, writing: false }));
                     }
                   }}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
