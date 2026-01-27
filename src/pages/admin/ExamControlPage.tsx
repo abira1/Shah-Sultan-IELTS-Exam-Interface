@@ -744,11 +744,23 @@ export function ExamControlPage() {
                 <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                   <p className="text-sm text-blue-800 mb-2">
                     <strong>Total Duration:</strong> {duration} minutes
+                    {(mockDurationsCustomized.listening || mockDurationsCustomized.reading || mockDurationsCustomized.writing) && (
+                      <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded">CUSTOM DURATIONS</span>
+                    )}
                   </p>
                   <div className="text-xs text-blue-700 space-y-1">
-                    <div>• Listening: {mockDurations.listening} minutes</div>
-                    <div>• Reading: {mockDurations.reading} minutes</div>
-                    <div>• Writing: {mockDurations.writing} minutes</div>
+                    <div>
+                      • Listening: {mockDurations.listening} minutes
+                      {mockDurationsCustomized.listening && <span className="ml-1 text-orange-600">(custom)</span>}
+                    </div>
+                    <div>
+                      • Reading: {mockDurations.reading} minutes
+                      {mockDurationsCustomized.reading && <span className="ml-1 text-orange-600">(custom)</span>}
+                    </div>
+                    <div>
+                      • Writing: {mockDurations.writing} minutes
+                      {mockDurationsCustomized.writing && <span className="ml-1 text-orange-600">(custom)</span>}
+                    </div>
                   </div>
                 </div>
               )}
