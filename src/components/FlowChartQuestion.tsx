@@ -29,6 +29,9 @@ export function FlowChartQuestion({
   const [draggedOption, setDraggedOption] = useState<string | null>(null);
   const [hoveredQuestion, setHoveredQuestion] = useState<number | null>(null);
 
+  // Check if this is a text input flowchart (no options provided)
+  const isTextInputMode = !options || options.length === 0;
+
   const handleDragStart = (e: React.DragEvent, optionValue: string) => {
     setDraggedOption(optionValue);
     e.dataTransfer.effectAllowed = 'move';
@@ -70,6 +73,10 @@ export function FlowChartQuestion({
   const getOptionLabel = (value: string) => {
     const option = options.find(opt => opt.value === value);
     return option ? option.label : '';
+  };
+
+  const handleTextInputChange = (questionNumber: number, value: string) => {
+    onAnswerChange(questionNumber, value);
   };
 
   return (
