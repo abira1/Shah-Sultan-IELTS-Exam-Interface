@@ -3,6 +3,8 @@
 ## Problem Statement
 When admin adds custom durations for all tracks in a mock test, the system still displays the message "Duration is automatically calculated based on selected tracks", even though the durations are custom/manually set.
 
+**Additional Issue Found:** The total duration was not recalculating when custom durations were entered, causing incorrect total duration display (e.g., showing 121 minutes when the actual sum was 80 minutes).
+
 ## Root Cause Analysis
 The issue was in `/app/src/pages/admin/ExamControlPage.tsx`:
 
