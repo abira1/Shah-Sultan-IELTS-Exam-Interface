@@ -207,32 +207,32 @@ Could the thylacine still be out there? "Sure," Naarding says. But he also says 
           questionNumbers: [14, 15, 16, 17]
         },
         {
-          type: 'drag-and-drop',
-          instruction: 'Use the information in the passage to match each statement with the correct person (A-D) by dragging the person\'s name into the appropriate box. NB You may use any letter more than once.',
+          type: 'dropdown',
+          instruction: 'Use the information in the passage to match each statement with the correct person (A-D). NB You may use any letter more than once.',
           items: [
             {
               questionNumber: 18,
-              label: 'His report of seeing a live thylacine in the wild attracted international interest.'
+              statement: 'His report of seeing a live thylacine in the wild attracted international interest.'
             },
             {
               questionNumber: 19,
-              label: 'Many eye-witnesses\' reports are not trustworthy.'
+              statement: 'Many eye-witnesses\' reports are not trustworthy.'
             },
             {
               questionNumber: 20,
-              label: 'It doesn\'t require a certain number of animals to ensure the survival of a species.'
+              statement: 'It doesn\'t require a certain number of animals to ensure the survival of a species.'
             },
             {
               questionNumber: 21,
-              label: 'There is no hope of finding a surviving Tasmanian tiger.'
+              statement: 'There is no hope of finding a surviving Tasmanian tiger.'
             },
             {
               questionNumber: 22,
-              label: 'Do not disturb them if there are any Tasmanian tigers still living today.'
+              statement: 'Do not disturb them if there are any Tasmanian tigers still living today.'
             },
             {
               questionNumber: 23,
-              label: 'The interpretation of evidence can be affected by people\'s beliefs.'
+              statement: 'The interpretation of evidence can be affected by people\'s beliefs.'
             }
           ],
           options: [
