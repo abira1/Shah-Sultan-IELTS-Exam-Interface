@@ -1875,9 +1875,6 @@ export function ExamPage({
                 <div 
                   className="space-y-6 pt-4 pb-24"
                   onContextMenu={handleContextMenu}
-                  onCopy={(e) => e.preventDefault()}
-                  onCut={(e) => e.preventDefault()}
-                  onPaste={(e) => e.preventDefault()}
                   style={{ userSelect: 'text', WebkitUserSelect: 'text' }}
                 >
                   {examData && examData[currentSection] && (
