@@ -683,7 +683,10 @@ export function ExamControlPage() {
                       type="number"
                       min={1}
                       value={mockDurations.reading}
-                      onChange={(e) => setMockDurations(prev => ({ ...prev, reading: Number(e.target.value) }))}
+                      onChange={(e) => {
+                        setMockDurations(prev => ({ ...prev, reading: Number(e.target.value) }));
+                        setMockDurationsCustomized(prev => ({ ...prev, reading: true }));
+                      }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       data-testid="mock-reading-duration"
                     />
