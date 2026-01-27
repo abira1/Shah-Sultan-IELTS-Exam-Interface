@@ -32,7 +32,7 @@ export function SentenceCompletionQuestion({
     
     return (
       <div className="space-y-2" key={questionNumber}>
-        <div className="flex items-baseline gap-2 flex-wrap">
+        <div className="flex items-baseline gap-1 flex-wrap">
           <span className="text-gray-600 font-medium whitespace-nowrap">
             ({questionNumber}).
           </span>
@@ -46,7 +46,7 @@ export function SentenceCompletionQuestion({
                   value={answers[questionNumber] || ''}
                   onChange={(e) => onAnswerChange(questionNumber, e.target.value)}
                   disabled={disabled}
-                  className="px-3 py-1 border-b-2 border-gray-400 focus:outline-none focus:border-purple-500 min-w-[150px] max-w-[250px] bg-transparent text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-2 py-1 border-b-2 border-gray-400 focus:outline-none focus:border-purple-500 min-w-[120px] max-w-[200px] bg-transparent text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed inline-block"
                   placeholder="Type answer"
                   data-testid={`inline-input-${questionNumber}`}
                 />
@@ -54,7 +54,7 @@ export function SentenceCompletionQuestion({
             }
             // Regular text - preserve line breaks
             return (
-              <span key={index} className="text-gray-900 whitespace-pre-wrap">
+              <span key={index} className="text-gray-900 whitespace-pre-wrap inline-block">
                 {part}
               </span>
             );
@@ -66,7 +66,7 @@ export function SentenceCompletionQuestion({
               value={answers[questionNumber] || ''}
               onChange={(e) => onAnswerChange(questionNumber, e.target.value)}
               disabled={disabled}
-              className="px-3 py-1 border-b-2 border-gray-400 focus:outline-none focus:border-purple-500 min-w-[150px] max-w-[250px] bg-transparent text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-2 py-1 border-b-2 border-gray-400 focus:outline-none focus:border-purple-500 min-w-[120px] max-w-[200px] bg-transparent text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed inline-block"
               placeholder="Type answer"
               data-testid={`sentence-input-${questionNumber}`}
             />
