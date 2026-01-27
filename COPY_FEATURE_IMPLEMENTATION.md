@@ -134,5 +134,24 @@ Added "Copy" menu item to the context menu, positioned between "Highlight" and "
 - ✅ Seamless integration with existing highlight features
 - ✅ Works across all modern browsers
 
+## UPDATE: Paste Functionality Fixed ✅
+
+### Issue Found:
+After initial implementation, students could copy text but **could not paste** it into answer fields due to `onPaste` prevention handlers.
+
+### Fix Applied:
+- ✅ Removed paste prevention from questions/answers area
+- ✅ Removed paste prevention from listening/writing sections
+- ✅ Maintained paste prevention in reading passage (keeps it read-only)
+
+### Now Fully Working:
+1. **Copy:** Select text → Right-click → Click "Copy" ✅
+2. **Paste:** Click answer field → Press Ctrl+V (or Cmd+V) ✅
+3. **Alternative Paste:** Right-click in answer field → Click browser's "Paste" ✅
+
+**See `/app/PASTE_FUNCTIONALITY_FIX.md` for detailed fix documentation.**
+
 ## Conclusion
-The Copy feature has been successfully implemented and integrated into the existing exam interface. Students can now efficiently copy text from reading passages to use in their answers, alongside the existing highlight and clear highlight features.
+The Copy & Paste feature has been successfully implemented and integrated into the existing exam interface. Students can now efficiently copy text from reading passages and paste it into their answers, alongside the existing highlight and clear highlight features.
+
+**Status:** Production Ready ✅
