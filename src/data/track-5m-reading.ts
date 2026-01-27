@@ -219,24 +219,24 @@ Promotion of CSR requires the understanding of the interdependence between busin
           questionNumbers: [21, 22]
         },
         {
-          type: 'drag-and-drop',
-          instruction: 'Use the information in the passage to match the companies (listed A-C) with opinions or deeds below by dragging the company name into the appropriate box. NB You may use any letter more than once.',
+          type: 'dropdown',
+          instruction: 'Use the information in the passage to match the companies (listed A-C) with opinions or deeds below. NB You may use any letter more than once.',
           items: [
             {
               questionNumber: 23,
-              label: 'The disposable waste'
+              statement: 'The disposable waste'
             },
             {
               questionNumber: 24,
-              label: 'The way company purchases as goods'
+              statement: 'The way company purchases as goods'
             },
             {
               questionNumber: 25,
-              label: 'Helping the underdeveloped'
+              statement: 'Helping the underdeveloped'
             },
             {
               questionNumber: 26,
-              label: 'Ensuring the people have the latest information'
+              statement: 'Ensuring the people have the latest information'
             }
           ],
           options: [
