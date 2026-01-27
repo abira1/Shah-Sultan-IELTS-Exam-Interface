@@ -171,8 +171,11 @@ Now when admin changes any duration field, the total is immediately recalculated
 ## Benefits
 1. **Clear feedback**: Admin can now see at a glance whether durations are default or custom
 2. **Prevents confusion**: No more misleading message about automatic calculation when durations are manual
-3. **Transparency**: Each section clearly shows if it has a custom duration
-4. **Better UX**: Visual indicators (orange color scheme) draw attention to customized values
+3. **Accurate calculations**: Total duration now correctly sums all custom durations in real-time
+4. **Transparency**: Each section clearly shows if it has a custom duration
+5. **Better UX**: Visual indicators (orange color scheme) draw attention to customized values
 
 ## Status
-✅ **FIXED** - The bug has been resolved and the feature is working as expected.
+✅ **FIXED** - Both bugs have been resolved:
+- ✅ Correct display message (shows "custom durations" when applicable)
+- ✅ Accurate duration calculation (total updates immediately when durations change)
