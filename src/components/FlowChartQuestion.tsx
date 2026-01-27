@@ -91,10 +91,10 @@ export function FlowChartQuestion({
         </h3>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left side - Flow chart (2 columns width) */}
-        <div className="lg:col-span-2 space-y-3">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Flow Chart</h3>
+      <div className={isTextInputMode ? "space-y-3" : "grid grid-cols-1 lg:grid-cols-3 gap-6"}>
+        {/* Flow chart */}
+        <div className={isTextInputMode ? "w-full" : "lg:col-span-2 space-y-3"}>
+          {!isTextInputMode && <h3 className="text-lg font-semibold text-gray-900 mb-4">Flow Chart</h3>}
           
           {/* Main flowchart container with proper shape */}
           <div className="max-w-3xl mx-auto space-y-3">
@@ -136,6 +136,27 @@ export function FlowChartQuestion({
                             const questionNumber = parseInt(match[1]);
                             const dots = match[2];
                             
+                            // Text input mode - render text input instead of drop zone
+                            if (isTextInputMode) {
+                              return (
+                                <span key={idx} className="inline-block mx-1">
+                                  <span className="inline-flex items-center">
+                                    <span className="text-gray-600 text-sm font-medium">({questionNumber})</span>
+                                    <input
+                                      type="text"
+                                      value={answers[questionNumber] || ''}
+                                      onChange={(e) => handleTextInputChange(questionNumber, e.target.value)}
+                                      className="ml-2 px-3 py-1 border-2 border-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                      style={{ minWidth: `${Math.max(dots.length * 8, 140)}px` }}
+                                      placeholder="Type answer here"
+                                      data-testid={`flowchart-input-${questionNumber}`}
+                                    />
+                                  </span>
+                                </span>
+                              );
+                            }
+                            
+                            // Drag and drop mode - render drop zone
                             return (
                               <span key={idx} className="inline-block mx-1">
                                 <span 
@@ -182,42 +203,44 @@ export function FlowChartQuestion({
           </div>
         </div>
 
-        {/* Right side - Options (1 column width, smaller and responsive) */}
-        <div className="lg:col-span-1 space-y-3">
-          <h3 className="text-base font-semibold text-gray-900 mb-3">Options</h3>
-          <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-3">
-            <p className="text-xs text-gray-700 leading-relaxed">
-              {options.map((opt, idx) => (
-                <span key={opt.value}>
-                  <span className="font-semibold">{opt.value}.</span> {opt.label}
-                  {idx < options.length - 1 && ' • '}
-                </span>
+        {/* Right side - Options (only show if not in text input mode) */}
+        {!isTextInputMode && (
+          <div className="lg:col-span-1 space-y-3">
+            <h3 className="text-base font-semibold text-gray-900 mb-3">Options</h3>
+            <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-3">
+              <p className="text-xs text-gray-700 leading-relaxed">
+                {options.map((opt, idx) => (
+                  <span key={opt.value}>
+                    <span className="font-semibold">{opt.value}.</span> {opt.label}
+                    {idx < options.length - 1 && ' • '}
+                  </span>
+                ))}
+              </p>
+            </div>
+            <div className="space-y-2">
+              {options.map((option) => (
+                <div
+                  key={option.value}
+                  draggable={!isOptionUsed(option.value)}
+                  onDragStart={(e) => handleDragStart(e, option.value)}
+                  className={`p-2 rounded border-2 transition-all text-sm ${
+                    isOptionUsed(option.value)
+                      ? 'bg-gray-100 border-gray-300 opacity-50 cursor-not-allowed'
+                      : 'bg-white border-gray-300 cursor-move hover:border-blue-500 hover:bg-blue-50 hover:shadow-sm'
+                  } ${
+                    draggedOption === option.value ? 'opacity-50' : ''
+                  }`}
+                  data-testid={`flowchart-draggable-${option.value}`}
+                >
+                  <span className="text-gray-900 font-semibold">
+                    {option.value}.
+                  </span>{' '}
+                  <span className="text-gray-700">{option.label}</span>
+                </div>
               ))}
-            </p>
+            </div>
           </div>
-          <div className="space-y-2">
-            {options.map((option) => (
-              <div
-                key={option.value}
-                draggable={!isOptionUsed(option.value)}
-                onDragStart={(e) => handleDragStart(e, option.value)}
-                className={`p-2 rounded border-2 transition-all text-sm ${
-                  isOptionUsed(option.value)
-                    ? 'bg-gray-100 border-gray-300 opacity-50 cursor-not-allowed'
-                    : 'bg-white border-gray-300 cursor-move hover:border-blue-500 hover:bg-blue-50 hover:shadow-sm'
-                } ${
-                  draggedOption === option.value ? 'opacity-50' : ''
-                }`}
-                data-testid={`flowchart-draggable-${option.value}`}
-              >
-                <span className="text-gray-900 font-semibold">
-                  {option.value}.
-                </span>{' '}
-                <span className="text-gray-700">{option.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
