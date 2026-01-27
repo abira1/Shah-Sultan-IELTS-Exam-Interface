@@ -16,6 +16,7 @@ interface FlowChartQuestionProps {
   }>;
   answers: Record<number, string>;
   onAnswerChange: (questionNumber: number, value: string) => void;
+  disabled?: boolean;
 }
 
 export function FlowChartQuestion({
