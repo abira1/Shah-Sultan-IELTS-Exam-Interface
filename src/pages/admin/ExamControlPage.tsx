@@ -56,6 +56,17 @@ export function ExamControlPage() {
     writing: 60
   });
   
+  // Track if durations have been manually customized
+  const [mockDurationsCustomized, setMockDurationsCustomized] = useState<{
+    listening: boolean;
+    reading: boolean;
+    writing: boolean;
+  }>({
+    listening: false,
+    reading: false,
+    writing: false
+  });
+  
   // Legacy state for backward compatibility
   const [selectedTrackId, setSelectedTrackId] = useState<string>('');
   const [examDate, setExamDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
