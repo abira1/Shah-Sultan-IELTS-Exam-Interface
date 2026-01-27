@@ -104,7 +104,7 @@ export const track7MListening: Track = {
             {
               cells: [
                 { content: 'Number of teams' },
-                { content: '(11).............' },
+                { content: { questionNumber: 11 } },
                 { content: '4' }
               ]
             },
@@ -117,21 +117,21 @@ export const track7MListening: Track = {
             },
             {
               cells: [
-                { content: '(13).............' },
+                { content: { questionNumber: 13 } },
                 { content: 'court 2' },
-                { content: '(14).............' }
+                { content: { questionNumber: 14 } }
               ]
             },
             {
               cells: [
                 { content: 'Date' },
-                { content: '(15).............' },
+                { content: { questionNumber: 15 } },
                 { content: '(16)............. evenings' }
               ]
             },
             {
               cells: [
-                { content: '(17).............' },
+                { content: { questionNumber: 17 } },
                 { content: 'George Hansen' },
                 { content: 'Paul Bhatt' }
               ]
