@@ -18,7 +18,6 @@ import { StudentsPage } from './pages/admin/StudentsPage';
 import { StudentProfilePage } from './pages/admin/StudentProfilePage';
 import { BatchesPage } from './pages/admin/BatchesPage';
 import { SubmissionsPage } from './pages/admin/SubmissionsPage';
-import { TestParagraphGap } from './pages/TestParagraphGap';
 
 export function App() {
   useEffect(() => {
