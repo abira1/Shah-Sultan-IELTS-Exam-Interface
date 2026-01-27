@@ -1956,11 +1956,6 @@ export function ExamPage({
                 e.preventDefault();
               }
             }}
-            onPaste={(e) => {
-              if (currentTrack.trackType === 'listening') {
-                e.preventDefault();
-              }
-            }}
             style={currentTrack.trackType === 'listening' ? { userSelect: 'text', WebkitUserSelect: 'text' } : {}}
           >
             {examData && examData.length > 1 && (
