@@ -107,7 +107,7 @@ export function ExamControlPage() {
     } else if (testType === 'mock' && mockTracks.listening && mockTracks.reading && mockTracks.writing) {
       generateExamCode();
     }
-  }, [testType, partialSelectedTrack, mockTracks, examDate]);
+  }, [testType, partialSelectedTrack, mockTracks, mockDurations, examDate]);
 
   const loadBatches = async () => {
     const allBatches = await batchService.getAllBatches();
