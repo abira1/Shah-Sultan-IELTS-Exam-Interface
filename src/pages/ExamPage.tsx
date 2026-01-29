@@ -885,6 +885,14 @@ export function ExamPage({
     return () => clearInterval(timer);
   }, [examEndTime, testType, trackEndTimes, currentTrackIndex, trackDataList.length, isTimeSynced, serverTimeOffset, sectionSubmissions, hasAutoSubmitted, trackOrder]);
 
+  // Auto-scroll to top when section changes
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [currentSection]);
+
   const handleAnswerChange = (questionNumber: number, value: string) => {
     setTrackAnswers(prev => ({
       ...prev,
