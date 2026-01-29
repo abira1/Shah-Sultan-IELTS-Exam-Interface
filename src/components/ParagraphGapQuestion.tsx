@@ -18,61 +18,92 @@ export function ParagraphGapQuestion({
   disabled = false
 }: ParagraphGapQuestionProps) {
   const renderParagraphWithGaps = () => {
-    // Split the paragraph into lines
-    const lines = paragraph.split('\n');
-    let currentQuestionNum: number | null = null;
+    // Process the entire paragraph to find and replace gaps with input fields
+    // Pattern: (number)......... where the dots should become input fields
+    const regex = /\((\d+)\)(\.{3,})/g;
     
-    return lines.map((line, lineIdx) => {
-      if (!line.trim()) {
-        return <br key={`line-${lineIdx}`} />;
-      }
-
-      // Check if line starts with a question number like (20) or (21)
-      const questionNumMatch = line.match(/^\((\d+)\)/);
+    const parts: (string | JSX.Element)[] = [];
+    let lastIndex = 0;
+    let match;
+    
+    // Find all matches of (number)...
+    while ((match = regex.exec(paragraph)) !== null) {
+      const questionNum = parseInt(match[1]);
+      const beforeMatch = paragraph.substring(lastIndex, match.index);
       
-      if (questionNumMatch) {
-        // Update the current question number if we find one
-        currentQuestionNum = parseInt(questionNumMatch[1]);
+      // Add the text before the match
+      if (beforeMatch) {
+        parts.push(beforeMatch);
       }
-
-      // Split the line by dots/ellipsis patterns
-      // Match sequences of dots (.) or ellipsis (…) characters
-      const parts = line.split(/([.…]{3,})/);
       
-      const renderedParts = parts.map((part, partIdx) => {
-        // Check if this part is a sequence of dots/ellipsis
-        if (/^[.…]{3,}$/.test(part)) {
-          // Only render input if we have a valid question number and it's in the questionNumbers array
-          if (currentQuestionNum && questionNumbers.includes(currentQuestionNum)) {
-            const questionForThisBlank = currentQuestionNum;
-            return (
-              <span key={`${lineIdx}-${partIdx}`} className="inline-flex items-baseline mx-1">
-                <input
-                  type="text"
-                  value={answers[questionForThisBlank] || ''}
-                  onChange={(e) => onAnswerChange(questionForThisBlank, e.target.value)}
-                  className="mx-1 px-2 py-1 border-b-2 border-gray-400 focus:outline-none focus:border-blue-500 bg-transparent"
-                  style={{ minWidth: '150px', maxWidth: '250px' }}
-                  placeholder="Type your answer"
-                  disabled={disabled}
-                  data-testid={`paragraph-gap-${questionForThisBlank}`}
-                />
-              </span>
+      // Add the question number in parentheses
+      parts.push(`(${questionNum})`);
+      
+      // Add input field if this question number is in our list
+      if (questionNumbers.includes(questionNum)) {
+        parts.push(
+          <span key={`input-${questionNum}`} className="inline-flex items-baseline mx-1">
+            <input
+              type="text"
+              value={answers[questionNum] || ''}
+              onChange={(e) => onAnswerChange(questionNum, e.target.value)}
+              className="mx-1 px-2 py-1 border-b-2 border-gray-400 focus:outline-none focus:border-blue-500 bg-transparent"
+              style={{ minWidth: '150px', maxWidth: '250px' }}
+              placeholder="Type your answer"
+              disabled={disabled}
+              data-testid={`paragraph-gap-${questionNum}`}
+            />
+          </span>
+        );
+      } else {
+        // If not in our question numbers, just show the dots
+        parts.push(match[2]);
+      }
+      
+      lastIndex = regex.lastIndex;
+    }
+    
+    // Add any remaining text after the last match
+    if (lastIndex < paragraph.length) {
+      parts.push(paragraph.substring(lastIndex));
+    }
+    
+    // Split the result into lines for proper rendering
+    const resultElements: JSX.Element[] = [];
+    let currentLine: (string | JSX.Element)[] = [];
+    
+    parts.forEach((part, idx) => {
+      if (typeof part === 'string') {
+        const lines = part.split('\n');
+        lines.forEach((line, lineIdx) => {
+          if (lineIdx > 0) {
+            // Push the current line and start a new one
+            resultElements.push(
+              <div key={`line-${resultElements.length}`} className="mb-2">
+                {currentLine}
+              </div>
             );
+            currentLine = [];
           }
-          // If not a valid question, just show the dots
-          return <span key={`${lineIdx}-${partIdx}`}>{part}</span>;
-        }
-        
-        return <span key={`${lineIdx}-${partIdx}`}>{part}</span>;
-      });
-
-      return (
-        <div key={`line-${lineIdx}`} className="mb-2">
-          {renderedParts}
+          if (line || lineIdx === 0) {
+            currentLine.push(<span key={`text-${idx}-${lineIdx}`}>{line}</span>);
+          }
+        });
+      } else {
+        currentLine.push(part);
+      }
+    });
+    
+    // Push the last line
+    if (currentLine.length > 0) {
+      resultElements.push(
+        <div key={`line-${resultElements.length}`} className="mb-2">
+          {currentLine}
         </div>
       );
-    });
+    }
+    
+    return resultElements;
   };
 
   return (
