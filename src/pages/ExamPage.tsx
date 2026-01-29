@@ -915,10 +915,7 @@ export function ExamPage({
 
   const handleQuestionClick = (questionNumber: number, sectionIndex: number) => {
     setCurrentSection(sectionIndex);
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    // Scroll handled by useEffect on currentSection change
   };
 
   // Handle context menu for text highlighting
