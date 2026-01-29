@@ -88,6 +88,10 @@ export function ExamPage({
   const [audioLoadError, setAudioLoadError] = useState<string | null>(null);
   const audioPreloadStarted = useRef(false);
   
+  // Refs for reading section scroll containers
+  const readingPassageRef = useRef<HTMLDivElement>(null);
+  const readingQuestionsRef = useRef<HTMLDivElement>(null);
+  
   const [isLoadingTrack, setIsLoadingTrack] = useState(true);
   const [trackError, setTrackError] = useState<string | null>(null);
   const [currentExamCode, setCurrentExamCode] = useState<string | null>(examCode);
