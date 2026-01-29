@@ -1876,6 +1876,7 @@ export function ExamPage({
                 {examData[currentSection].passage.title}
               </h3>
               <div 
+                ref={readingPassageRef}
                 className="flex-1 overflow-y-auto px-6 pb-6 min-h-0"
               >
                 <div 
