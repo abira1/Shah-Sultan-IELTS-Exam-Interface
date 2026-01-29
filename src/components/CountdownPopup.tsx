@@ -65,34 +65,66 @@ export function CountdownPopup({
 
     console.log('🔄 Countdown complete, waiting for exam to become active...');
     const db = getDatabase(app);
-    const examStatusRef = ref(db, 'exam/status');
     
-    const unsubscribe = onValue(examStatusRef, (snapshot) => {
+    let redirected = false;
+    
+    // Check both exam/status and examSessions/{examCode}/status
+    const globalExamStatusRef = ref(db, 'exam/status');
+    const sessionStatusRef = ref(db, `examSessions/${examCode}/status`);
+    
+    const handleRedirect = () => {
+      if (redirected) return;
+      redirected = true;
+      console.log('✅ Exam is now active, redirecting...');
+      setTimeout(() => {
+        onComplete();
+      }, 500);
+    };
+    
+    // Listen to global exam status
+    const unsubscribeGlobal = onValue(globalExamStatusRef, (snapshot) => {
       if (snapshot.exists()) {
         const status = snapshot.val();
-        console.log('📡 Exam status update:', status);
+        console.log('📡 Global exam status update:', status);
         
         // Check if exam is started and matches our exam code
         if (status.isStarted && status.examCode === examCode) {
-          console.log('✅ Exam is now active, redirecting...');
-          // Give a brief moment for UI feedback, then redirect
-          setTimeout(() => {
-            onComplete();
-          }, 500);
-          unsubscribe(); // Stop listening
+          handleRedirect();
         }
       }
     }, (error) => {
-      console.error('❌ Error listening to exam status:', error);
-      // Fallback: redirect anyway after 3 seconds
-      setTimeout(() => {
-        console.log('⚠️ Timeout waiting for exam status, redirecting anyway...');
-        onComplete();
-      }, 3000);
+      console.error('❌ Error listening to global exam status:', error);
     });
+    
+    // Also listen to specific session status
+    const unsubscribeSession = onValue(sessionStatusRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const status = snapshot.val();
+        console.log('📡 Session status update:', status);
+        
+        // Check if session is active
+        if (status === 'active') {
+          handleRedirect();
+        }
+      }
+    }, (error) => {
+      console.error('❌ Error listening to session status:', error);
+    });
+    
+    // Fallback: redirect anyway after 5 seconds if no status update
+    const fallbackTimeout = setTimeout(() => {
+      if (!redirected) {
+        console.log('⚠️ Timeout waiting for exam status (5s), redirecting anyway...');
+        handleRedirect();
+      }
+    }, 5000);
 
-    // Cleanup listener
-    return () => unsubscribe();
+    // Cleanup listeners and timeout
+    return () => {
+      unsubscribeGlobal();
+      unsubscribeSession();
+      clearTimeout(fallbackTimeout);
+    };
   }, [isWaitingForExam, examCode, onComplete]);
 
   // Format time as MM:SS
