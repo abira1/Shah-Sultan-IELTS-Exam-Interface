@@ -891,11 +891,28 @@ export function ExamPage({
 
   // Auto-scroll to top when section changes
   useEffect(() => {
+    // Scroll main window for listening/writing tracks
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  }, [currentSection]);
+    
+    // For reading tracks, also scroll the internal containers
+    if (currentTrack?.trackType === 'reading') {
+      if (readingPassageRef.current) {
+        readingPassageRef.current.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+      if (readingQuestionsRef.current) {
+        readingQuestionsRef.current.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [currentSection, currentTrack?.trackType]);
 
   const handleAnswerChange = (questionNumber: number, value: string) => {
     setTrackAnswers(prev => ({
