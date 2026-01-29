@@ -19,8 +19,9 @@ export function ParagraphGapQuestion({
 }: ParagraphGapQuestionProps) {
   const renderParagraphWithGaps = () => {
     // Process the entire paragraph to find and replace gaps with input fields
-    // Pattern: (number)......... where the dots should become input fields
-    const regex = /\((\d+)\)(\.{3,})/g;
+    // Pattern: (number)......... where the dots/ellipsis should become input fields
+    // Handles both regular dots (.) and Unicode ellipsis (…)
+    const regex = /\((\d+)\)([.…]{3,})/g;
     
     const parts: (string | JSX.Element)[] = [];
     let lastIndex = 0;
